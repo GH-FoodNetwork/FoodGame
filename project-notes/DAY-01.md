@@ -20,3 +20,6 @@
   * Choose recipes that have similar base ingredients (rice, peppers, chicken, etc)
   * New recipes are added to user recipe book
   * Goal: introduce users to recipes from around the world
+
+
+We met with David Yang to talk about our project. He suggested that we use a tree-like data structure to hard-code our recipes instead of querying an API. We could build a trie based on common ingredients and build our game engine off that. 
