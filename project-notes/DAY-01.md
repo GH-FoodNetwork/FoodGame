@@ -18,4 +18,5 @@
   * Start with simple recipes (1-2 steps)
   * Gradually add more complicated recipes (3+ steps)
   * Choose recipes that have similar base ingredients (rice, peppers, chicken, etc)
-  * Add Image ot
+  * New recipes are added to user recipe book
+  * Goal: introduce users to recipes from around the world
