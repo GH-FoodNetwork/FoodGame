@@ -37,6 +37,23 @@ export default function main() {
   let kitchen = new PIXI.Sprite(PIXI.loader.resources['kitchen.png'].texture);
   stage.addChild(kitchen);
 
+  cat.interactive = true;
+
+  // Shows hand cursor
+  cat.buttonMode = true;
+
+  // Pointers normalize touch and mouse
+  cat.on('pointerdown', onClick);
+
+  // Alternatively, use the mouse & touch events:
+  // cat.on('click', onClick); // mouse-only
+  // cat.on('tap', onClick); // touch-only
+
+  function onClick() {
+    cat.scale.x *= 1.25;
+    cat.scale.y *= 1.25;
+  }
+
   function gameLoop() {
     //Loop this function at 60 frames per second
     requestAnimationFrame(gameLoop);
