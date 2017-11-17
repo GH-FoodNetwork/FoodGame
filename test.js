@@ -48,6 +48,8 @@ export default function main() {
   function onClick() {
     stage2.visible = true;
     stage.visible = false;
+    cat.scale.x *= 1.25;
+    cat.scale.y *= 1.25;
   }
 
   function gameLoop() {
