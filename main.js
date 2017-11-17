@@ -1,7 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+// import React from 'react';
+// import { render } from 'react-dom';
+// import { AppContainer } from 'react-hot-loader';
 import main from './test';
+import recipeBook from './views/recipe-book';
+import singleRecipe from './views/single-recipe';
+import gameplay from './views/gameplay';
+import bonusPopup from './views/bonus-pop-up';
+import titleSplash from './views/title-splash-screen';
 
 import App from '~/App';
 import * as PIXI from 'pixi.js';
@@ -14,6 +19,11 @@ PIXI.loader
   .add('door.png')
   .add('kitchen.png')
   .load(main);
+  // .load(recipeBook)
+  // .load(singleRecipe)
+  // .load(gameplay)
+  // .load(bonusPopup)
+  // .load(titleSplash);
 // const renderer = PIXI.autoDetectRenderer(256, 256);
 // const stage = new PIXI.Container();
 
