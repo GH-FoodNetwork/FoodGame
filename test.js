@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
-const stage = new PIXI.Container();
+const stage1 = new PIXI.Container();
 const stage2 = new PIXI.Container();
+let stage = stage1
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -15,9 +16,6 @@ rectangle.beginFill(0x66ccff);
 rectangle.drawRect(170, 0, 150, 200);
 rectangle.endFill();
 stage2.addChild(rectangle);
-
-stage.visible = true;
-stage2.visible = false;
 
 export default function main() {
   //Create the renderer
@@ -32,24 +30,32 @@ export default function main() {
   door.width = 150;
   door.height = 150;
   door.position.set(500, 0);
-  stage.addChild(door);
+  stage1.addChild(door);
 
   console.log(PIXI.loader.resources['cat.png']);
   let cat = new PIXI.Sprite(PIXI.loader.resources['cat.png'].texture);
   cat.position.set(50, 50);
-  stage.addChild(cat);
+  stage1.addChild(cat);
 
   let kitchen = new PIXI.Sprite(PIXI.loader.resources['kitchen.png'].texture);
-  stage.addChild(kitchen);
+  stage1.addChild(kitchen);
 
   cat.interactive = true;
   cat.buttonMode = true;
   cat.on('pointerdown', onClick);
   function onClick() {
-    stage2.visible = true;
-    stage.visible = false;
-    cat.scale.x *= 1.25;
-    cat.scale.y *= 1.25;
+    stage = stage2
+    // cat.scale.x *= 1.25;
+    // cat.scale.y *= 1.25;
+  }
+
+  rectangle.interactive = true;
+  rectangle.buttonMode = true;
+  rectangle.on('pointerdown', uponClick);
+  function uponClick() {
+    stage = stage1
+    // cat.scale.x *= 1.25;
+    // cat.scale.y *= 1.25;
   }
 
   function gameLoop() {
@@ -66,15 +72,6 @@ export default function main() {
     renderer.render(stage);
   }
 
-  //Start the game loop
-  gameLoop();
-  paint();
-
-  stage2.visible ? renderer.render(stage2) : gameLoop();
+  gameLoop()
 }
 
-function paint() {
-  requestAnimationFrame(paint);
-  // renderer.render(stage);
-  renderer.render(stage2);
-}
