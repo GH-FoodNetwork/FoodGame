@@ -18,10 +18,13 @@ PIXI.loader
   .add('cat.png')
   .add('door.png')
   .add('kitchen.png')
-  .load(main);
+  .add('images/counters.png')
+  .add('images/customer2.png')
+  .add('images/pantry-misc.png')
+  .load(main)
   // .load(recipeBook)
   // .load(singleRecipe)
-  // .load(gameplay)
+  .load(gameplay)
   // .load(bonusPopup)
   // .load(titleSplash);
 // const renderer = PIXI.autoDetectRenderer(256, 256);
