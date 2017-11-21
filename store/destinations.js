@@ -5,9 +5,11 @@ const ADD_TO_QUEUE = 'ADD_TO_QUEUE';
 const addToQueue = destination => ({ type: ADD_TO_QUEUE, destination });
 
 // onClick functions
-export const addDestination = destination => dispatch => {
-  dispatch(addToQueue(destination));
-};
+export function addDestination(destination) {
+  return function addDestThunk(dispatch) {
+    return dispatch(addToQueue(destination));
+  };
+}
 
 // REDUCER
 export default function destinationReducer(state = [], action) {

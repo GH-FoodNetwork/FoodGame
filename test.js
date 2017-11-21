@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 const renderer = PIXI.autoDetectRenderer(256, 256);
 const stage1 = new PIXI.Container();
 const stage2 = new PIXI.Container();
-let stage = stage1
+let stage = stage1;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -32,7 +32,7 @@ export default function main() {
   door.position.set(500, 0);
   stage1.addChild(door);
 
-  console.log(PIXI.loader.resources['cat.png']);
+  // console.log(PIXI.loader.resources['cat.png']);
   let cat = new PIXI.Sprite(PIXI.loader.resources['cat.png'].texture);
   cat.position.set(50, 50);
   stage1.addChild(cat);
@@ -44,7 +44,7 @@ export default function main() {
   cat.buttonMode = true;
   cat.on('pointerdown', onClick);
   function onClick() {
-    stage = stage2
+    stage = stage2;
     // cat.scale.x *= 1.25;
     // cat.scale.y *= 1.25;
   }
@@ -53,7 +53,7 @@ export default function main() {
   rectangle.buttonMode = true;
   rectangle.on('pointerdown', uponClick);
   function uponClick() {
-    stage = stage1
+    stage = stage1;
     // cat.scale.x *= 1.25;
     // cat.scale.y *= 1.25;
   }
@@ -72,6 +72,5 @@ export default function main() {
     renderer.render(stage);
   }
 
-  gameLoop()
+  gameLoop();
 }
-
