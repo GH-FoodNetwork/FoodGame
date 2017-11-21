@@ -50,13 +50,13 @@ export default function gameplay() {
 
 }
 
-function moneyRender(amount = '10') {
+function moneyRender(amount = 10) {
  var money = new PIXI.Text(
     '$' + amount,
-    {fontFamily: 'Arial', fontSize: 42, fill: 'black', stroke: 'white', strokeThickness: 4, letterSpacing: 1, fontStyle: 'bold'}
+    {fontFamily: 'journal, Arial', fontSize: 52, fill: 'black', stroke: 'white', strokeThickness: 4, letterSpacing: 1, fontStyle: 'bold'}
     );
 
-  money.position.set(800, 10);
+  money.position.set(800, 20);
   stage.addChild(money);
   renderer.render(stage);
 
