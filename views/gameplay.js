@@ -3,7 +3,7 @@ const Container = PIXI.Container,
   Graphics = PIXI.Graphics,
   Sprite = PIXI.Sprite,
   BaseTexture = PIXI.BaseTexture;
-import store, { addDestination } from '../store';
+import store, { addDestination, removeDestination } from '../store';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
 const stage = new Container();
@@ -27,32 +27,50 @@ export default function gameplay() {
 
   let atlas = buildAtlas();
   let chef = atlas.topChef;
-  let choppingBoard = atlas.choppingCounter2;
+  let choppingBoards = [
+    atlas.choppingCounter,
+    atlas.choppingCounter2,
+    atlas.choppingCounter3
+  ];
+  let fryingPans = [atlas.fryingPan, atlas.fryingPan2];
 
-  function genericFunction(func) {
+  function animateSprite(func) {
     requestAnimationFrame(func);
     renderer.render(stage);
   }
 
   function movePlayer() {
+    const right = (chef.x += 1);
+    const left = (chef.x -= 1);
+    const down = (chef.y += 1);
+    const up = (chef.y -= 1);
     //Loop this function at 60 frames per second
-    genericFunction(movePlayer);
+    animateSprite(movePlayer);
     //Move the cat 1 pixel to the right each frame
-    if (chef.x < 420) {
-      chef.x += 1;
-      //chef.rotation += 0.1 * 1;
+    // store.dispatch(removeDestination());
+    console.log('state', store.getState());
+    let { destinations } = store.getState();
+    const xAxis = destinations[0].x - chef.x > 0 ? right : left;
+    const yAxis = destinations[0].y - chef.y > 0 ? down : up;
+    if (destinations[0].x - chef.x) {
+      chef.x = xAxis;
     }
-    //Render the stage to see the animation
+    if (destinations[0].y - chef.y) {
+      chef.y = yAxis;
+    }
   }
 
-  choppingBoard.interactive = true;
-  choppingBoard.buttonMode = true;
-  choppingBoard.on('pointerdown', onClick);
+  choppingBoards.map(board => {
+    board.interactive = true;
+    board.buttonMode = true;
+    board.on('pointerdown', onClick);
+  });
+  fryingPans.map(pan => {
+    pan.interactive = true;
+    pan.buttonMode = true;
+    pan.on('pointerdown', onClick);
+  });
   function onClick(evt) {
-    console.log('add destination to store', addDestination);
-    console.log('data', evt.data.global);
-    console.log('x', evt.data.global.x);
-    console.log('y', evt.data.global.y);
     const { x, y } = evt.data.global;
     store.dispatch(addDestination({ x, y }));
     movePlayer();
@@ -60,10 +78,15 @@ export default function gameplay() {
 }
 
 function moneyRender(amount = 10) {
- var money = new PIXI.Text(
-    '$' + amount,
-    {fontFamily: 'journal, Arial', fontSize: 52, fill: 'black', stroke: 'white', strokeThickness: 4, letterSpacing: 1, fontStyle: 'bold'}
-    );
+  var money = new PIXI.Text('$' + amount, {
+    fontFamily: 'journal, Arial',
+    fontSize: 52,
+    fill: 'black',
+    stroke: 'white',
+    strokeThickness: 4,
+    letterSpacing: 1,
+    fontStyle: 'bold'
+  });
 
   money.position.set(800, 20);
   stage.addChild(money);
@@ -71,7 +94,6 @@ function moneyRender(amount = 10) {
 
   return money;
 }
-
 
 const buildAtlas = () => {
   let xStart = 164;
@@ -229,11 +251,19 @@ const buildAtlas = () => {
 
     jollof: spriteSetup('images/jollof.png', 40, 40, 100, 50),
 
-    recipeBook: setup('images/recipebook.png', 0, 0, 1, 1, {x: 735, y: 350}, {x: 0.25, y: 0.25}),
+    recipeBook: setup(
+      'images/recipebook.png',
+      0,
+      0,
+      1,
+      1,
+      { x: 735, y: 350 },
+      { x: 0.25, y: 0.25 }
+    ),
 
-    money: moneyRender(),
-  }
-}
+    money: moneyRender()
+  };
+};
 // remember to load image in main.js
 
 function spriteSetup(img, spriteWidth, spriteHeight, x, y) {
