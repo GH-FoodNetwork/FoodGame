@@ -50,6 +50,20 @@ export default function gameplay() {
 
 }
 
+function moneyRender(amount = '10') {
+ var money = new PIXI.Text(
+    '$' + amount,
+    {fontFamily: 'Arial', fontSize: 42, fill: 'black', stroke: 'white', strokeThickness: 4, letterSpacing: 1, fontStyle: 'bold'}
+    );
+
+  money.position.set(800, 10);
+  stage.addChild(money);
+  renderer.render(stage);
+
+  return money;
+}
+
+
 const buildAtlas = () => {
 
 let xStart = 164;
@@ -98,6 +112,8 @@ return {
     jollof: spriteSetup('images/jollof.png', 40, 40, 100, 50),
 
     recipeBook: setup('images/recipebook.png', 0, 0, 1, 1, {x: 735, y: 350}, {x: 0.25, y: 0.25}),
+
+    money: moneyRender(),
   }
 }
 // remember to load image in main.js
