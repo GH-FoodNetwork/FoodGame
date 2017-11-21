@@ -1,9 +1,9 @@
 @font-face {
   font-family: "journal";
-  src: url("fonts/JOURNAL.TTF");
+  src: url("fonts/JOURNAL.TTF") format('truetype');
 }
 
 @font-face {
-  font-family: "digital";
-  src: url("fonts/DJBGetDigital.ttf");
+    font-family: "digital";
+    src: url("fonts/DJBGetDigital.ttf") format('truetype');
 }
