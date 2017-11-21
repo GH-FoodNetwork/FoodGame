@@ -2,3 +2,8 @@
   font-family: "journal";
   src: url("fonts/JOURNAL.TTF");
 }
+
+@font-face {
+  font-family: "digital";
+  src: url("fonts/DJBGetDigital.ttf");
+}
