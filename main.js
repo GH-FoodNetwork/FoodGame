@@ -18,10 +18,21 @@ PIXI.loader
   .add('cat.png')
   .add('door.png')
   .add('kitchen.png')
-  .load(main);
+  .add('images/counters.png')
+  .add('images/customer2.png')
+  .add('images/pantry-misc.png')
+  .add('images/chef.png')
+  .add('images/jollof.png')
+  .add('images/souschef.png')
+  .add('images/fryingpan.png')
+  .add('images/recipebook.png')
+  .add('images/trashcancopy.png')
+  .add('images/trashcan2.png')
+  .add('images/floor.png')
+  .load(main)
   // .load(recipeBook)
   // .load(singleRecipe)
-  // .load(gameplay)
+  .load(gameplay)
   // .load(bonusPopup)
   // .load(titleSplash);
 // const renderer = PIXI.autoDetectRenderer(256, 256);
