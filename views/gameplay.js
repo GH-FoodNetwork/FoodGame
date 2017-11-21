@@ -59,6 +59,20 @@ export default function gameplay() {
   }
 }
 
+function moneyRender(amount = 10) {
+ var money = new PIXI.Text(
+    '$' + amount,
+    {fontFamily: 'journal, Arial', fontSize: 52, fill: 'black', stroke: 'white', strokeThickness: 4, letterSpacing: 1, fontStyle: 'bold'}
+    );
+
+  money.position.set(800, 20);
+  stage.addChild(money);
+  renderer.render(stage);
+
+  return money;
+}
+
+
 const buildAtlas = () => {
   let xStart = 164;
   let width = 64;
@@ -215,17 +229,11 @@ const buildAtlas = () => {
 
     jollof: spriteSetup('images/jollof.png', 40, 40, 100, 50),
 
-    recipeBook: setup(
-      'images/recipebook.png',
-      0,
-      0,
-      1,
-      1,
-      { x: 735, y: 350 },
-      { x: 0.25, y: 0.25 }
-    )
-  };
-};
+    recipeBook: setup('images/recipebook.png', 0, 0, 1, 1, {x: 735, y: 350}, {x: 0.25, y: 0.25}),
+
+    money: moneyRender(),
+  }
+}
 // remember to load image in main.js
 
 function spriteSetup(img, spriteWidth, spriteHeight, x, y) {
