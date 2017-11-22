@@ -40,24 +40,21 @@ export default function gameplay() {
   }
 
   function movePlayer() {
-    const right = (chef.x += 1);
-    const left = (chef.x -= 1);
-    const down = (chef.y += 1);
-    const up = (chef.y -= 1);
+    const rightOrDown = 1;
+    const leftOrUp = -1;
+
     //Loop this function at 60 frames per second
     animateSprite(movePlayer);
     //Move the cat 1 pixel to the right each frame
     // store.dispatch(removeDestination());
     console.log('state', store.getState());
     let { destinations } = store.getState();
-    const xAxis = destinations[0].x - chef.x > 0 ? right : left;
-    const yAxis = destinations[0].y - chef.y > 0 ? down : up;
-    if (destinations[0].x - chef.x) {
-      chef.x = xAxis;
-    }
-    if (destinations[0].y - chef.y) {
-      chef.y = yAxis;
-    }
+    destinations[0].x - chef.x > 0
+      ? (chef.x += rightOrDown)
+      : (chef.x += leftOrUp);
+    destinations[0].y - chef.y > 0
+      ? (chef.y += rightOrDown)
+      : (chef.y += leftOrUp);
   }
 
   choppingBoards.map(board => {
@@ -206,7 +203,7 @@ const buildAtlas = () => {
       1,
       3,
       4,
-      { x: 170, y: 150 },
+      { x: stage.width / 2, y: stage.height / 2 },
       { x: 3.5, y: 3.5 }
     ),
 
