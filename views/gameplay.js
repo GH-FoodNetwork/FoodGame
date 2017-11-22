@@ -8,6 +8,7 @@ import store, { addDestination, removeDestination } from '../store';
 const renderer = PIXI.autoDetectRenderer(256, 256);
 export const stage = new Container();
 export let atlas;
+let state;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
