@@ -4,7 +4,7 @@ let defaultState = {
     stations: [0, 0, 0, 0, 0, 0] //some yet-to-be determined number of stoves, etc.
 }
 
-//ACTION TYPES
+// ACTION TYPES
 const GET_AVAILABILITY = "GET_AVAILABILITY";
 const SET_AVAILABILITY = "SET_AVAILABILITY";
 
@@ -32,9 +32,15 @@ export default function availabilitiesReducer(state = defaultState, action) {
             return action.isStation ? state.stations[action.index] : state.customerSlots[action.index];
         case SET_AVAILABILITY:
             let arrayCopy;
-            action.isStation ? arrayCopy = state.stations.slice(0) : state.customerSlots.slice(0);
+            if(action.isStation){
+                arrayCopy = state.stations.slice(0);
+                arrayCopy[action.index] = action.value;
+                return Object.assign({}, state, { stations: arrayCopy });
+        }else{
+            arrayCopy = state.customerSlots.slice(0);
             arrayCopy[action.index] = action.value;
-            return Object.assign({}, state, { stations: arrayCopy });
+            return Object.assign({}, state, { customerSlots: arrayCopy });
+        }
         default:
             return state;
     }

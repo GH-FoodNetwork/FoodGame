@@ -6,7 +6,8 @@ const Container = PIXI.Container,
 import store, { addDestination, removeDestination } from '../store';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
-const stage = new Container();
+export const stage = new Container();
+export let atlas;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -25,7 +26,7 @@ export default function gameplay() {
   // stage.addChild(cust);
   //setup('images/counters.png', 0, 0, 8, 6, {x: 50, y: 50});
 
-  let atlas = buildAtlas();
+  atlas = buildAtlas();
   let chef = atlas.topChef;
   let choppingBoards = [
     atlas.choppingCounter,
@@ -284,7 +285,7 @@ function spriteSetup(img, spriteWidth, spriteHeight, x, y) {
   return sprite;
 }
 
-function setup(
+export function setup(
   img,
   xPosition,
   yPosition,

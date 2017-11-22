@@ -4,9 +4,10 @@ import thunkMiddleware from 'redux-thunk';
 import destinations from './destinations';
 import availabilities from './availabilities';
 import money from './money';
+import customer from './customer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const reducer = combineReducers({ destinations, availabilities, money });
+const reducer = combineReducers({ destinations, availabilities, money, customer });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
