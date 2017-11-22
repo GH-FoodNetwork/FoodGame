@@ -1,5 +1,5 @@
 import store from './index';
-import { setup, stage, atlas } from '../views/gameplay.js';
+import { setup, stage, kitchenObjects } from '../views/gameplay.js';
 
 let customerAtlas = ['customer1.png', 'customer2.png', 'customer3.png']
 const moneySprite = '../public/images/gold.gif';
@@ -60,12 +60,12 @@ export default function customerReducer(state = [], action) {
       return [...state, custy]
     case REMOVE_CUSTOMER:
       let slotty = store.state.customers[action.id].customerSlot;
-      if(!atlas.sideCounter){
+      if (!kitchenObjects.sideCounter){
         console.log("Can't find sideCounter to calculate where gold x position should be!");
       } else{
         setup(moneySprite,1,1,//selected square from sheet
             3,4,//proportion of sheet
-        { x: atlas.sideCounter.x, y: slotty * (stage.height/store.state.customerSlots.length) }, //placement of sprite on stage
+            { x: kitchenObjects.sideCounter.x, y: slotty * (stage.height/store.state.customerSlots.length) }, //placement of sprite on stage
         { x: 3.5, y: 3.5 })//scale
       }
       return state.filter(customer => customer.id !== action.id)
