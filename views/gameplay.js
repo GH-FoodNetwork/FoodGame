@@ -7,6 +7,7 @@ import store, { addDestination, removeDestination } from '../store';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
 const stage = new Container();
+let state;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -36,6 +37,7 @@ export default function gameplay() {
 
   function animateSprite(func) {
     requestAnimationFrame(func);
+
     renderer.render(stage);
   }
 
@@ -44,17 +46,24 @@ export default function gameplay() {
     const leftOrUp = -1;
 
     //Loop this function at 60 frames per second
+    state = store.getState();
     animateSprite(movePlayer);
-    //Move the cat 1 pixel to the right each frame
-    // store.dispatch(removeDestination());
-    console.log('state', store.getState());
-    let { destinations } = store.getState();
-    destinations[0].x - chef.x > 0
-      ? (chef.x += rightOrDown)
-      : (chef.x += leftOrUp);
-    destinations[0].y - chef.y > 0
-      ? (chef.y += rightOrDown)
-      : (chef.y += leftOrUp);
+    let { destinations } = state;
+    if (destinations.length) {
+      destinations[0].x - chef.x > 0
+        ? (chef.x += rightOrDown)
+        : (chef.x += leftOrUp);
+      destinations[0].y - chef.y > 0
+        ? (chef.y += rightOrDown)
+        : (chef.y += leftOrUp);
+
+        if (chef.x === destinations[0].x && chef.y === destinations[0].y) {
+          console.log('at destination!')
+          console.log('destination removed');
+          store.dispatch(removeDestination());
+        }
+    }
+
   }
 
   choppingBoards.map(board => {
@@ -68,6 +77,7 @@ export default function gameplay() {
     pan.on('pointerdown', onClick);
   });
   function onClick(evt) {
+    store.dispatch(removeDestination());
     const { x, y } = evt.data.global;
     store.dispatch(addDestination({ x, y }));
     movePlayer();

@@ -23,7 +23,7 @@ export default function destinationReducer(state = [], action) {
     case ADD_TO_QUEUE:
       return [...state, action.destination];
     case DEQUEUE:
-      return [...state.slice(1)];
+      return state.slice(1);
     default:
       return state;
   }
