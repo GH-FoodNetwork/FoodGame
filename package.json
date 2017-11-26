@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd functions && npm install",
-    "test": "mocha ./**/*.test.js --compilers js:babel-register",
+    "test": "mocha ./**/*.test.js",
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "watch-lib": "npm run build-lib -- -w",
@@ -36,12 +36,9 @@
   },
   "dependencies": {
     "babel-eslint": "^8.0.2",
-    "babel-register": "^6.26.0",
-    "chai": "^4.1.2",
     "chokidar": "^1.7.0",
     "eslint-cli": "^1.1.1",
     "minimist": "^1.2.0",
-    "mocha": "^4.0.1",
     "pixi.js": "^4.6.1",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
