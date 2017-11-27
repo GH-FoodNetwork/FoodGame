@@ -33,7 +33,6 @@ export default function recipeBook() {
     recipeBookStage.visible = false;
     gameStage.visible = true;
   }
-  console.log('RECIPE BOOK STAGE');
   renderer.backgroundColor = 0x061639;
   bookUpdate();
 }

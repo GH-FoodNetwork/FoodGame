@@ -11,7 +11,7 @@ import {
 import store, { addDestination, removeDestination } from '../store';
 import { setup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage } from '../main';
-import recipeBook, { bookUpdate } from './recipe-book';
+import { bookUpdate } from './recipe-book';
 import loader from '../main';
 
 const renderer = autoDetectRenderer(256, 256);
@@ -62,14 +62,35 @@ export default function gameplay() {
 
   renderer.backgroundColor = 0xffffff;
 
+  function onClick(evt) {
+    store.dispatch(removeDestination());
+    const { x, y } = evt.data.global;
+    store.dispatch(addDestination({ x, y }));
+    movePlayer();
+  }
+
+
+
+  /**
+   * Objects activated by 'onClick' function
+   */
   kitchenObjects = buildkitchenObjects();
   const {
-    sousChef, jollof, trashCan1, recipeBook,
+    sousChef, jollof, trashCan1, recipeBook, wineCounter,
   } = kitchenObjects;
   let trashCan = trashCan1;
-  const chef = kitchenObjects.topChef;
   const choppingBoards = [kitchenObjects.choppingCounter, kitchenObjects.choppingCounter2];
   const fryingPans = [kitchenObjects.fryingPan1, kitchenObjects.fryingPan2];
+
+  // grill counters
+  const grillCounters = [
+    kitchenObjects.bottomGrillCounter1,
+    kitchenObjects.bottomGrillCounter2,
+    kitchenObjects.bottomGrillCounter3,
+  ];
+  // spice counter -- TO BE ANNOUNCED
+  // mixing counter
+  const mixingBowls = [kitchenObjects.mixingBowl1, kitchenObjects.mixingBowl2];
 
   choppingBoards.forEach((board) => {
     board.interactive = true;
@@ -82,6 +103,16 @@ export default function gameplay() {
     pan.on('pointerdown', onClick);
   });
 
+  grillCounters.forEach((grill) => {
+    grill.interactive = true;
+    grill.buttonMode = true;
+    grill.on('pointerdown', onClick);
+  });
+
+  wineCounter.interactive = true;
+  wineCounter.buttonMode = true;
+  wineCounter.on('pointerdown', onClick);
+
   function clickRecipeBook() {
     gameStage.visible = false;
     recipeBookStage.visible = true;
@@ -93,6 +124,12 @@ export default function gameplay() {
   sousChef.interactive = true;
   sousChef.buttonMode = true;
   sousChef.on('pointerdown', onClick);
+
+  mixingBowls.forEach((bowl) => {
+    bowl.interactive = true;
+    bowl.buttonMode = true;
+    bowl.on('pointerdown', onClick);
+  });
 
   jollof.interactive = true;
   jollof.buttonMode = true;
@@ -114,12 +151,7 @@ export default function gameplay() {
     trashCan = trashCan2;
   }
 
-  function onClick(evt) {
-    store.dispatch(removeDestination());
-    const { x, y } = evt.data.global;
-    store.dispatch(addDestination({ x, y }));
-    movePlayer();
-  }
+
 
   update();
 }
@@ -212,7 +244,7 @@ const buildkitchenObjects = () => {
     x: 100,
     y: 530,
   });
-  //Bottom Counters
+  // Bottom Counters
   kitchenObjects.bottomEmptyCounter1 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart,
     y: 455,
