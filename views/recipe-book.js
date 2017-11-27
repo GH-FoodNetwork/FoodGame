@@ -3,15 +3,7 @@ import * as PIXI from 'pixi.js';
 const { Container, Graphics, Sprite } = PIXI;
 import { gameStage, recipeBookStage } from '../main';
 import { setup, objectAtlas } from '../atlases';
-import loader from '../main';
-
-const renderer = PIXI.autoDetectRenderer(256, 256);
-// export const recipeBookStage = new Container();
-
-renderer.view.style.position = 'absolute';
-renderer.view.style.display = 'block';
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
+import { renderer } from '../main';
 
 export function bookUpdate() {
   //Funnel all animation updates here
