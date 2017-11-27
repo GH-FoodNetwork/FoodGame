@@ -29,6 +29,8 @@ PIXI.loader
   .add('images/trashcancopy.png')
   .add('images/trashcan2.png')
   .add('images/floor.png')
+  .add('fonts/JOURNAL.TTF')
+  .add('fonts/DJBGetDigital.ttf')
   .load(main)
   // .load(recipeBook)
   // .load(singleRecipe)
