@@ -2,7 +2,8 @@ import { Sprite, Texture, BaseTexture, Rectangle } from 'pixi.js';
 //import loader from './main';
 
 function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1) {
-  const texture = (typeof img === 'string') ? new Texture(BaseTexture.fromImage(img)) : new Texture(img.texture);
+  const texture =
+    typeof img === 'string' ? new Texture(BaseTexture.fromImage(img)) : new Texture(img.texture);
   //addToCache(texture, img)
   //Create the `tileset` sprite from the texture
   //var texture = TextureCache[img];
@@ -17,20 +18,16 @@ function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1
   const rectangle = new Rectangle(
     xPosition * colWidth,
     yPosition * rowHeight,
-    width - xPosition * colWidth > colWidth
-      ? colWidth
-      : width - xPosition * colWidth,
-    height - yPosition * rowHeight > rowHeight
-      ? rowHeight
-      : height - yPosition * rowHeight,
+    width - xPosition * colWidth > colWidth ? colWidth : width - xPosition * colWidth,
+    height - yPosition * rowHeight > rowHeight ? rowHeight : height - yPosition * rowHeight,
   );
 
-    //Tell the texture to use that rectangular section
+  //Tell the texture to use that rectangular section
   texture.frame = rectangle;
   return texture;
 }
 
-export let objectAtlas = {};// = objectAtlasInit();
+export let objectAtlas = {}; // = objectAtlasInit();
 
 export function objectAtlasInit(resources) {
   const result = {};
@@ -52,13 +49,20 @@ export function objectAtlasInit(resources) {
   result.hand = textureSetup('images/souschef.png');
   result.recipeBook = textureSetup('images/recipebook.png');
   result.trashArmsUp = textureSetup('images/trashcancopy.png');
+  result.trashArmsCrossed = textureSetup('images/trashcan2.png');
   result.jollof = textureSetup('images/jollof.png');
   result.gold = textureSetup('images/gold.gif');
+  result.cat = textureSetup('images/cat.png');
   objectAtlas = result;
   return result;
 }
 
-export function setup(stage, texture, canvasPosition = { x: 0, y: 0 }, spriteScale = { x: 2, y: 2 }) {
+export function setup(
+  stage,
+  texture,
+  canvasPosition = { x: 0, y: 0 },
+  spriteScale = { x: 2, y: 2 },
+) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
 

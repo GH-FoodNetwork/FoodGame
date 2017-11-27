@@ -5,13 +5,22 @@ import destinations from './destinations';
 import availabilities from './availabilities';
 import money from './money';
 import customer from './customer';
+import recipes from './recipes';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const reducer = combineReducers({ destinations, availabilities, money, customer });
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-);
+const reducer = combineReducers({
+  destinations,
+  availabilities,
+  money,
+  customer,
+  recipes,
+});
+const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
 const store = createStore(reducer, middleware);
 
 export default store;
 export * from './destinations';
+export * from './availabilities';
+export * from './money';
+export * from './customer';
+export * from './recipes';

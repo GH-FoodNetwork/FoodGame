@@ -1,14 +1,29 @@
 import {
-  Container, Graphics, Sprite, Texture, BaseTexture, Rectangle,
-  autoDetectRenderer, Text,
+  Container,
+  Graphics,
+  Sprite,
+  Texture,
+  BaseTexture,
+  Rectangle,
+  autoDetectRenderer,
+  Text,
 } from 'pixi.js';
 import store, { addDestination, removeDestination } from '../store';
 import { setup, objectAtlas } from '../atlases';
+import { recipeBookStage, gameStage, stage } from '../main';
+import recipeBook, { bookUpdate } from './recipe-book';
+import loader from '../main';
 
 const renderer = autoDetectRenderer(256, 256);
-export const stage = new Container();
+// export const stage = new Container();
+// export const gameStage = new Container();
+// export const recipeBookStage = new Container();
 export let kitchenObjects = {};
 let state;
+// stage.addChild(gameStage);
+// stage.addChild(recipeBookStage);
+// recipeBookStage.visible = false;
+// let stage = gameStage;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -20,7 +35,7 @@ export function update() {
   movePlayer();
   //Rerender
   requestAnimationFrame(update);
-  renderer.render(stage);
+  renderer.render(gameStage);
 }
 
 function movePlayer() {
@@ -31,12 +46,8 @@ function movePlayer() {
     const leftOrUp = -1;
     const chef = kitchenObjects.topChef;
 
-    destinations[0].x - chef.x > 0
-      ? (chef.x += rightOrDown)
-      : (chef.x += leftOrUp);
-    destinations[0].y - chef.y > 0
-      ? (chef.y += rightOrDown)
-      : (chef.y += leftOrUp);
+    destinations[0].x - chef.x > 0 ? (chef.x += rightOrDown) : (chef.x += leftOrUp);
+    destinations[0].y - chef.y > 0 ? (chef.y += rightOrDown) : (chef.y += leftOrUp);
 
     if (chef.x === destinations[0].x && chef.y === destinations[0].y) {
       console.log('at destination!');
@@ -52,11 +63,12 @@ export default function gameplay() {
   renderer.backgroundColor = 0xffffff;
 
   kitchenObjects = buildkitchenObjects();
+  const {
+    sousChef, jollof, trashCan1, recipeBook,
+  } = kitchenObjects;
+  let trashCan = trashCan1;
   const chef = kitchenObjects.topChef;
-  const choppingBoards = [
-    kitchenObjects.choppingCounter,
-    kitchenObjects.choppingCounter2,
-  ];
+  const choppingBoards = [kitchenObjects.choppingCounter, kitchenObjects.choppingCounter2];
   const fryingPans = [kitchenObjects.fryingPan1, kitchenObjects.fryingPan2];
 
   choppingBoards.forEach((board) => {
@@ -69,6 +81,39 @@ export default function gameplay() {
     pan.buttonMode = true;
     pan.on('pointerdown', onClick);
   });
+
+  function clickRecipeBook() {
+    gameStage.visible = false;
+    recipeBookStage.visible = true;
+  }
+  recipeBook.interactive = true;
+  recipeBook.buttonMode = true;
+  recipeBook.on('pointerdown', clickRecipeBook);
+
+  sousChef.interactive = true;
+  sousChef.buttonMode = true;
+  sousChef.on('pointerdown', onClick);
+
+  jollof.interactive = true;
+  jollof.buttonMode = true;
+  jollof.on('pointerdown', onClick);
+
+  trashCan.interactive = true;
+  trashCan.buttonMode = true;
+  trashCan.on('pointerdown', clickOnTrash);
+
+  function clickOnTrash() {
+    kitchenObjects.trashCan2 = setup(
+      gameStage,
+      objectAtlas.trashArmsCrossed,
+      { x: 676, y: 50 },
+      { x: 0.35, y: 0.35 },
+    );
+    const { trashCan2 } = kitchenObjects;
+    trashCan1.alpha = 0;
+    trashCan = trashCan2;
+  }
+
   function onClick(evt) {
     store.dispatch(removeDestination());
     const { x, y } = evt.data.global;
@@ -91,8 +136,8 @@ function moneyRender(amount = 10) {
   });
   money.anchor.set(0.5);
   money.position.set(money.width + 100, 400); //TODO: Figure how to make relative height
-  stage.addChild(money);
-  renderer.render(stage);
+  gameStage.addChild(money);
+  renderer.render(gameStage);
 
   return money;
 }
@@ -102,27 +147,27 @@ const buildkitchenObjects = () => {
   const width = 64;
 
   //Top Counters
-  kitchenObjects.sinkCounter = setup(stage, objectAtlas.sinkCounter, {
+  kitchenObjects.sinkCounter = setup(gameStage, objectAtlas.sinkCounter, {
     x: xStart,
     y: 50,
   });
-  kitchenObjects.sinkCounter2 = setup(stage, objectAtlas.sinkCounter, {
+  kitchenObjects.sinkCounter2 = setup(gameStage, objectAtlas.sinkCounter, {
     x: xStart + width,
     y: 50,
   });
-  kitchenObjects.choppingCounter = setup(stage, objectAtlas.choppingCounter, {
+  kitchenObjects.choppingCounter = setup(gameStage, objectAtlas.choppingCounter, {
     x: xStart + 2 * width,
     y: 50,
   });
-  kitchenObjects.choppingCounter2 = setup(stage, objectAtlas.choppingCounter, {
+  kitchenObjects.choppingCounter2 = setup(gameStage, objectAtlas.choppingCounter, {
     x: xStart + 3 * width,
     y: 50,
   });
-  kitchenObjects.scaleCounter = setup(stage, objectAtlas.scaleCounter, {
+  kitchenObjects.scaleCounter = setup(gameStage, objectAtlas.scaleCounter, {
     x: xStart + 4 * width,
     y: 50,
   });
-  kitchenObjects.emptyCounter = setup(stage, objectAtlas.emptyCounter, {
+  kitchenObjects.emptyCounter = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + 5 * width,
     y: 50,
   });
@@ -130,7 +175,7 @@ const buildkitchenObjects = () => {
         x: xStart + 5 * width,
         y: 10
     }, { x: .5, y: .5 }),*/
-  kitchenObjects.emptyCounter2 = setup(stage, objectAtlas.emptyCounter, {
+  kitchenObjects.emptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + 6 * width,
     y: 50,
   });
@@ -138,7 +183,7 @@ const buildkitchenObjects = () => {
         x: xStart + 6 * width,
         y: 10
     }, { x: .5, y: .5 })*/
-  kitchenObjects.wineCounter = setup(stage, objectAtlas.wineCounter, {
+  kitchenObjects.wineCounter = setup(gameStage, objectAtlas.wineCounter, {
     x: xStart + 7 * width,
     y: 50,
   });
@@ -146,134 +191,150 @@ const buildkitchenObjects = () => {
   //pantry: setup('images/pantry-misc.png', 1, 0, 5, 4, {x: xStart + 9*width, y: 50}),
 
   //Side Counters
-  kitchenObjects.sideCounter = setup(stage, objectAtlas.sideCounter, { x: 100, y: 50 });
-  kitchenObjects.sideCounter2 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.sideCounter = setup(gameStage, objectAtlas.sideCounter, { x: 100, y: 50 });
+  kitchenObjects.sideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 146,
   });
-  kitchenObjects.sideCounter3 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.sideCounter3 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 242,
   });
-  kitchenObjects.sideCounter4 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.sideCounter4 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 338,
   });
-  kitchenObjects.sideCounter5 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.sideCounter5 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 434,
   });
-  kitchenObjects.sideCounter6 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.sideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 530,
   });
   //Bottom Counters
-  kitchenObjects.bottomEmptyCounter1 = setup(stage, objectAtlas.emptyCounter, {
+  kitchenObjects.bottomEmptyCounter1 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart,
     y: 455,
   });
-  kitchenObjects.bottomEmptyCounter2 = setup(stage, objectAtlas.emptyCounter, {
+  kitchenObjects.bottomEmptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + width,
     y: 455,
   });
-  kitchenObjects.bottomGrillCounter1 = setup(stage, objectAtlas.grillCounter, {
+  kitchenObjects.bottomGrillCounter1 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 2 * width,
     y: 455,
   });
-  kitchenObjects.bottomGrillCounter2 = setup(stage, objectAtlas.grillCounter, {
+  kitchenObjects.bottomGrillCounter2 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 3 * width,
     y: 455,
   });
-  kitchenObjects.bottomGrillCounter3 = setup(stage, objectAtlas.grillCounter, {
+  kitchenObjects.bottomGrillCounter3 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 4 * width,
     y: 455,
   });
-  kitchenObjects.bottomFryingCounter1 = setup(stage, objectAtlas.grillCounter, {
+  kitchenObjects.bottomFryingCounter1 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 5 * width,
     y: 455,
   });
-  kitchenObjects.fryingPan1 = setup(stage, 
+  kitchenObjects.fryingPan1 = setup(
+    gameStage,
     objectAtlas.fryingPan,
     { x: 491, y: 425 },
     { x: 0.07, y: 0.07 },
   );
-  kitchenObjects.bottomFryingCounter2 = setup(stage, objectAtlas.grillCounter, {
+  kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 6 * width,
     y: 455,
   });
-  kitchenObjects.fryingPan2 = setup(stage, 
+  kitchenObjects.fryingPan2 = setup(
+    gameStage,
     objectAtlas.fryingPan,
     { x: 555, y: 425 },
     { x: 0.07, y: 0.07 },
   );
-  kitchenObjects.bottomEmptyCounter3 = setup(stage, objectAtlas.emptyCounter, {
+  kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + 7 * width,
     y: 455,
   });
 
   //Right side counters
   /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 })*/
-  kitchenObjects.rightSideCounter2 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.rightSideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 146,
   });
-  kitchenObjects.rightSideCounter3 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.rightSideCounter3 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 242,
   });
-  kitchenObjects.rightSideCounter4 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.rightSideCounter4 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 338,
   });
-  kitchenObjects.rightSideCounter5 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.rightSideCounter5 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 434,
   });
-  kitchenObjects.rightSideCounter6 = setup(stage, objectAtlas.sideCounter, {
+  kitchenObjects.rightSideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 530,
   });
-  kitchenObjects.mixingBowl1 = setup(stage, 
+  kitchenObjects.mixingBowl1 = setup(
+    gameStage,
     objectAtlas.mixingBowl,
-    { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y }, { x: 1.5, y: 1.5 },
+    { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y },
+    { x: 1.5, y: 1.5 },
   );
-  kitchenObjects.mixingBowl2 = setup(stage, 
+  kitchenObjects.mixingBowl2 = setup(
+    gameStage,
     objectAtlas.mixingBowl,
-    { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y }, { x: 1.5, y: 1.5 },
+    { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y },
+    { x: 1.5, y: 1.5 },
   );
 
   //Characters, etc.
-  kitchenObjects.coolCustomer = setup(stage, 
+  kitchenObjects.coolCustomer = setup(
+    gameStage,
     objectAtlas.customer2,
     { x: 30, y: 50 },
     { x: 3.5, y: 3.5 },
   );
 
-  kitchenObjects.topChef = setup(stage, 
+  kitchenObjects.topChef = setup(
+    gameStage,
     objectAtlas.chef,
-    { x: stage.width / 2, y: stage.height / 2 },
+    { x: gameStage.width / 2, y: gameStage.height / 2 },
     { x: 3.5, y: 3.5 },
   );
 
-  kitchenObjects.sousChef = setup(stage, 
+  kitchenObjects.sousChef = setup(
+    gameStage,
     objectAtlas.hand,
     { x: 700, y: 420 },
     { x: 0.25, y: 0.25 },
   );
 
-  kitchenObjects.recipeBook = setup(stage, 
+  kitchenObjects.recipeBook = setup(
+    gameStage,
     objectAtlas.recipeBook,
     { x: kitchenObjects.sousChef.x - 15, y: 350 },
     { x: 0.25, y: 0.25 },
   );
 
-  kitchenObjects.trashCan = setup(stage, 
+  kitchenObjects.trashCan1 = setup(
+    gameStage,
     objectAtlas.trashArmsUp,
     { x: xStart + 8 * width, y: 50 },
     { x: 0.1, y: 0.1 },
   );
 
-  kitchenObjects.jollof = setup(stage, objectAtlas.jollof, { x: 100, y: 50 }, { x: 0.15, y: 0.15 });
+  kitchenObjects.jollof = setup(
+    gameStage,
+    objectAtlas.jollof,
+    { x: 100, y: 50 },
+    { x: 0.15, y: 0.15 },
+  );
 
   kitchenObjects.money = moneyRender();
 

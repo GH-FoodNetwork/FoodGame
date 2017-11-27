@@ -29,27 +29,19 @@ const loader = PIXI.loader
   .add('images/trashcancopy.png')
   .add('images/trashcan2.png')
   .add('images/floor.png')
-  .load(function(loader, resources){
+  .load((loader, resources) => {
     objectAtlasInit(resources);
   })
-  // .load(recipeBook)
   // .load(singleRecipe)
+  .load(recipeBook)
   .load(gameplay);
-  // .load(bonusPopup)
-  // .load(titleSplash);
-// const renderer = PIXI.autoDetectRenderer(256, 256);
-// const stage = new PIXI.Container();
+// .load(bonusPopup)
+// .load(titleSplash);
 
-// renderer.view.style.position = 'absolute';
-// renderer.view.style.display = 'block';
-// renderer.autoResize = true;
-// renderer.resize(window.innerWidth, window.innerHeight);
-
-// let rectangle = new PIXI.Graphics();
-// rectangle.lineStyle(4, 0xff3300, 1);
-// rectangle.beginFill(0x66ccff);
-// rectangle.drawRect(170, 0, 150, 200);
-// rectangle.endFill();
-// stage.addChild(rectangle);
+export const stage = new PIXI.Container();
+export const gameStage = new PIXI.Container();
+export const recipeBookStage = new PIXI.Container();
+stage.addChild(gameStage);
+stage.addChild(recipeBookStage);
 
 export default loader;

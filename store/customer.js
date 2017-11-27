@@ -1,5 +1,6 @@
 import store from './index';
-import { stage, kitchenObjects } from '../views/gameplay';
+import { kitchenObjects } from '../views/gameplay';
+import { stage } from '../main';
 import { setup } from '../atlases';
 
 const customerAtlas = ['customer1.png', 'customer2.png', 'customer3.png'];
@@ -18,13 +19,14 @@ const customerCreator = () => {
   const slotty = getFirstAvailSlot();
   if (slotty == -1) return false;
   return {
-    sprite: `../public/images/${customerAtlas[Math.floor(Math.random() * ((customerAtlas.length - 1) - 0))]}`,
+    sprite: `../public/images/${
+      customerAtlas[Math.floor(Math.random() * (customerAtlas.length - 1 - 0))]
+    }`,
     customerSlot: slotty,
     desiredDish: 'Jollof Rice',
     waitTime: Math.floor(Math.random() * (10 - 5)) + 5,
   };
 };
-
 
 //ACTION TYPE
 const GENERATE_CUSTOMER = 'GENERATE_CUSTOMER';
@@ -47,7 +49,6 @@ export function deleteCustomer(id) {
   };
 }
 
-
 //REDUCER
 export default function customerReducer(state = [], action) {
   switch (action.type) {
@@ -55,11 +56,14 @@ export default function customerReducer(state = [], action) {
       const custy = customerCreator();
       if (!custy) return state;
       setup(
-        custy.sprite, 1, 1, //selected square from sheet
-        3, 4, //proportion of sheet
+        custy.sprite,
+        1,
+        1, //selected square from sheet
+        3,
+        4, //proportion of sheet
         { x: 15, y: custy.customerSlot * (stage.height / store.state.customerSlots.length) }, //placement of sprite on stage
         { x: 3.5, y: 3.5 },
-      );//scale
+      ); //scale
       return [...state, custy];
     case REMOVE_CUSTOMER:
       const slotty = store.state.customers[action.id].customerSlot;
@@ -67,11 +71,17 @@ export default function customerReducer(state = [], action) {
         console.log("Can't find sideCounter to calculate where gold x position should be!");
       } else {
         setup(
-          moneySprite, 1, 1, //selected square from sheet
-          3, 4, //proportion of sheet
-          { x: kitchenObjects.sideCounter.x, y: slotty * (stage.height / store.state.customerSlots.length) }, //placement of sprite on stage
+          moneySprite,
+          1,
+          1, //selected square from sheet
+          3,
+          4, //proportion of sheet
+          {
+            x: kitchenObjects.sideCounter.x,
+            y: slotty * (stage.height / store.state.customerSlots.length),
+          }, //placement of sprite on stage
           { x: 3.5, y: 3.5 },
-        );//scale
+        ); //scale
       }
       return state.filter(customer => customer.id !== action.id);
     default:
