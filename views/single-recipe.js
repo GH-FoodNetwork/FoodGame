@@ -1,15 +1,7 @@
-import * as PIXI from 'pixi.js';
-const Container = PIXI.Container,
-      Graphics = PIXI.Graphics,
-      Sprite = PIXI.Sprite;
+import { Container, Graphics, Sprite } from 'pixi.js';
+import { renderer } from '../main';
 
-const renderer = PIXI.autoDetectRenderer(256, 256);
 const stage = new Container();
-
-renderer.view.style.position = 'absolute';
-renderer.view.style.display = 'block';
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
 
 export default function singleRecipe() {
   document.body.appendChild(renderer.view);

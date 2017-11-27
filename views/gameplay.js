@@ -12,9 +12,8 @@ import store, { addDestination, removeDestination } from '../store';
 import { setup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage } from '../main';
 import { bookUpdate } from './recipe-book';
-import loader from '../main';
+import { renderer } from '../main';
 
-const renderer = autoDetectRenderer(256, 256);
 // export const stage = new Container();
 // export const gameStage = new Container();
 // export const recipeBookStage = new Container();
@@ -24,11 +23,6 @@ let state;
 // stage.addChild(recipeBookStage);
 // recipeBookStage.visible = false;
 // let stage = gameStage;
-
-renderer.view.style.position = 'absolute';
-renderer.view.style.display = 'block';
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
 
 export function update() {
   //Funnel all animation updates here
@@ -68,8 +62,6 @@ export default function gameplay() {
     store.dispatch(addDestination({ x, y }));
     movePlayer();
   }
-
-
 
   /**
    * Objects activated by 'onClick' function
@@ -150,8 +142,6 @@ export default function gameplay() {
     trashCan1.alpha = 0;
     trashCan = trashCan2;
   }
-
-
 
   update();
 }
