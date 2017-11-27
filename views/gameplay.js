@@ -38,7 +38,7 @@ export default function gameplay() {
   // chopping boards
   const choppingBoards = [
     kitchenObjects.choppingCounter,
-    kitchenObjects.choppingCounter2
+    kitchenObjects.choppingCounter2,
   ];
   // frying pans
   const fryingPans = [kitchenObjects.fryingPan1, kitchenObjects.fryingPan2];
@@ -46,7 +46,7 @@ export default function gameplay() {
   const grillCounters = [
     kitchenObjects.bottomGrillCounter1,
     kitchenObjects.bottomGrillCounter2,
-    kitchenObjects.bottomGrillCounter3
+    kitchenObjects.bottomGrillCounter3,
   ];
   const { wine } = kitchenObjects; // wine counter
   const { sousChef } = kitchenObjects; // souschef
@@ -83,19 +83,19 @@ export default function gameplay() {
     }
   }
 
-  choppingBoards.map(board => {
+  choppingBoards.map((board) => {
     board.interactive = true;
     board.buttonMode = true;
     board.on('pointerdown', onClick);
   });
 
-  fryingPans.map(pan => {
+  fryingPans.map((pan) => {
     pan.interactive = true;
     pan.buttonMode = true;
     pan.on('pointerdown', onClick);
   });
 
-  grillCounters.map(grill => {
+  grillCounters.map((grill) => {
     grill.interactive = true;
     grill.buttonMode = true;
     grill.on('pointerdown', onClick);
@@ -109,7 +109,7 @@ export default function gameplay() {
   sousChef.buttonMode = true;
   sousChef.on('pointerdown', onClick);
 
-  mixingBowls.map(bowl => {
+  mixingBowls.map((bowl) => {
     bowl.interactive = true;
     bowl.buttonMode = true;
     bowl.on('pointerdown', onClick);
@@ -124,14 +124,14 @@ export default function gameplay() {
 }
 
 function moneyRender(amount = 10) {
-  let money = new PIXI.Text(`$${amount}`, {
+  const money = new PIXI.Text(`$${amount}`, {
     fontFamily: 'journal, Arial',
     fontSize: 52,
     fill: 'black',
     stroke: 'white',
     strokeThickness: 4,
     letterSpacing: 1,
-    fontStyle: 'bold'
+    fontStyle: 'bold',
   });
   money.anchor.set(0.5);
   money.position.set(money.width + 100, 400); // TODO: Figure how to make relative height
@@ -148,43 +148,43 @@ const buildkitchenObjects = () => {
   // Top Counters
   kitchenObjects.sinkCounter = setup('images/counters.png', 0, 0, 8, 4.5, {
     x: xStart,
-    y: 50
+    y: 50,
   });
   kitchenObjects.sinkCounter2 = setup('images/counters.png', 3, 0, 8, 4.5, {
     x: xStart + width,
-    y: 50
+    y: 50,
   });
   kitchenObjects.choppingCounter = setup('images/counters.png', 1, 1, 8, 4.5, {
     x: xStart + 2 * width,
-    y: 50
+    y: 50,
   });
   kitchenObjects.choppingCounter2 = setup('images/counters.png', 1, 1, 8, 4.5, {
     x: xStart + 3 * width,
-    y: 50
+    y: 50,
   });
   kitchenObjects.scaleCounter = setup('images/counters.png', 3, 2, 8, 4.5, {
     x: xStart + 4 * width,
-    y: 50
+    y: 50,
   });
   kitchenObjects.emptyCounter = setup('images/counters.png', 0, 1, 8, 4.5, {
     x: xStart + 5 * width,
-    y: 50
+    y: 50,
   });
   /* spiceRack: setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 5 * width,
         y: 10
-    }, { x: .5, y: .5 }),*/
+    }, { x: .5, y: .5 }), */
   kitchenObjects.emptyCounter2 = setup('images/counters.png', 0, 1, 8, 4.5, {
     x: xStart + 6 * width,
-    y: 50
+    y: 50,
   });
   /* kitchenObjects[spiceRack]= setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 6 * width,
         y: 10
-    }, { x: .5, y: .5 })*/
+    }, { x: .5, y: .5 }) */
   kitchenObjects.wineCounter = setup('images/counters.png', 4, 2, 8, 4.5, {
     x: xStart + 7 * width,
-    y: 50
+    y: 50,
   });
 
   // pantry: setup('images/pantry-misc.png', 1, 0, 5, 4, {x: xStart + 9*width, y: 50}),
@@ -192,27 +192,27 @@ const buildkitchenObjects = () => {
   // Side Counters
   kitchenObjects.sideCounter = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 50
+    y: 50,
   });
   kitchenObjects.sideCounter2 = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 146
+    y: 146,
   });
   kitchenObjects.sideCounter3 = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 242
+    y: 242,
   });
   kitchenObjects.sideCounter4 = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 338
+    y: 338,
   });
   kitchenObjects.sideCounter5 = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 434
+    y: 434,
   });
   kitchenObjects.sideCounter6 = setup('images/counters.png', 0, 3, 8, 4.5, {
     x: 100,
-    y: 530
+    y: 530,
   });
   // Bottom Counters
   kitchenObjects.bottomEmptyCounter1 = setup(
@@ -223,8 +223,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.bottomEmptyCounter2 = setup(
     'images/counters.png',
@@ -234,8 +234,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.bottomGrillCounter1 = setup(
     'images/counters.png',
@@ -245,8 +245,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 2 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.bottomGrillCounter2 = setup(
     'images/counters.png',
@@ -256,8 +256,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 3 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.bottomGrillCounter3 = setup(
     'images/counters.png',
@@ -267,8 +267,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 4 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.bottomFryingCounter1 = setup(
     'images/counters.png',
@@ -278,8 +278,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 5 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.fryingPan1 = setup(
     'images/fryingpan.png',
@@ -288,7 +288,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: 491, y: 425 },
-    { x: 0.07, y: 0.07 }
+    { x: 0.07, y: 0.07 },
   );
   kitchenObjects.bottomFryingCounter2 = setup(
     'images/counters.png',
@@ -298,8 +298,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 6 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
   kitchenObjects.fryingPan2 = setup(
     'images/fryingpan.png',
@@ -308,7 +308,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: 555, y: 425 },
-    { x: 0.07, y: 0.07 }
+    { x: 0.07, y: 0.07 },
   );
   kitchenObjects.bottomEmptyCounter3 = setup(
     'images/counters.png',
@@ -318,12 +318,12 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 7 * width,
-      y: 455
-    }
+      y: 455,
+    },
   );
 
   // Right side counters
-  /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
+  /* kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
   kitchenObjects.rightSideCounter2 = setup(
     'images/counters.png',
     0,
@@ -332,8 +332,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 8 * width,
-      y: 146
-    }
+      y: 146,
+    },
   );
   kitchenObjects.rightSideCounter3 = setup(
     'images/counters.png',
@@ -343,8 +343,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 8 * width,
-      y: 242
-    }
+      y: 242,
+    },
   );
   kitchenObjects.rightSideCounter4 = setup(
     'images/counters.png',
@@ -354,8 +354,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 8 * width,
-      y: 338
-    }
+      y: 338,
+    },
   );
   kitchenObjects.rightSideCounter5 = setup(
     'images/counters.png',
@@ -365,8 +365,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 8 * width,
-      y: 434
-    }
+      y: 434,
+    },
   );
   kitchenObjects.rightSideCounter6 = setup(
     'images/counters.png',
@@ -376,8 +376,8 @@ const buildkitchenObjects = () => {
     4.5,
     {
       x: xStart + 8 * width,
-      y: 530
-    }
+      y: 530,
+    },
   );
   kitchenObjects.mixingBowl1 = setup(
     'images/counters.png',
@@ -386,7 +386,7 @@ const buildkitchenObjects = () => {
     7.3,
     4.5,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y },
-    { x: 1.5, y: 1.5 }
+    { x: 1.5, y: 1.5 },
   );
   kitchenObjects.mixingBowl2 = setup(
     'images/counters.png',
@@ -395,7 +395,7 @@ const buildkitchenObjects = () => {
     7.3,
     4.5,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y },
-    { x: 1.5, y: 1.5 }
+    { x: 1.5, y: 1.5 },
   );
 
   // Characters, etc.
@@ -406,7 +406,7 @@ const buildkitchenObjects = () => {
     3,
     4,
     { x: 30, y: 50 },
-    { x: 3.5, y: 3.5 }
+    { x: 3.5, y: 3.5 },
   );
 
   kitchenObjects.topChef = setup(
@@ -416,7 +416,7 @@ const buildkitchenObjects = () => {
     3,
     4,
     { x: stage.width / 2, y: stage.height / 2 },
-    { x: 3.5, y: 3.5 }
+    { x: 3.5, y: 3.5 },
   );
 
   kitchenObjects.sousChef = setup(
@@ -426,7 +426,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: 700, y: 420 },
-    { x: 0.25, y: 0.25 }
+    { x: 0.25, y: 0.25 },
   );
 
   kitchenObjects.recipeBook = setup(
@@ -436,7 +436,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: kitchenObjects.sousChef.x - 15, y: 350 },
-    { x: 0.25, y: 0.25 }
+    { x: 0.25, y: 0.25 },
   );
 
   kitchenObjects.trashCan = setup(
@@ -446,7 +446,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: xStart + 8 * width, y: 50 },
-    { x: 0.1, y: 0.1 }
+    { x: 0.1, y: 0.1 },
   );
 
   kitchenObjects.jollof = setup(
@@ -456,7 +456,7 @@ const buildkitchenObjects = () => {
     1,
     1,
     { x: 100, y: 50 },
-    { x: 0.15, y: 0.15 }
+    { x: 0.15, y: 0.15 },
   );
 
   kitchenObjects.money = moneyRender();
@@ -473,7 +473,7 @@ export function setup(
   xWidth,
   yHeight,
   canvasPosition,
-  spriteScale = { x: 2, y: 2 }
+  spriteScale = { x: 2, y: 2 },
 ) {
   const texture = new PIXI.Texture(BaseTexture.fromImage(img));
   // addToCache(texture, img)
@@ -489,7 +489,7 @@ export function setup(
 
   // Create a rectangle object that defines the position and
   // size of the sub-image you want to extract from the texture
-  let rectangle = new PIXI.Rectangle(
+  const rectangle = new PIXI.Rectangle(
     xPosition * colWidth,
     yPosition * rowHeight,
     width - xPosition * colWidth > colWidth
@@ -497,7 +497,7 @@ export function setup(
       : width - xPosition * colWidth,
     height - yPosition * rowHeight > rowHeight
       ? rowHeight
-      : height - yPosition * rowHeight
+      : height - yPosition * rowHeight,
   );
 
   // Tell the texture to use that rectangular section
@@ -505,7 +505,7 @@ export function setup(
   // texture.sourceScale = 2;
 
   // Create the sprite from the texture
-  let sprite = new Sprite(texture);
+  const sprite = new Sprite(texture);
 
   sprite.anchor.set(0.5);
   // (width / xWidth) / 2, (height / yHeight) / 2
