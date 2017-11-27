@@ -56,6 +56,7 @@ export function objectAtlasInit(resources) {
   objectAtlas = result;
   return result;
 }
+const PIXELS_PER_TILE = window.innerWidth / 80
 
 export function setup(
   stage,
@@ -70,11 +71,11 @@ export function setup(
   //(width / xWidth) / 2, (height / yHeight) / 2
 
   //Position the rocket sprite on the canvas
-  sprite.x = canvasPosition.x;
-  sprite.y = canvasPosition.y;
+  sprite.x = canvasPosition.x / PIXELS_PER_TILE;  // TODO: Remove me after specifying actor positions in tile coordinates.
+  sprite.y = canvasPosition.y / PIXELS_PER_TILE;
 
-  sprite.scale.x = spriteScale.x;
-  sprite.scale.y = spriteScale.y;
+  sprite.scale.x = spriteScale.x / PIXELS_PER_TILE;
+  sprite.scale.y = spriteScale.y / PIXELS_PER_TILE;
 
   //Add the sprite to the stage -- IMPORTANT: THIS is the stage
   stage.addChild(sprite);

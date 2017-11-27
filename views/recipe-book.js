@@ -29,6 +29,7 @@ export default function recipeBook() {
   bookUpdate();
 }
 
+// TODO: Move this constructor function to its own file
 export function Recipe(title, ingredients = [], finishedDish, steps = [], linkToRecipe) {
   this.title = title;
   this.ingredients = ingredients;

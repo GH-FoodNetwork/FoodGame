@@ -2,7 +2,7 @@
 const ADD_TO_QUEUE = 'ADD_TO_QUEUE';
 const DEQUEUE = 'DEQUEUE';
 
-//ACTION CREATOR
+// ACTION CREATOR
 const addToQueue = destination => ({ type: ADD_TO_QUEUE, destination });
 const dequeue = () => ({ type: DEQUEUE });
 

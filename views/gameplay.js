@@ -28,8 +28,9 @@ export function update() {
   //Funnel all animation updates here
   movePlayer();
   //Rerender
+  // console.log(stage);
   requestAnimationFrame(update);
-  renderer.render(gameStage);
+  renderer.render(stage);
 }
 
 function movePlayer() {
@@ -105,6 +106,7 @@ export default function gameplay() {
   wineCounter.buttonMode = true;
   wineCounter.on('pointerdown', onClick);
 
+  // recipeBook onClick
   function clickRecipeBook() {
     gameStage.visible = false;
     recipeBookStage.visible = true;
@@ -235,29 +237,30 @@ const buildkitchenObjects = () => {
     y: 530,
   });
   // Bottom Counters
+  const bottomCounterY = 500;
   kitchenObjects.bottomEmptyCounter1 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.bottomEmptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.bottomGrillCounter1 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 2 * width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.bottomGrillCounter2 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 3 * width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.bottomGrillCounter3 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 4 * width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.bottomFryingCounter1 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 5 * width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.fryingPan1 = setup(
     gameStage,
@@ -267,7 +270,7 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
     x: xStart + 6 * width,
-    y: 455,
+    y: bottomCounterY,
   });
   kitchenObjects.fryingPan2 = setup(
     gameStage,
@@ -277,7 +280,7 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + 7 * width,
-    y: 455,
+    y: bottomCounterY,
   });
 
   //Right side counters
