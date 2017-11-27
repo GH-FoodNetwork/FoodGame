@@ -29,6 +29,7 @@ PIXI.loader
   .add('images/trashcancopy.png')
   .add('images/trashcan2.png')
   .add('images/floor.png')
+  .add('images/flamesmall.png')
   .load(main)
   // .load(recipeBook)
   // .load(singleRecipe)

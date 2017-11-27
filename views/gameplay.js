@@ -2,7 +2,8 @@ import * as PIXI from 'pixi.js';
 const Container = PIXI.Container,
   Graphics = PIXI.Graphics,
   Sprite = PIXI.Sprite,
-  BaseTexture = PIXI.BaseTexture;
+  BaseTexture = PIXI.BaseTexture,
+  Filter = PIXI.Filter;
 import store, { addDestination, removeDestination } from '../store';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
@@ -269,10 +270,17 @@ const buildAtlas = () => {
       { x: 0.25, y: 0.25 }
     ),
 
-    money: moneyRender()
+    money: moneyRender(),
+
+    flame: setup('images/flamesmall.png', 0, 0, 1, 1,
+      { x: 555, y: 425 },
+      { x: 0.15, y: 0.15 }
+    )
   };
 };
 // remember to load image in main.js
+
+//buildAtlas().flame.filters = [new Filter(PIXI.filters.BlurFilter())];
 
 function spriteSetup(img, spriteWidth, spriteHeight, x, y) {
   var sprite = new Sprite(PIXI.loader.resources[img].texture);
