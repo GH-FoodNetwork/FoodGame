@@ -43,11 +43,19 @@ export const gameStage = new PIXI.Container();
 export const recipeBookStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
+recipeBookStage.visible = false;
 
-export const renderer = PIXI.autoDetectRenderer(256, 256);
+const PIXELS_PER_TILE = window.innerWidth / 80
+// stage.scale.x = PIXELS_PER_TILE;
+// stage.scale.y = PIXELS_PER_TILE;
+
+export const renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
+// renderer.resize(10, 100)
+// renderer.autoResize = true;
+// renderer.resize(window.innerWidth, window.innerHeight);
+
+window.R = renderer
 
 export default loader;
