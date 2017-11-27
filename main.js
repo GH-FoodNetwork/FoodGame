@@ -46,8 +46,8 @@ stage.addChild(recipeBookStage);
 recipeBookStage.visible = false;
 
 const PIXELS_PER_TILE = window.innerWidth / 80
-stage.scale.x = PIXELS_PER_TILE;
-stage.scale.y = PIXELS_PER_TILE;
+// stage.scale.x = PIXELS_PER_TILE;
+// stage.scale.y = PIXELS_PER_TILE;
 
 export const renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 renderer.view.style.position = 'absolute';

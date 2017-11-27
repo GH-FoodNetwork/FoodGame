@@ -63,6 +63,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
+  stationPosition
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
@@ -71,11 +72,14 @@ export function setup(
   //(width / xWidth) / 2, (height / yHeight) / 2
 
   //Position the rocket sprite on the canvas
-  sprite.x = canvasPosition.x / PIXELS_PER_TILE;  // TODO: Remove me after specifying actor positions in tile coordinates.
-  sprite.y = canvasPosition.y / PIXELS_PER_TILE;
+  sprite.x = canvasPosition.x /*/ PIXELS_PER_TILE*/;  // TODO: Remove me after specifying actor positions in tile coordinates.
+  sprite.y = canvasPosition.y /*/ PIXELS_PER_TILE*/;
 
-  sprite.scale.x = spriteScale.x / PIXELS_PER_TILE;
-  sprite.scale.y = spriteScale.y / PIXELS_PER_TILE;
+  sprite.scale.x = spriteScale.x /*/ PIXELS_PER_TILE*/;
+  sprite.scale.y = spriteScale.y /*/ PIXELS_PER_TILE*/;
+
+  // where the chef should stand upon click
+  sprite.stationPosition = stationPosition;
 
   //Add the sprite to the stage -- IMPORTANT: THIS is the stage
   stage.addChild(sprite);
