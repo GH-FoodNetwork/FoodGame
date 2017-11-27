@@ -2,6 +2,7 @@
     "extends": "airbnb",
     "rules": {
     "id-length": "off",
-    "spaced-comment": "off"
+    "spaced-comment": "off",
+    "linebreak-style": "off"
   }
 }
