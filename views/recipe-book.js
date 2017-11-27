@@ -1,23 +1,30 @@
 import * as PIXI from 'pixi.js';
 
 const { Container, Graphics, Sprite } = PIXI;
-import { gameStage, recipeBookStage } from './gameplay';
+import { gameStage, recipeBookStage } from '../main';
+import { setup, objectAtlas } from '../atlases';
+import loader from '../main';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
 // export const recipeBookStage = new Container();
-const stage = recipeBookStage;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
 renderer.autoResize = true;
 renderer.resize(window.innerWidth, window.innerHeight);
 
+export function bookUpdate() {
+  //Funnel all animation updates here
+  // movePlayer();
+  //Rerender
+  // requestAnimationFrame(bookUpdate);
+  renderer.render(recipeBookStage);
+}
+
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
 
-  const cat = new Sprite(PIXI.loader.resources['cat.png'].texture);
-  cat.position.set(50, 50);
-  recipeBookStage.addChild(cat);
+  const cat = setup(recipeBookStage, objectAtlas.cat, { x: 50, y: 50 });
 
   cat.interactive = true;
   cat.buttonMode = true;
@@ -26,9 +33,9 @@ export default function recipeBook() {
     recipeBookStage.visible = false;
     gameStage.visible = true;
   }
-
+  console.log('RECIPE BOOK STAGE');
   renderer.backgroundColor = 0x061639;
-  renderer.render(stage);
+  bookUpdate();
 }
 
 export function Recipe(title, ingredients = [], finishedDish, steps = [], linkToRecipe) {
