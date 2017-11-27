@@ -30,11 +30,11 @@ PIXI.loader
   .add('images/trashcan2.png')
   .add('images/floor.png')
   .load(main)
-  // .load(recipeBook)
+  .load(recipeBook)
   // .load(singleRecipe)
-  .load(gameplay)
-  // .load(bonusPopup)
-  // .load(titleSplash);
+  .load(gameplay);
+// .load(bonusPopup)
+// .load(titleSplash);
 // const renderer = PIXI.autoDetectRenderer(256, 256);
 // const stage = new PIXI.Container();
 

@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 
-const Container = PIXI.Container,
-  Graphics = PIXI.Graphics,
-  Sprite = PIXI.Sprite;
+const { Container, Graphics, Sprite } = PIXI;
+import { gameStage, recipeBookStage } from './gameplay';
 
 const renderer = PIXI.autoDetectRenderer(256, 256);
-const stage = new Container();
+// export const recipeBookStage = new Container();
+const stage = recipeBookStage;
 
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
@@ -14,6 +14,21 @@ renderer.resize(window.innerWidth, window.innerHeight);
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
+
+  const cat = new Sprite(PIXI.loader.resources['cat.png'].texture);
+  cat.position.set(50, 50);
+  recipeBookStage.addChild(cat);
+
+  cat.interactive = true;
+  cat.buttonMode = true;
+  cat.on('pointerdown', onClick);
+  function onClick() {
+    recipeBookStage.visible = false;
+    gameStage.visible = true;
+  }
+
+  renderer.backgroundColor = 0x061639;
+  renderer.render(stage);
 }
 
 export function Recipe(title, ingredients = [], finishedDish, steps = [], linkToRecipe) {
