@@ -1,6 +1,3 @@
-// import React from 'react';
-// import { render } from 'react-dom';
-// import { AppContainer } from 'react-hot-loader';
 import recipeBook from './views/recipe-book';
 import singleRecipe from './views/single-recipe';
 import gameplay from './views/gameplay';
@@ -28,9 +25,11 @@ const loader = PIXI.loader
   .add('images/recipebook.png')
   .add('images/trashcancopy.png')
   .add('images/trashcan2.png')
-  .add('images/floor.png')
   .add('images/recipeBookInterior.gif')
   .add('images/backarrow.svg')
+  .add('cookedRice', 'images/cooked-riceSM.png')
+  .add('tomatoPaste', 'images/tomatosauceSM.png')
+  .add('floor', 'images/floor.png')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
@@ -47,6 +46,7 @@ export const singleRecipeStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
 stage.addChild(singleRecipeStage);
+
 recipeBookStage.visible = false;
 singleRecipeStage.visible = false;
 

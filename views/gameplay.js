@@ -8,11 +8,12 @@ import {
   autoDetectRenderer,
   Text
 } from 'pixi.js';
-import store, { addDestination, removeDestination } from '../store';
+
+import store, { addDestination, removeDestination, addRecipe, setSousChefHolding, moveFromSousToChef } from '../store';
 import { setup, objectAtlas } from '../atlases';
-import { recipeBookStage, gameStage, stage } from '../main';
+import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
-import { renderer } from '../main';
+import recipeArray from '../recipe-constructor';
 
 // export const stage = new Container();
 // export const gameStage = new Container();
@@ -25,16 +26,17 @@ let state;
 // let stage = gameStage;
 
 export function update() {
-  //Funnel all animation updates here
+  state = store.getState();
+  gameStage.addChild(state.platter.foodStack);
+  // Funnel all animation updates here
   movePlayer();
-  //Rerender
+  // Rerender
   // console.log(stage);
   requestAnimationFrame(update);
   renderer.render(stage);
 }
 
-function movePlayer() {
-  state = store.getState();
+function movePlayer() {  
   const { destinations } = state;
   if (destinations.length) {
     const rightOrDown = 1;
@@ -61,8 +63,11 @@ export default function gameplay() {
 
   renderer.backgroundColor = 0xffffff;
 
+  
+
   function onClick(evt) {
     store.dispatch(removeDestination());
+    // TODO: add stationPosition for all objects
     const { x, y } = evt.target.stationPosition;
     store.dispatch(addDestination({ x, y }));
     movePlayer();
@@ -126,9 +131,31 @@ export default function gameplay() {
   recipeBook.buttonMode = true;
   recipeBook.on('pointerdown', clickRecipeBook);
 
+  // sousChef onClick
+  function clickSousChef() {
+    state = store.getState();
+    const { sousChefHolding } = state.platter;
+    if (sousChefHolding) {
+      console.log('isHolding!');
+      
+      recipeBook.visible = true;
+      recipeBook.interactive = true;
+      recipeBook.buttonMode = true;
+      store.dispatch(setSousChefHolding(false));
+    } else {
+      // TODO: Remove foodStack from gameStage
+      
+      recipeBook.visible = false;
+      recipeBook.interactive = false;
+      recipeBook.buttonMode = false;
+      store.dispatch(addRecipe(new recipeArray[0]()));
+      store.dispatch(setSousChefHolding(true));     
+    }
+  }
+
   sousChef.interactive = true;
   sousChef.buttonMode = true;
-  sousChef.on('pointerdown', onClick);
+  sousChef.on('pointerdown', clickSousChef);
 
   mixingBowls.forEach(bowl => {
     bowl.interactive = true;
@@ -157,6 +184,7 @@ export default function gameplay() {
   }
 
   update();
+  
 }
 
 function moneyRender(amount = 10) {
@@ -170,7 +198,7 @@ function moneyRender(amount = 10) {
     fontStyle: 'bold'
   });
   money.anchor.set(0.5);
-  money.position.set(money.width + 100, 400); //TODO: Figure how to make relative height
+  money.position.set(money.width + 100, 400); // TODO: Figure how to make relative height
   gameStage.addChild(money);
   renderer.render(gameStage);
 
@@ -180,8 +208,34 @@ function moneyRender(amount = 10) {
 const buildkitchenObjects = () => {
   const xStart = 164;
   const width = 64;
+  let floorStart = 16;
 
-  //Top Counters
+  // floor
+  for (let i = 1; i < 97; i++) {
+    if (floorStart > 12 * 64) {
+      floorStart = 16;
+    }
+    kitchenObjects['floor' + i] = setup(gameStage, objectAtlas.floor, {
+      x: floorStart,
+      y: (64 * (i % 12 === 0 ? Math.floor(i / 12) - 1 : Math.floor(i / 12))) + 64,
+    });
+    floorStart += 64
+    console.log( `${i} x`, kitchenObjects['floor' + i].x, `${i} y`, kitchenObjects['floor' + i].y);
+  }
+
+  // wall
+  floorStart = 16;
+  for (let i = 1; i < 13; i++) {
+    kitchenObjects['wall' + i] = setup(gameStage, objectAtlas.wall, {
+      x: floorStart + 64*(i-1),
+      y: 16,
+    });
+  }
+
+  // kitchenObjects.floor = setup(gameStage, objectAtlas.floor, {
+  //   x: 32, y: 32,
+  // })
+  // Top Counters
   kitchenObjects.sinkCounter = setup(gameStage, objectAtlas.sinkCounter, {
     x: xStart,
     y: 50
@@ -214,7 +268,7 @@ const buildkitchenObjects = () => {
     x: xStart + 5 * width,
     y: 50
   });
-  /*spiceRack: setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
+  /* spiceRack: setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 5 * width,
         y: 10
     }, { x: .5, y: .5 }),*/
@@ -222,7 +276,7 @@ const buildkitchenObjects = () => {
     x: xStart + 6 * width,
     y: 50
   });
-  /*kitchenObjects[spiceRack]= setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
+  /* kitchenObjects[spiceRack]= setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 6 * width,
         y: 10
     }, { x: .5, y: .5 })*/
@@ -231,9 +285,9 @@ const buildkitchenObjects = () => {
     y: 50
   });
 
-  //pantry: setup('images/pantry-misc.png', 1, 0, 5, 4, {x: xStart + 9*width, y: 50}),
+  // pantry: setup('images/pantry-misc.png', 1, 0, 5, 4, {x: xStart + 9*width, y: 50}),
 
-  //Side Counters
+  // Side Counters
   kitchenObjects.sideCounter = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 50
@@ -259,7 +313,7 @@ const buildkitchenObjects = () => {
     y: 530
   });
   // Bottom Counters
-  const bottomCounterY = 500;
+  const bottomCounterY = 460;
   kitchenObjects.bottomEmptyCounter1 = setup(
     gameStage,
     objectAtlas.emptyCounter,
@@ -313,7 +367,7 @@ const buildkitchenObjects = () => {
     objectAtlas.fryingPan,
     { x: 491, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 491, y: 365 },
+    { x: 491, y: 365 }
   );
   kitchenObjects.bottomFryingCounter2 = setup(
     gameStage,
@@ -338,8 +392,8 @@ const buildkitchenObjects = () => {
     }
   );
 
-  //Right side counters
-  /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 })*/
+  // Right side counters
+  /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
   kitchenObjects.rightSideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 146
@@ -373,7 +427,7 @@ const buildkitchenObjects = () => {
     { x: 1.5, y: 1.5 }
   );
 
-  //Characters, etc.
+  // Characters, etc.
   kitchenObjects.coolCustomer = setup(
     gameStage,
     objectAtlas.customer2,
@@ -385,7 +439,7 @@ const buildkitchenObjects = () => {
   kitchenObjects.topChef = setup(
     gameStage,
     objectAtlas.chef,
-    { x: gameStage.width / 2, y: gameStage.height / 2 },
+    { x: gameStage.width / 2, y: gameStage.height / 4 },
     { x: 3.5, y: 3.5 }
   );
 

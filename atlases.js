@@ -1,5 +1,4 @@
-import { Sprite, Texture, BaseTexture, Rectangle, Text } from 'pixi.js';
-//import loader from './main';
+import { Sprite, Texture, BaseTexture, Rectangle, Text, addChild } from 'pixi.js';
 
 function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1) {
   const texture =
@@ -55,6 +54,11 @@ export function objectAtlasInit(resources) {
   result.cat = textureSetup('images/cat.png');
   result.recipeBookInterior = textureSetup('images/recipeBookInterior.gif');
   result.backArrow = textureSetup('images/backarrow.svg');
+  result.cookedRice = textureSetup(resources.cookedRice);
+  result.tomatoPaste = textureSetup(resources.tomatoPaste);
+  result.floor = textureSetup(resources.floor, 0, 0, 9, 8);
+  result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
+  
   objectAtlas = result;
   return result;
 }
@@ -65,7 +69,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
-  stationPosition
+  stationPosition = { x: canvasPosition.x, y: canvasPosition.y + 50 },
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
