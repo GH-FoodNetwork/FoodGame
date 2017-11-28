@@ -1,9 +1,9 @@
 {
-    "extends": "airbnb",
-    "rules": {
+  "extends": "airbnb",
+  "rules": {
     "id-length": "off",
     "spaced-comment": "off",
     "linebreak-style": "off",
-    "no-case-declarations": "off",
+    "no-case-declarations": "off"
   }
 }
