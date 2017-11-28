@@ -133,16 +133,16 @@ export default function gameplay() {
     const { sousChefHolding } = state.platter;
     if (sousChefHolding) {
       console.log('isHolding!');
-      console.log(state.platter.foodStack);
       gameStage.addChild(state.platter.foodStack); // attempt to get the foodStack container to render on the gameStage
-      // recipeBook.visible = false;
-      // recipeBook.interactive = false;
-      // recipeBook.buttonMode = false;
+      recipeBook.visible = false;
+      recipeBook.interactive = false;
+      recipeBook.buttonMode = false;
       store.dispatch(setSousChefHolding(false));
     } else {
-      // recipeBook.visible = false;
-      // recipeBook.interactive = false;
-      // recipeBook.buttonMode = false;
+      // TODO: Remove foodStack from gameStage
+      recipeBook.visible = true;
+      recipeBook.interactive = true;
+      recipeBook.buttonMode = true;
       store.dispatch(addRecipe(new recipeArray[0]()));
       store.dispatch(setSousChefHolding(true));
     }
