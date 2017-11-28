@@ -219,8 +219,7 @@ const buildkitchenObjects = () => {
       x: floorStart,
       y: (64 * (i % 12 === 0 ? Math.floor(i / 12) - 1 : Math.floor(i / 12))) + 64,
     });
-    floorStart += 64
-    console.log( `${i} x`, kitchenObjects['floor' + i].x, `${i} y`, kitchenObjects['floor' + i].y);
+    floorStart += 64    
   }
 
   // wall
