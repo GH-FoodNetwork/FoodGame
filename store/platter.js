@@ -31,7 +31,8 @@ export default function platterReducer(state = defaultState, action) {
           { x: 0.5, y: 0.5 },
         );
       }
-      return Object.assign({}, state, { foodStack: Object.assign(new Container(), { children: state.foodStack.children.concat(newFoodStack.children) }) });
+      return Object.assign({}, state, {foodStack: newFoodStack})
+      // return Object.assign({}, state, { foodStack: Object.assign(new Container(), { children: state.foodStack.children.concat(newFoodStack.children) }) });
     case SET_SOUSCHEFHOLDING:
       return Object.assign({}, state, { sousChefHolding: action.holdBool });
     case UPDATE_RECIPE_STATE:
