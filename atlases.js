@@ -66,7 +66,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
-  stationPosition,
+  stationPosition = { x: canvasPosition.x, y: canvasPosition.y + 50 },
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);

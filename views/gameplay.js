@@ -63,6 +63,7 @@ export default function gameplay() {
 
   function onClick(evt) {
     store.dispatch(removeDestination());
+    // TODO: add stationPosition for all objects
     const { x, y } = evt.target.stationPosition;
     store.dispatch(addDestination({ x, y }));
     movePlayer();
@@ -137,11 +138,11 @@ export default function gameplay() {
       recipeBook.buttonMode = false;
       store.dispatch(setSousChefHolding(false));
     } else {
+      recipeBook.visible = false;
+      recipeBook.interactive = false;
+      recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true));
-      recipeBook.visible = true;
-      recipeBook.interactive = true;
-      recipeBook.buttonMode = true;
+      store.dispatch(setSousChefHolding(true));``
     }
   }
 

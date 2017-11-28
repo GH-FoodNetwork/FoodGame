@@ -1,4 +1,4 @@
-import { Container, addChild } from 'pixi.js';
+import { Container } from 'pixi.js';
 import { ADD_RECIPE, UPDATE_RECIPE_STATE } from './recipes';
 import { kitchenObjects } from '../views/gameplay';
 import { gameStage } from '../main';
