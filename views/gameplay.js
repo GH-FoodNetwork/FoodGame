@@ -208,8 +208,8 @@ const buildkitchenObjects = () => {
   const width = 64;
   let floorStart = 16;
 
-  //floor
-  for (let i = 1; i < 145; i++) {
+  // floor
+  for (let i = 1; i < 97; i++) {
     if (floorStart > 12 * 64) {
       floorStart = 16;
     }
@@ -219,6 +219,15 @@ const buildkitchenObjects = () => {
     });
     floorStart += 64
     console.log( `${i} x`, kitchenObjects['floor' + i].x, `${i} y`, kitchenObjects['floor' + i].y);
+  }
+
+  // wall
+  floorStart = 16;
+  for (let i = 1; i < 13; i++) {
+    kitchenObjects['wall' + i] = setup(gameStage, objectAtlas.wall, {
+      x: floorStart + 64*(i-1),
+      y: 16,
+    });
   }
 
   // kitchenObjects.floor = setup(gameStage, objectAtlas.floor, {
@@ -302,7 +311,7 @@ const buildkitchenObjects = () => {
     y: 530
   });
   // Bottom Counters
-  const bottomCounterY = 500;
+  const bottomCounterY = 460;
   kitchenObjects.bottomEmptyCounter1 = setup(
     gameStage,
     objectAtlas.emptyCounter,
@@ -428,7 +437,7 @@ const buildkitchenObjects = () => {
   kitchenObjects.topChef = setup(
     gameStage,
     objectAtlas.chef,
-    { x: gameStage.width / 2, y: gameStage.height / 2 },
+    { x: gameStage.width / 2, y: gameStage.height / 4 },
     { x: 3.5, y: 3.5 }
   );
 

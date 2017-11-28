@@ -56,6 +56,7 @@ export function objectAtlasInit(resources) {
   result.cookedRice = textureSetup(resources.cookedRice);
   result.tomatoPaste = textureSetup(resources.tomatoPaste);
   result.floor = textureSetup(resources.floor, 0, 0, 9, 8);
+  result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
 
   objectAtlas = result;
   return result;
