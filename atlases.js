@@ -53,7 +53,7 @@ export function objectAtlasInit(resources) {
   result.jollof = textureSetup('images/jollof.png');
   result.gold = textureSetup('images/gold.gif');
   result.cat = textureSetup('images/cat.png');
-  result.cookedRice = textureSetup(resources.cookedRice);  
+  result.cookedRice = textureSetup(resources.cookedRice);
   result.tomatoPaste = textureSetup(resources.tomatoPaste);
 
   objectAtlas = result;
@@ -66,7 +66,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
-  stationPosition
+  stationPosition,
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
