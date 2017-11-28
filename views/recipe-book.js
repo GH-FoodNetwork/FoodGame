@@ -7,16 +7,13 @@ import { renderer } from '../main';
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
-  const backButton = new Sprite(document.getElementById('back-button'));
-  backButton.interactive = true;
-  backButton.buttonMode = true;
-  backButton.on('pointerdown', backToGame);
 
   const cat = setup(recipeBookStage, objectAtlas.cat, { x: 50, y: 50 });
 
   cat.interactive = true;
   cat.buttonMode = true;
   cat.on('pointerdown', backToGame);
+
   function backToGame() {
     const div = document.getElementById('recipes');
     div.style.display = 'none';
