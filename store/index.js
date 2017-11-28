@@ -6,6 +6,7 @@ import availabilities from './availabilities';
 import money from './money';
 import customer from './customer';
 import recipes from './recipes';
+import platter from './platter';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const reducer = combineReducers({
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   money,
   customer,
   recipes,
+  platter
 });
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
 const store = createStore(reducer, middleware);
@@ -24,3 +26,4 @@ export * from './availabilities';
 export * from './money';
 export * from './customer';
 export * from './recipes';
+export * from './platter';
