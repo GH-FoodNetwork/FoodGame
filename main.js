@@ -46,6 +46,7 @@ export const gameStage = new PIXI.Container();
 export const recipeBookStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
+
 recipeBookStage.visible = false;
 
 const PIXELS_PER_TILE = window.innerWidth / 80
