@@ -1,4 +1,4 @@
-import { Sprite, Texture, BaseTexture, Rectangle } from 'pixi.js';
+import { Sprite, Texture, BaseTexture, Rectangle, Text } from 'pixi.js';
 //import loader from './main';
 
 function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1) {
@@ -53,6 +53,7 @@ export function objectAtlasInit(resources) {
   result.jollof = textureSetup('images/jollof.png');
   result.gold = textureSetup('images/gold.gif');
   result.cat = textureSetup('images/cat.png');
+  result.recipeBookInterior = textureSetup('images/recipeBookInterior.gif');
   objectAtlas = result;
   return result;
 }
@@ -85,4 +86,18 @@ export function setup(
   stage.addChild(sprite);
 
   return sprite;
+}
+
+export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }) {
+  const text = new Text(content, {
+    fontFamily: 'Arial',
+    fontSize: 22,
+  });
+
+  text.position.set(canvasPosition.x, canvasPosition.y);
+  text.anchor.set(0.5);
+
+  stage.addChild(text);
+
+  return text;
 }

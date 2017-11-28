@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 
-const { Container, Graphics, Sprite } = PIXI;
+const { Container, Graphics, Sprite, Text } = PIXI;
 import { gameStage, recipeBookStage } from '../main';
-import { setup, objectAtlas } from '../atlases';
+import { setup, textSetup, objectAtlas } from '../atlases';
 import { renderer } from '../main';
 
 export function bookUpdate() {
@@ -16,11 +16,29 @@ export function bookUpdate() {
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
 
-  const cat = setup(recipeBookStage, objectAtlas.cat, { x: 50, y: 50 });
+  const recipes = setup(recipeBookStage, objectAtlas.recipeBookInterior, { x: -20, y: 0 }, { x: 0.28, y: 0.28 });
+  recipes.anchor.set(0);
+
+  const jollofText = textSetup(recipeBookStage, 'Jollof Rice', { x: 100, y: 100 });
+
+  jollofText.interactive = true;
+  jollofText.buttonMode = true;
+  jollofText.on('pointerdown', onClick);
+
+
+  const jollof = setup(recipeBookStage, objectAtlas.jollof, { x: 150, y: 150 }, { x: 0.3, y: 0.3 });
+  const jollof2 = setup(recipeBookStage, objectAtlas.jollof, { x: 500, y: 300 }, { x: 0.3, y: 0.3 });
+  const jollof3 = setup(recipeBookStage, objectAtlas.jollof, { x: 500, y: 300 }, { x: 0.3, y: 0.3 });
+  const jollof4 = setup(recipeBookStage, objectAtlas.jollof, { x: 500, y: 300 }, { x: 0.3, y: 0.3 });
+
+
+
+
+  const cat = setup(recipeBookStage, objectAtlas.cat, { x: 50, y: 500 });
 
   cat.interactive = true;
   cat.buttonMode = true;
-  cat.on('pointerdown', onClick);
+  //cat.on('pointerdown', onClick);
   function onClick() {
     recipeBookStage.visible = false;
     gameStage.visible = true;

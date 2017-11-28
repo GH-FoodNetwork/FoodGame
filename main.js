@@ -29,6 +29,7 @@ const loader = PIXI.loader
   .add('images/trashcancopy.png')
   .add('images/trashcan2.png')
   .add('images/floor.png')
+  .add('images/recipeBookInterior.gif')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
