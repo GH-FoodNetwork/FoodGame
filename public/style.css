@@ -1,9 +1,44 @@
 @font-face {
-  font-family: "journal";
-  src: url("fonts/JOURNAL.TTF") format('truetype');
+  font-family: 'journal';
+  src: url('fonts/JOURNAL.TTF') format('truetype');
 }
 
 @font-face {
-    font-family: "digital";
-    src: url("fonts/DJBGetDigital.ttf") format('truetype');
+  font-family: 'digital';
+  src: url('fonts/DJBGetDigital.ttf') format('truetype');
+}
+
+#recipes {
+  display: none;
+}
+
+#book {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  z-index: 1;
+  width: 95vw;
+  height: 90vh;
+}
+
+#flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dish {
+  text-align: center;
+  z-index: 2;
+  /* width: calc(95vw/4);
+  height: calc(90vh/4); */
+  /* padding: 2em; */
+}
+
+.dish img {
+  width: 65%;
+  height: 65%;
+}
+
+button {
+  cursor: pointer;
 }
