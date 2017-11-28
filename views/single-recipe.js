@@ -96,5 +96,21 @@ export default function singleRecipe() {
     singleRecipeStage.visible = false;
   }
 
+  const play = setup(
+    singleRecipeStage,
+    objectAtlas.playButton,
+    { x: 920, y: 500 },
+    { x: 0.5, y: 0.5 },
+  );
+
+  play.interactive = true;
+  play.buttonMode = true;
+  play.on('pointerdown', clickToGame);
+
+  function clickToGame() {
+    singleRecipeStage.visible = false;
+    gameStage.visible = true;
+  }
+
   renderer.render(singleRecipeStage);
 }
