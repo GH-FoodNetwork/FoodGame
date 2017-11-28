@@ -23,7 +23,7 @@ export default function platterReducer(state = defaultState, action) {
       //Side effect: Add ingredients from action.recipe.ingredients as sprites to gameStage, on souschef platter
       const platter = kitchenObjects.sousChef;
       let newFoodStack = Object.assign({}, state.foodStack);
-      console.log("newFoodStack" + ) //START HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! newFoodStack is not a stage that has addChild??
+      // console.log("newFoodStack" + ) //START HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! newFoodStack is not a stage that has addChild??
       for (let i = 0; i < action.recipe.ingredients.length; i++) {
         kitchenObjects[`${action.recipe.id}i${i}`] = setup(
           newFoodStack, action.recipe.ingredients[i],
@@ -31,9 +31,9 @@ export default function platterReducer(state = defaultState, action) {
           { x: platter.x-20, y: platter.y - 30 - (i * 25 /*action.recipe.ingredients[i].height*/) },
           { x: 0.5, y: 0.5 },
         );
-        //newFoodStack.addChild(kitchenObjects[`${action.recipe.id}i${i}`]);    
+        //newFoodStack.addChild(kitchenObjects[`${action.recipe.id}i${i}`]);
       }
-      return Object.assign({}, state, {foodStack: newFoodStack});  
+      return Object.assign({}, state, {foodStack: newFoodStack});
     case SET_SOUSCHEFHOLDING:
       return   Object.assign({}, state, {sousChefHolding: action.holdBool});
     case UPDATE_RECIPE_STATE:
