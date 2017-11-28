@@ -8,9 +8,9 @@ import {
   autoDetectRenderer,
   Text,
 } from 'pixi.js';
-import store, { addDestination, removeDestination, addRecipe, setSousChefHolding } from '../store';
+import store, { addDestination, removeDestination, addRecipe, setSousChefHolding, moveFromSousToChef } from '../store';
 import { setup, objectAtlas } from '../atlases';
-import { recipeBookStage, gameStage, stage, renderer } from '../main';
+import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
 import recipeArray from '../recipe-constructor';
 
@@ -25,6 +25,8 @@ let state;
 // let stage = gameStage;
 
 export function update() {
+  state = store.getState();
+  gameStage.addChild(state.platter.foodStack);
   // Funnel all animation updates here
   movePlayer();
   // Rerender
@@ -33,8 +35,7 @@ export function update() {
   renderer.render(stage);
 }
 
-function movePlayer() {
-  state = store.getState();
+function movePlayer() {  
   const { destinations } = state;
   if (destinations.length) {
     const rightOrDown = 1;
@@ -60,6 +61,8 @@ export default function gameplay() {
   document.body.appendChild(renderer.view);
 
   renderer.backgroundColor = 0xffffff;
+
+  
 
   function onClick(evt) {
     store.dispatch(removeDestination());
@@ -133,18 +136,21 @@ export default function gameplay() {
     const { sousChefHolding } = state.platter;
     if (sousChefHolding) {
       console.log('isHolding!');
-      gameStage.addChild(state.platter.foodStack); // attempt to get the foodStack container to render on the gameStage
-      recipeBook.visible = false;
-      recipeBook.interactive = false;
-      recipeBook.buttonMode = false;
-      store.dispatch(setSousChefHolding(false));
-    } else {
-      // TODO: Remove foodStack from gameStage
+      
       recipeBook.visible = true;
       recipeBook.interactive = true;
       recipeBook.buttonMode = true;
+      store.dispatch(setSousChefHolding(false));
+    } else {
+      // TODO: Remove foodStack from gameStage
+      
+      recipeBook.visible = false;
+      recipeBook.interactive = false;
+      recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
+      
       store.dispatch(setSousChefHolding(true));
+      
     }
   }
 
@@ -179,6 +185,7 @@ export default function gameplay() {
   }
 
   update();
+  
 }
 
 function moneyRender(amount = 10) {
