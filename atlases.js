@@ -54,6 +54,7 @@ export function objectAtlasInit(resources) {
   result.gold = textureSetup('images/gold.gif');
   result.cat = textureSetup('images/cat.png');
   result.recipeBookInterior = textureSetup('images/recipeBookInterior.gif');
+  result.backArrow = textureSetup('images/backarrow.svg');
   objectAtlas = result;
   return result;
 }
@@ -91,7 +92,7 @@ export function setup(
 export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }) {
   const text = new Text(content, {
     fontFamily: 'Arial',
-    fontSize: 22,
+    fontSize: 25,
   });
 
   text.position.set(canvasPosition.x, canvasPosition.y);

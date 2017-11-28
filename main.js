@@ -30,10 +30,11 @@ const loader = PIXI.loader
   .add('images/trashcan2.png')
   .add('images/floor.png')
   .add('images/recipeBookInterior.gif')
+  .add('images/backarrow.svg')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
-  // .load(singleRecipe)
+  .load(singleRecipe)
   .load(recipeBook)
   .load(gameplay);
 // .load(bonusPopup)
@@ -42,9 +43,12 @@ const loader = PIXI.loader
 export const stage = new PIXI.Container();
 export const gameStage = new PIXI.Container();
 export const recipeBookStage = new PIXI.Container();
+export const singleRecipeStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
+stage.addChild(singleRecipeStage);
 recipeBookStage.visible = false;
+singleRecipeStage.visible = false;
 
 const PIXELS_PER_TILE = window.innerWidth / 80
 // stage.scale.x = PIXELS_PER_TILE;
