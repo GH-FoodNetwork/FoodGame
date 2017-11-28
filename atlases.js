@@ -1,4 +1,4 @@
-import { Sprite, Texture, BaseTexture, Rectangle } from 'pixi.js';
+import { Sprite, Texture, BaseTexture, Rectangle, addChild } from 'pixi.js';
 //import loader from './main';
 
 function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1) {
@@ -53,6 +53,9 @@ export function objectAtlasInit(resources) {
   result.jollof = textureSetup('images/jollof.png');
   result.gold = textureSetup('images/gold.gif');
   result.cat = textureSetup('images/cat.png');
+  result.cookedRice = textureSetup(resources.cookedRice);  
+  result.tomatoPaste = textureSetup(resources.tomatoPaste);
+
   objectAtlas = result;
   return result;
 }

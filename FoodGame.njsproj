@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{842f0aaf-0863-4e55-9f07-1a54a5b519c4}</ProjectGuid>
+        <ProjectHome />
+        <ProjectView>ShowAllFiles</ProjectView>
+        <StartupFile>main.js</StartupFile>
+        <WorkingDirectory>.</WorkingDirectory>
+        <OutputPath>.</OutputPath>
+        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+    <ItemGroup>
+        <Content Include=".eslintrc.json" />
+        <Content Include="firebase.json" />
+        <Content Include="package-lock.json" />
+        <Content Include="package.json" />
+        <Content Include="README.md" />
+        <Content Include="redux-planning.md" />
+        <Content Include="review-notes.md" />
+        <Compile Include="atlases.js" />
+        <Compile Include="dev.js" />
+        <Compile Include="main.js" />
+        <Compile Include="test.js" />
+        <Compile Include="webpack.config.js" />
+        <Content Include="functions\package-lock.json" />
+        <Content Include="functions\package.json" />
+        <Compile Include="functions\index.js" />
+        <Compile Include="lib\index.js" />
+        <Compile Include="lib\webpack.config.js" />
+        <Content Include="public\index.html" />
+        <Content Include="public\style.css" />
+        <Compile Include="store\availabilities.js" />
+        <Compile Include="store\customer.js" />
+        <Compile Include="store\destinations.js" />
+        <Compile Include="store\index.js" />
+        <Compile Include="store\money.js" />
+        <Compile Include="views\bonus-pop-up.js" />
+        <Compile Include="views\gameplay.js" />
+        <Compile Include="views\recipe-book.js" />
+        <Compile Include="views\single-recipe.js" />
+        <Compile Include="views\title-splash-screen.js" />
+        <Content Include="public\images\4b261a46d0344599b661619531a56120.png" />
+        <Content Include="public\images\cat.png" />
+        <Content Include="public\images\chef.png" />
+        <Content Include="public\images\coalsmall.png" />
+        <Content Include="public\images\counters.png" />
+        <Content Include="public\images\customer1.png" />
+        <Content Include="public\images\customer2.png" />
+        <Content Include="public\images\customer3.png" />
+        <Content Include="public\images\cyanide_rtp_edits_01.png" />
+        <Content Include="public\images\door.png" />
+        <Content Include="public\images\flamesmall.png" />
+        <Content Include="public\images\floor.png" />
+        <Content Include="public\images\fryingpan.png" />
+        <Content Include="public\images\Furniture-byLunarea.png" />
+        <Content Include="public\images\furniture.png" />
+        <Content Include="public\images\Furniture3-byLunarea.png" />
+        <Content Include="public\images\jollof.png" />
+        <Content Include="public\images\kitchen.png" />
+        <Content Include="public\images\Knife.png" />
+        <Content Include="public\images\pantry-misc.png" />
+        <Content Include="public\images\pause-button-transparent.png" />
+        <Content Include="public\images\recipebook.png" />
+        <Content Include="public\images\recipebook2.png" />
+        <Content Include="public\images\rpg_maker_vx_ace_tilesets_1_by_hishimy-d8e7pjd.png" />
+        <Content Include="public\images\souschef.png" />
+        <Content Include="public\images\speechbubble.png" />
+        <Content Include="public\images\Spices-Complete_Rack.png" />
+        <Content Include="public\images\trashcan.png" />
+        <Content Include="public\images\trashcan2.png" />
+        <Content Include="public\images\trashcancopy.png" />
+        <Content Include="public\images\white-plate.png" />
+        <Content Include="public\images\chairs.jpg" />
+        <Content Include="public\images\finished-jollof-rice.jpg" />
+        <Content Include="public\images\flies.jpg" />
+        <Content Include="public\images\FreeVector-Starburst-Patterns-Set-1.jpg" />
+        <Content Include="public\images\fryingpan.jpg" />
+        <Content Include="public\images\Map-Global-Globe-World-Earth-Hands-Creative-Blue-600497.jpg" />
+        <Content Include="public\images\Petrus_(London)_Kitchen.jpg" />
+        <Content Include="public\images\recipebook.jpg" />
+        <Content Include="public\images\silver-metallic-tray.jpg" />
+        <Content Include="public\images\stovetop.jpg" />
+        <Content Include="public\images\gold.gif" />
+        <Content Include="public\images\recipeBookInterior.gif" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="FromExistingCode1" />
+        <Folder Include="FromExistingCode1\FromExistingCode1" />
+        <Folder Include="functions" />
+        <Folder Include="lib" />
+        <Folder Include="public" />
+        <Folder Include="public\fonts" />
+        <Folder Include="public\images" />
+        <Folder Include="store" />
+        <Folder Include="views" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+            <WebProjectProperties>
+              <UseIIS>False</UseIIS>
+              <AutoAssignPort>True</AutoAssignPort>
+              <DevelopmentServerPort>0</DevelopmentServerPort>
+              <DevelopmentServerVPath>/</DevelopmentServerVPath>
+              <IISUrl>http://localhost:48022/</IISUrl>
+              <NTLMAuthentication>False</NTLMAuthentication>
+              <UseCustomServer>True</UseCustomServer>
+              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+            </WebProjectProperties>
+          </FlavorProperties>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+            <WebProjectProperties>
+              <StartPageUrl>
+              </StartPageUrl>
+              <StartAction>CurrentPage</StartAction>
+              <AspNetDebugging>True</AspNetDebugging>
+              <SilverlightDebugging>False</SilverlightDebugging>
+              <NativeDebugging>False</NativeDebugging>
+              <SQLDebugging>False</SQLDebugging>
+              <ExternalProgram>
+              </ExternalProgram>
+              <StartExternalURL>
+              </StartExternalURL>
+              <StartCmdLineArguments>
+              </StartCmdLineArguments>
+              <StartWorkingDirectory>
+              </StartWorkingDirectory>
+              <EnableENC>False</EnableENC>
+              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+            </WebProjectProperties>
+          </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
+</Project>
