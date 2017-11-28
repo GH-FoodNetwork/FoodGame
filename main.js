@@ -31,6 +31,7 @@ const loader = PIXI.loader
   .add('images/floor.png')
   .add('cookedRice', 'images/cooked-riceSM.png')
   .add('tomatoPaste', 'images/tomatosauceSM.png')
+  .add('floor', 'images/floor.png')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
