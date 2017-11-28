@@ -36,7 +36,7 @@ export function update() {
   renderer.render(stage);
 }
 
-function movePlayer() {  
+function movePlayer() {
   const { destinations } = state;
   if (destinations.length) {
     const rightOrDown = 1;
@@ -63,7 +63,7 @@ export default function gameplay() {
 
   renderer.backgroundColor = 0xffffff;
 
-  
+
 
   function onClick(evt) {
     store.dispatch(removeDestination());
@@ -137,19 +137,19 @@ export default function gameplay() {
     const { sousChefHolding } = state.platter;
     if (sousChefHolding) {
       console.log('isHolding!');
-      
+
       recipeBook.visible = true;
       recipeBook.interactive = true;
       recipeBook.buttonMode = true;
       store.dispatch(setSousChefHolding(false));
     } else {
       // TODO: Remove foodStack from gameStage
-      
+
       recipeBook.visible = false;
       recipeBook.interactive = false;
       recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true));     
+      store.dispatch(setSousChefHolding(true));
     }
   }
 
@@ -184,7 +184,7 @@ export default function gameplay() {
   }
 
   update();
-  
+
 }
 
 function moneyRender(amount = 10) {
@@ -219,7 +219,7 @@ const buildkitchenObjects = () => {
       x: floorStart,
       y: (64 * (i % 12 === 0 ? Math.floor(i / 12) - 1 : Math.floor(i / 12))) + 64,
     });
-    floorStart += 64    
+    floorStart += 64
   }
 
   // wall
@@ -380,7 +380,8 @@ const buildkitchenObjects = () => {
     gameStage,
     objectAtlas.fryingPan,
     { x: 555, y: 425 },
-    { x: 0.07, y: 0.07 }
+    { x: 0.07, y: 0.07 },
+    { x: 555, y: 365 }
   );
   kitchenObjects.bottomEmptyCounter3 = setup(
     gameStage,
@@ -417,13 +418,15 @@ const buildkitchenObjects = () => {
     gameStage,
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y },
-    { x: 1.5, y: 1.5 }
+    { x: 1.5, y: 1.5 },
+    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter2.y }
   );
   kitchenObjects.mixingBowl2 = setup(
     gameStage,
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y },
-    { x: 1.5, y: 1.5 }
+    { x: 1.5, y: 1.5 },
+    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter3.y }
   );
 
   // Characters, etc.
@@ -467,7 +470,8 @@ const buildkitchenObjects = () => {
     gameStage,
     objectAtlas.jollof,
     { x: 100, y: 50 },
-    { x: 0.15, y: 0.15 }
+    { x: 0.15, y: 0.15 },
+    { x: 150, y: 50}
   );
 
   kitchenObjects.money = moneyRender();
