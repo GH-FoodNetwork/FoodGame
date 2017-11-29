@@ -14,7 +14,7 @@ const defaultState = {
 export const foodStack = defaultState.foodStack;
 export const chefFoodStack = defaultState.chefFoodStack;
 
-foodStack.position = new PIXI.Point(680, 360);
+foodStack.position = new PIXI.Point(680, 390);
 chefFoodStack.position = new PIXI.Point(150, 150);
 
 //HELPER
@@ -46,7 +46,7 @@ export default function platterReducer(state = defaultState, action) {
         kitchenObjects[`${action.recipe.id}i${i}`] = setup(
           foodStack, action.recipe.ingredients[i],
           //TODO: scale location based on texture height
-          { x: 0, y: 25 - (i * 25 /*action.recipe.ingredients[i].height)*/) },
+          { x: 0, y: 0 - (i * 25 /*action.recipe.ingredients[i].height)*/) },
           { x: 0.5, y: 0.5 },
         );
       }
@@ -55,7 +55,11 @@ export default function platterReducer(state = defaultState, action) {
     case SET_SOUSCHEFHOLDING:
       return Object.assign({}, state, { sousChefHolding: action.holdBool });
     case MOVE_FROMSOUSTOCHEF:     
-      while(foodStack.children.length) chefFoodStack.addChild(foodStack.children[0]);
+      while(foodStack.children.length){
+        let currChild = foodStack.children[0];
+        chefFoodStack.addChild(currChild);//Change child position relative
+        currChild.position = new PIXI.Point(0,-1*(chefFoodStack.children.length*25));
+      }
       bringToFront(gameStage, foodStack);
       bringToFront(gameStage, chefFoodStack);
       return state;

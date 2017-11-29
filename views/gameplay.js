@@ -34,6 +34,7 @@ let faceNum = 0;
 window._ko = kitchenObjects;
 
 let state;
+
 // stage.addChild(gameStage);
 // stage.addChild(recipeBookStage);
 // recipeBookStage.visible = false;
@@ -45,7 +46,7 @@ export function update() {
   //state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
   state = store.getState();
   // Funnel all animation updates here
-  movePlayer();
+  movePlayer();  
   // Rerender
   // console.log(stage);
   // window._raf =
@@ -96,7 +97,7 @@ function movePlayer() {
     }
   }
   state.platter.chefFoodStack.position = new PIXI.Point(chef.x + (face === "right" ? 30 : (face === "left" ? -30: 0)), 
-  chef.y + (face === "down" ? 30 : (face === "up" ? -30: 0)));
+  chef.y + (face === "down" ? 30 : (face === "up" ? -60: 40)));
   bringToFront(gameStage, state.platter.chefFoodStack);
 }
 
@@ -111,7 +112,7 @@ export default function gameplay() {
 
   gameStage.addChild(foodStack);
   gameStage.addChild(chefFoodStack);
-
+  
   faces = {
     up: [objectAtlas.chefBack1, objectAtlas.chefBack2, objectAtlas.chefBack3],
     right: [objectAtlas.chefRight1, objectAtlas.chefRight2, objectAtlas.chefRight3],
@@ -119,12 +120,7 @@ export default function gameplay() {
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
 
-  if (state.platter) {
-    const rect = gameStage.getBounds();
-    const chefRect = state.platter.chefFoodStack.getBounds();
-    console.log('rect left', rect.left, ' right ', rect.right);
-    console.log('chefRect left', chefRect.left, ' right ', chefRect.right);
-  }
+  
 
   function onClick(evt) {
     state = store.getState();
@@ -204,67 +200,18 @@ export default function gameplay() {
       recipeBook.visible = true;
       recipeBook.interactive = true;
       recipeBook.buttonMode = true;
-      store.dispatch(setSousChefHolding(false));
-
-      if (state.platter) {
-        const rect = gameStage;
-        const chefRect = state.platter.chefFoodStack;
-        console.log(
-          'rect left',
-          rect.getBounds().left,
-          'right',
-          rect.getBounds.right,
-          ' x',
-          rect.x,
-          'y',
-          rect.y,
-        );
-        console.log(
-          'rect left',
-          chefRect.getBounds().left,
-          'right',
-          chefRect.getBounds.right,
-          ' x',
-          chefRect.x,
-          'y',
-          chefRect.y,
-        );
-        console.log('gameStage', gameStage);
-      }
+      store.dispatch(setSousChefHolding(false)); 
     } else {
       // TODO: Remove foodStack from gameStage
       recipeBook.visible = false;
       recipeBook.interactive = false;
       recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true));
-
-      if (state.platter) {
-        const rect = gameStage;
-        const chefRect = state.platter.chefFoodStack;
-        console.log(
-          'rect left',
-          rect.getBounds().left,
-          'right',
-          rect.getBounds.right,
-          ' x',
-          rect.x,
-          'y',
-          rect.y,
-        );
-        console.log(
-          'rect left',
-          chefRect.getBounds().left,
-          'right',
-          chefRect.getBounds.right,
-          ' x',
-          chefRect.x,
-          'y',
-          chefRect.y,
-        );
+      store.dispatch(setSousChefHolding(true));      
       }
+      
     }
-  }
+  
 
   sousChef.interactive = true;
   sousChef.buttonMode = true;
