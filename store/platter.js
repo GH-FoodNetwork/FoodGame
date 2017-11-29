@@ -13,6 +13,7 @@ const defaultState = {
 
 export const foodStack = defaultState.foodStack;
 export const chefFoodStack = defaultState.chefFoodStack;
+export const currentRecipes = [];
 
 foodStack.position = new PIXI.Point(680, 360);
 chefFoodStack.position = new PIXI.Point(150, 150);
@@ -46,6 +47,7 @@ export default function platterReducer(state = defaultState, action) {
         {foodStack.parent.removeChild(foodStack)};
       gameStage.addChild(foodStack);
       console.log('foodstack.children.length', foodStack.children.length);
+      currentRecipes.push(action.recipe)
       return state;
     case SET_SOUSCHEFHOLDING:
       return Object.assign({}, state, { sousChefHolding: action.holdBool });
@@ -63,9 +65,9 @@ export default function platterReducer(state = defaultState, action) {
       console.log('foodstack.children.length', foodStack.children.length);
       /*for (let i = 0; i < foodStack.children.length; i++) {
         console.log(i);
-        chefFoodStack.addChild(foodStack.children[i]);        
+        chefFoodStack.addChild(foodStack.children[i]);
       }*/
-      
+
       foodStack.parent.removeChild(foodStack);
       gameStage.addChild(foodStack);
       chefFoodStack.parent.removeChild(chefFoodStack);

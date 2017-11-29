@@ -16,6 +16,8 @@ import store, {
   setSousChefHolding,
   moveFromSousToChef,
   dequeueStep,
+  updateRecipeState,
+  currentRecipes
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -146,16 +148,22 @@ export default function gameplay() {
   function onClick(evt) {
     state = store.getState();
     console.log('evt.target', evt.target);
-    if (evt.target.station !== state.steps[0]) {
+    console.log
+    if (evt.target.station !== currentRecipes[0].steps[currentRecipes[0].currentStage].type) {
       alert('Wrong station!');
     } else {
       store.dispatch(removeDestination());
       // TODO: add stationPosition for all objects
       // const { x, y } = evt.target.stationPosition;
       store.dispatch(addDestination(evt.target));
-      store.dispatch(dequeueStep());
+      if (evt.target.recipeId === null && currentRecipes.length) {
+        evt.target.recipeId = currentRecipes.shift();
+      }
+      if (evt.target.recipeId) {
+        store.dispatch(updateRecipeState(evt.target.recipeId)); // should know which recipe is on which station
+      }
       state = store.getState();
-      console.log('steps?', state.steps);
+      console.log('steps?', state.step);
     }
     if (!state.steps.length) {
       //restart
