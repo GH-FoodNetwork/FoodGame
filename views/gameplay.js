@@ -48,21 +48,25 @@ export function update() {
 
 function movePlayer() {
   const { destinations } = state;
+  // const { x, y } = destinations[0].stationPosition;
   if (destinations.length) {
     const rightOrDown = 1;
     const leftOrUp = -1;
     const chef = kitchenObjects.topChef;
 
-    destinations[0].x - chef.x > 0 ? (chef.x += rightOrDown) : (chef.x += leftOrUp);
-    destinations[0].y - chef.y > 0 ? (chef.y += rightOrDown) : (chef.y += leftOrUp);
+    destinations[0].stationPosition.x - chef.x > 0 ? (chef.x += rightOrDown) : (chef.x += leftOrUp);
+    destinations[0].stationPosition.y - chef.y > 0 ? (chef.y += rightOrDown) : (chef.y += leftOrUp);
 
-    if (chef.x === destinations[0].x && chef.y === destinations[0].y) {
+    if (
+      chef.x === destinations[0].stationPosition.x &&
+      chef.y === destinations[0].stationPosition.y
+    ) {
+      animateStation(destinations[0]);
       console.log('at destination!');
       console.log('destination removed');
       store.dispatch(removeDestination());
 
       //need to get clicked station instead of kitchenObjects.mixingBowl1
-      animateStation(kitchenObjects.mixingBowl1);
     }
   }
 }
@@ -71,41 +75,43 @@ function animateStation(station) {
   //flame is currently a 3 second timer
   const { topChef } = kitchenObjects;
 
-  const flame = setup(
-    gameStage,
-    objectAtlas.flame,
-    { x: topChef.x, y: topChef.y + 50 },
-    { x: 0.2, y: 0.2 },
-  );
+  if (station.station !== 'serving') {
+    const flame = setup(
+      gameStage,
+      objectAtlas.flame,
+      { x: station.x, y: station.y },
+      { x: 0.2, y: 0.2 },
+    );
 
-  const clockText3 = textSetup(gameStage, '3', { x: topChef.x, y: topChef.y + 50 });
-  const clockText2 = textSetup(gameStage, '2', { x: topChef.x, y: topChef.y + 50 });
-  const clockText1 = textSetup(gameStage, '1', { x: topChef.x, y: topChef.y + 50 });
-  clockText2.visible = false;
-  clockText1.visible = false;
-
-  station.rotation = 1;
-
-  setInterval(() => {
-    clockText3.visible = false;
-    clockText2.visible = true;
-  }, 1000);
-
-  setInterval(() => {
+    const clockText3 = textSetup(gameStage, '3', { x: topChef.x, y: topChef.y + 50 });
+    const clockText2 = textSetup(gameStage, '2', { x: topChef.x, y: topChef.y + 50 });
+    const clockText1 = textSetup(gameStage, '1', { x: topChef.x, y: topChef.y + 50 });
     clockText2.visible = false;
-    clockText2.alpha = 0;
-    clockText1.visible = true;
-  }, 2000);
-
-  setInterval(() => {
     clockText1.visible = false;
-    clockText1.alpha = 0;
-  }, 3000);
 
-  setInterval(() => {
-    flame.alpha = 0;
-    station.rotation = 0;
-  }, 3000);
+    station.rotation = 1;
+
+    setInterval(() => {
+      clockText3.visible = false;
+      clockText2.visible = true;
+    }, 1000);
+
+    setInterval(() => {
+      clockText2.visible = false;
+      clockText2.alpha = 0;
+      clockText1.visible = true;
+    }, 2000);
+
+    setInterval(() => {
+      clockText1.visible = false;
+      clockText1.alpha = 0;
+    }, 3000);
+
+    setInterval(() => {
+      flame.alpha = 0;
+      station.rotation = 0;
+    }, 3000);
+  }
 }
 
 export default function gameplay() {
@@ -129,14 +135,14 @@ export default function gameplay() {
 
   function onClick(evt) {
     state = store.getState();
-    console.log(evt);
+    console.log('evt.target', evt.target);
     if (evt.target.station !== state.steps[0]) {
       alert('Wrong station!');
     } else {
       store.dispatch(removeDestination());
       // TODO: add stationPosition for all objects
-      const { x, y } = evt.target.stationPosition;
-      store.dispatch(addDestination({ x, y }));
+      // const { x, y } = evt.target.stationPosition;
+      store.dispatch(addDestination(evt.target));
       store.dispatch(dequeueStep());
       state = store.getState();
       console.log('steps?', state.steps);
@@ -168,6 +174,13 @@ export default function gameplay() {
   // mixing counter
   const mixingBowls = [kitchenObjects.mixingBowl1, kitchenObjects.mixingBowl2];
 
+  // serving counters
+  const customerCounters = [
+    kitchenObjects.sideCounter2,
+    kitchenObjects.sideCounter3,
+    kitchenObjects.sideCounter4,
+  ];
+
   choppingBoards.forEach((board) => {
     board.interactive = true;
     board.buttonMode = true;
@@ -183,6 +196,12 @@ export default function gameplay() {
     grill.interactive = true;
     grill.buttonMode = true;
     grill.on('pointerdown', onClick);
+  });
+
+  customerCounters.forEach((counter) => {
+    counter.interactive = true;
+    counter.buttonMode = true;
+    counter.on('pointerdown', onClick);
   });
 
   wineCounter.interactive = true;
@@ -280,9 +299,9 @@ export default function gameplay() {
     bowl.on('pointerdown', onClick);
   });
 
-  jollof.interactive = true;
-  jollof.buttonMode = true;
-  jollof.on('pointerdown', onClick);
+  // jollof.interactive = true;
+  // jollof.buttonMode = true;
+  // jollof.on('pointerdown', onClick);
 
   trashCan.interactive = true;
   trashCan.buttonMode = true;
@@ -360,16 +379,28 @@ const buildkitchenObjects = () => {
     y: 50,
   });
 
-  kitchenObjects.choppingCounter = setup(gameStage, objectAtlas.choppingCounter, {
-    x: xStart + 2 * width,
-    y: 50,
-  });
+  kitchenObjects.choppingCounter = setup(
+    gameStage,
+    objectAtlas.choppingCounter,
+    {
+      x: xStart + 2 * width,
+      y: 50,
+    },
+    { x: 2, y: 2 },
+    { x: xStart + 2 * width, y: 110 },
+  );
   kitchenObjects.choppingCounter.station = 'chopping';
 
-  kitchenObjects.choppingCounter2 = setup(gameStage, objectAtlas.choppingCounter, {
-    x: xStart + 3 * width,
-    y: 50,
-  });
+  kitchenObjects.choppingCounter2 = setup(
+    gameStage,
+    objectAtlas.choppingCounter,
+    {
+      x: xStart + 3 * width,
+      y: 50,
+    },
+    { x: 2, y: 2 },
+    { x: xStart + 3 * width, y: 110 },
+  );
   kitchenObjects.choppingCounter2.station = 'chopping';
 
   kitchenObjects.scaleCounter = setup(gameStage, objectAtlas.scaleCounter, {
@@ -404,18 +435,39 @@ const buildkitchenObjects = () => {
     x: 100,
     y: 50,
   });
-  kitchenObjects.sideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
-    x: 100,
-    y: 146,
-  });
-  kitchenObjects.sideCounter3 = setup(gameStage, objectAtlas.sideCounter, {
-    x: 100,
-    y: 242,
-  });
-  kitchenObjects.sideCounter4 = setup(gameStage, objectAtlas.sideCounter, {
-    x: 100,
-    y: 338,
-  });
+  kitchenObjects.sideCounter2 = setup(
+    gameStage,
+    objectAtlas.sideCounter,
+    {
+      x: 100,
+      y: 146,
+    },
+    { x: 2, y: 2 },
+    { x: 150, y: 146 },
+  );
+  kitchenObjects.sideCounter2.station = 'serving';
+  kitchenObjects.sideCounter3 = setup(
+    gameStage,
+    objectAtlas.sideCounter,
+    {
+      x: 100,
+      y: 242,
+    },
+    { x: 2, y: 2 },
+    { x: 150, y: 242 },
+  );
+  kitchenObjects.sideCounter3.station = 'serving';
+  kitchenObjects.sideCounter4 = setup(
+    gameStage,
+    objectAtlas.sideCounter,
+    {
+      x: 100,
+      y: 338,
+    },
+    { x: 2, y: 2 },
+    { x: 150, y: 338 },
+  );
+  kitchenObjects.sideCounter4.station = 'serving';
   kitchenObjects.sideCounter5 = setup(gameStage, objectAtlas.sideCounter, {
     x: 100,
     y: 434,
@@ -455,7 +507,7 @@ const buildkitchenObjects = () => {
     objectAtlas.fryingPan,
     { x: 491, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 491, y: 365 },
+    { x: 491, y: 355 },
   );
   kitchenObjects.fryingPan1.station = 'frying';
 
@@ -468,7 +520,7 @@ const buildkitchenObjects = () => {
     objectAtlas.fryingPan,
     { x: 555, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 555, y: 365 },
+    { x: 555, y: 355 },
   );
   kitchenObjects.fryingPan2.station = 'frying';
 
@@ -552,14 +604,13 @@ const buildkitchenObjects = () => {
     { x: 0.1, y: 0.1 },
   );
 
-  kitchenObjects.jollof = setup(
-    gameStage,
-    objectAtlas.jollof,
-    { x: 100, y: 50 },
-    { x: 0.15, y: 0.15 },
-    { x: 150, y: 50 },
-  );
-  kitchenObjects.jollof.station = 'serving';
+  // kitchenObjects.jollof = setup(
+  //   gameStage,
+  //   objectAtlas.jollof,
+  //   { x: 100, y: 50 },
+  //   { x: 0.15, y: 0.15 },
+  //   { x: 150, y: 50 },
+  // );
 
   kitchenObjects.money = moneyRender();
 
