@@ -100,7 +100,6 @@ export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }) {
     fontFamily: 'Arial',
     fontSize: 25,
   });
-
   text.position.set(canvasPosition.x, canvasPosition.y);
   text.anchor.set(0.5);
 

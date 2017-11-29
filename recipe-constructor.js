@@ -16,13 +16,15 @@ class Recipe {
 class Jollof extends Recipe {
   constructor() {
     super(
-'Jollof', [objectAtlas.cookedRice, objectAtlas.tomatoPaste], objectAtlas.jollof,
+      'Jollof',
+      [objectAtlas.cookedRice, objectAtlas.tomatoPaste],
+      objectAtlas.jollof,
       [
         { type: 'mixing', waitTime: '3' },
         { type: 'spices', waitTime: '3' },
-        { type: 'fryer', waitTime: '3' },
+        { type: 'fryer', waitTime: '3' }
       ],
-      'https://www.epicurious.com/recipes/food/views/african-jollof-rice',
+      'https://www.epicurious.com/recipes/food/views/african-jollof-rice'
     );
   }
 }
@@ -38,6 +40,12 @@ class Jollof extends Recipe {
   ],
   'link',
 );*/
+
+/*
+ * NOTE: When calling a recipe from the recipeArray, you must use the `new` keyword to activate the constructor.
+ * For example, to add a recipe to the store, you must call `store.dispatch(addRecipe(new recipeArray[idx]()))`
+ * to add a new recipe Object to the store
+ */
 
 const recipeArray = [Jollof];
 

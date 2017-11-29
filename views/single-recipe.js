@@ -38,6 +38,9 @@ export default function singleRecipe() {
     { x: 0.2, y: 0.2 },
   );
 
+  /*
+   * Recipe steps
+   */
   const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
     x: spacingX,
     y: spacingY + 150,
