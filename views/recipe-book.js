@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import store from '../store';
+import store, { generateCustomer } from '../store';
 import { addRecipe } from '../store/recipes';
 import recipeArray from '../recipe-constructor';
 
@@ -8,7 +8,6 @@ const {
 } = PIXI;
 import { gameStage, recipeBookStage, singleRecipeStage, renderer } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
-import store, { generateCustomer } from '../store';
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);

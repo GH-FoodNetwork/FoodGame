@@ -1,4 +1,5 @@
 import store from './index';
+import { Graphics } from 'pixi.js';
 import { kitchenObjects } from '../views/gameplay';
 import { stage, gameStage } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
@@ -74,19 +75,43 @@ export default function customerReducer(state = [], action) {
     //   { x: 30, y: 50 },
     //   { x: 3.5, y: 3.5 },
     // );
+    const circle = new Graphics();
+    circle.beginFill(0xeeaaff);
+    circle.drawCircle(0, 0, 35);
+    circle.endFill();
+    circle.x = 90;
+    circle.y = custy.customerSlot * 100 - 10;
+    gameStage.addChild(circle);
 
-    setup(
+    const newCust = setup(
     gameStage,
     custy.sprite,
     { x: 30, y: custy.customerSlot * 100 },
     { x: 3.5, y: 3.5 },
   );
-     textSetup(
+    const custText = textSetup(
     gameStage,
     custy.desiredDish,
-    { x: 115, y: (custy.customerSlot * 100) - 20 },
-    { fontSize: '12px', fill: 'white'},
+    { x: 90, y: (custy.customerSlot * 100) - 20 },
+    { fontSize: '12px', dropShadow: true, dropShadowColor: 'white', dropShadowDistance: 2 },
   );
+
+    let custTime = textSetup(
+    gameStage,
+    custy.waitTime,
+    { x: 90, y: (custy.customerSlot * 100) },
+    { fontSize: '24px', dropShadow: true, dropShadowColor: 'white', dropShadowDistance: 2 },
+  );
+
+    let timeleft = custy.waitTime;
+    let downloadTimer = setInterval(() => {
+    timeleft--;
+    custTime.text = timeleft;
+    if (timeleft <= 0)
+        clearInterval(downloadTimer);
+    }, 1000);
+
+
       // setup(gameStage,
       //   custy.sprite,
       //   1,
