@@ -37,7 +37,6 @@ window._ko = kitchenObjects;
 
 let state;
 
-
 import { foodStack, chefFoodStack } from '../store/platter';
 
 export function update() {
@@ -190,11 +189,7 @@ export default function gameplay() {
 
   faces = {
     up: [objectAtlas.chefBack1, objectAtlas.chefBack2, objectAtlas.chefBack3],
-    right: [
-      objectAtlas.chefRight1,
-      objectAtlas.chefRight2,
-      objectAtlas.chefRight3,
-    ],
+    right: [objectAtlas.chefRight1, objectAtlas.chefRight2, objectAtlas.chefRight3],
     down: [objectAtlas.chefDown1, objectAtlas.chefDown2, objectAtlas.chefDown3],
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
@@ -204,8 +199,8 @@ export default function gameplay() {
     const { recipes } = state;
     console.log('evt.target', evt.target);
     console.log('evt target station', evt.target.station);
-    console.log('first step in recipe', recipes[0].steps[0].type)
-    console.log(recipes[0].currentState);
+    console.log('first step in recipe', recipes[0].steps[0].type);
+    console.log('current state', recipes[0].currentState);
 
     // console.log('current recipes current state', recipes[0].currentState);
     // console.log('current recipes steps', currentRecipes[0].steps);
@@ -237,17 +232,10 @@ export default function gameplay() {
    */
   kitchenObjects = buildkitchenObjects();
   const {
-    sousChef,
-    jollof,
-    trashCan1,
-    recipeBook,
-    wineCounter,
+    sousChef, jollof, trashCan1, recipeBook, wineCounter,
   } = kitchenObjects;
   let trashCan = trashCan1;
-  const choppingBoards = [
-    kitchenObjects.choppingCounter,
-    kitchenObjects.choppingCounter2,
-  ];
+  const choppingBoards = [kitchenObjects.choppingCounter, kitchenObjects.choppingCounter2];
   const fryingPans = [kitchenObjects.fryingPan1, kitchenObjects.fryingPan2];
 
   // grill counters
@@ -381,7 +369,7 @@ const buildkitchenObjects = () => {
   let floorStart = 16;
 
   // floor
-  for (let i = 1; i < 97; i++) {
+  for (let i = 1; i < 85; i++) {
     if (floorStart > 12 * 64) {
       floorStart = 16;
     }
@@ -507,60 +495,36 @@ const buildkitchenObjects = () => {
     x: 100,
     y: 434,
   });
-  kitchenObjects.sideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
-    x: 100,
-    y: 530,
-  });
+  // kitchenObjects.sideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
+  //   x: 100,
+  //   y: 530,
+  // });
   // Bottom Counters
   const bottomCounterY = 460;
-  kitchenObjects.bottomEmptyCounter1 = setup(
-    gameStage,
-    objectAtlas.emptyCounter,
-    {
-      x: xStart,
-      y: bottomCounterY,
-    },
-  );
-  kitchenObjects.bottomEmptyCounter2 = setup(
-    gameStage,
-    objectAtlas.emptyCounter,
-    {
-      x: xStart + width,
-      y: bottomCounterY,
-    },
-  );
-  kitchenObjects.bottomGrillCounter1 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 2 * width,
-      y: bottomCounterY,
-    },
-  );
-  kitchenObjects.bottomGrillCounter2 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 3 * width,
-      y: bottomCounterY,
-    },
-  );
-  kitchenObjects.bottomGrillCounter3 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 4 * width,
-      y: bottomCounterY,
-    },
-  );
-  kitchenObjects.bottomFryingCounter1 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 5 * width,
-      y: bottomCounterY,
-    },
-  );
+  kitchenObjects.bottomEmptyCounter1 = setup(gameStage, objectAtlas.emptyCounter, {
+    x: xStart,
+    y: bottomCounterY,
+  });
+  kitchenObjects.bottomEmptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
+    x: xStart + width,
+    y: bottomCounterY,
+  });
+  kitchenObjects.bottomGrillCounter1 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 2 * width,
+    y: bottomCounterY,
+  });
+  kitchenObjects.bottomGrillCounter2 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 3 * width,
+    y: bottomCounterY,
+  });
+  kitchenObjects.bottomGrillCounter3 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 4 * width,
+    y: bottomCounterY,
+  });
+  kitchenObjects.bottomFryingCounter1 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 5 * width,
+    y: bottomCounterY,
+  });
   kitchenObjects.fryingPan1 = setup(
     gameStage,
     objectAtlas.fryingPan,
@@ -570,14 +534,10 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.fryingPan1.station = 'frying';
 
-  kitchenObjects.bottomFryingCounter2 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 6 * width,
-      y: bottomCounterY,
-    },
-  );
+  kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 6 * width,
+    y: bottomCounterY,
+  });
   kitchenObjects.fryingPan2 = setup(
     gameStage,
     objectAtlas.fryingPan,
@@ -587,14 +547,10 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.fryingPan2.station = 'frying';
 
-  kitchenObjects.bottomEmptyCounter3 = setup(
-    gameStage,
-    objectAtlas.emptyCounter,
-    {
-      x: xStart + 7 * width,
-      y: bottomCounterY,
-    },
-  );
+  kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
+    x: xStart + 7 * width,
+    y: bottomCounterY,
+  });
   // Right side counters
   /* kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
   kitchenObjects.rightSideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
@@ -613,10 +569,10 @@ const buildkitchenObjects = () => {
     x: xStart + 8 * width,
     y: 434,
   });
-  kitchenObjects.rightSideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
-    x: xStart + 8 * width,
-    y: 530,
-  });
+  // kitchenObjects.rightSideCounter6 = setup(gameStage, objectAtlas.sideCounter, {
+  //   x: xStart + 8 * width,
+  //   y: 530,
+  // });
   kitchenObjects.mixingBowl1 = setup(
     gameStage,
     objectAtlas.mixingBowl,
