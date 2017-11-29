@@ -32,6 +32,7 @@ const loader = PIXI.loader
   .add('tomatoPaste', 'images/tomatosauceSM.png')
   .add('floor', 'images/floor.png')
   .add('playButton', 'images/playButton.png')
+  .add('flame', 'images/flamesmall.png')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
@@ -50,7 +51,7 @@ stage.addChild(recipeBookStage);
 stage.addChild(singleRecipeStage);
 gameStage.addChild(foodStack);
 gameStage.addChild(chefFoodStack);
-window._stage = stage
+window._stage = stage;
 recipeBookStage.visible = false;
 singleRecipeStage.visible = false;
 
