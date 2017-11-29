@@ -35,7 +35,7 @@ const customerCreator = () => {
     sprite: customers[Math.floor(Math.random() * (3 - 0)) + 0],
     customerSlot: slotty,
     desiredDish: 'Jollof Rice',
-    waitTime: Math.floor(Math.random() * (5 - 3)) + 3,
+    waitTime: Math.floor(Math.random() * (30 - 20)) + 20,
   };
 };
 
@@ -73,41 +73,51 @@ export default function customerReducer(state = [], action) {
     //   { x: 30, y: 50 },
     //   { x: 3.5, y: 3.5 },
     // );
-    const circle = new Graphics();
-    circle.beginFill(0xeeaaff);
-    circle.drawCircle(0, 0, 35);
-    circle.endFill();
-    circle.x = 90;
-    circle.y = custy.customerSlot * 125 - 10;
-    gameStage.addChild(circle);
 
-    const newCust = setup(
+    custy.sprite = setup(
     gameStage,
     custy.sprite,
     { x: 30, y: custy.customerSlot * 125 },
     { x: 3.5, y: 3.5 },
   );
+
+    const circle = new Graphics();
+    circle.beginFill(0xeeaaff);
+    circle.drawCircle(0, 0, 10);
+    circle.endFill();
+    circle.x = 20;
+    circle.y = 0;
+    custy.sprite.addChild(circle);
+
     const custText = textSetup(
     gameStage,
     custy.desiredDish,
-    { x: 90, y: (custy.customerSlot * 125) - 20 },
+    { x: 20, y: -4 },
     { fontSize: '12px', dropShadow: true, dropShadowColor: 'white', dropShadowDistance: 2 },
   );
+    custy.sprite.addChild(custText)
+    custText.scale.x = custText.scale.x / 3.5;
+    custText.scale.y = custText.scale.y / 3.5;
 
     let custTime = textSetup(
     gameStage,
     custy.waitTime,
-    { x: 90, y: (custy.customerSlot * 125) },
+    { x: 20, y: 2 },
     { fontSize: '24px', dropShadow: true, dropShadowColor: 'white', dropShadowDistance: 2 },
   );
+    custy.sprite.addChild(custTime);
+    custTime.scale.x = custTime.scale.x / 3.5;
+    custTime.scale.y = custTime.scale.y / 3.5;
 
     let timeleft = custy.waitTime;
     let downloadTimer = setInterval(() => {
     timeleft--;
     custTime.text = timeleft;
-    if (timeleft <= 0)
-        clearInterval(downloadTimer);
-      //store.dispatch(removeCustomer(custy.customerSlot))
+    if (timeleft <= 0) {
+      clearInterval(downloadTimer);
+      console.log("timeleft", timeleft)
+      store.dispatch(removeCustomer(custy.customerSlot));
+    }
     }, 1000);
 
       return [...state, custy];
@@ -117,18 +127,21 @@ export default function customerReducer(state = [], action) {
       //   console.log("Can't find sideCounter to calculate where gold x position should be!");
       // } else {
         const [leavingCust] = state.filter(cust => cust.customerSlot === action.id);
-        console.log("leavinggg", leavingCust)
-        //leavingCust.sprite.rotate = 50;
-        setup(
+        let slot = leavingCust.customerSlot;
+          leavingCust.sprite.scale.x = -leavingCust.sprite.scale.x;
+        setTimeout(() => {
+          leavingCust.sprite.destroy();
+          }, 1000);
+
+        let gold = setup(
           gameStage,
           objectAtlas.gold,
           {
-            x: leavingCust.customerSlot * (gameStage.width / state.length),
-            y: leavingCust.customerSlot * (gameStage.height / state.length),
+            x: 90,
+            y: slot * 125,
           }, //placement of sprite on stage
-          { x: 3.5, y: 3.5 },
         ); //scale
-      //}
+
       return state.filter(customer => customer.customerSlot !== action.id);
     default:
       return state;
