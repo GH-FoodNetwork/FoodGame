@@ -453,7 +453,7 @@ const buildkitchenObjects = () => {
       y: 146,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 146 },
+    { x: 150, y: 125 },
   );
   kitchenObjects.sideCounter2.station = 'serving';
   kitchenObjects.sideCounter3 = setup(
@@ -464,7 +464,7 @@ const buildkitchenObjects = () => {
       y: 242,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 242 },
+    { x: 150, y: 250 },
   );
   kitchenObjects.sideCounter3.station = 'serving';
   kitchenObjects.sideCounter4 = setup(
@@ -475,7 +475,7 @@ const buildkitchenObjects = () => {
       y: 338,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 338 },
+    { x: 150, y: 375 },
   );
   kitchenObjects.sideCounter4.station = 'serving';
   kitchenObjects.sideCounter5 = setup(gameStage, objectAtlas.sideCounter, {
