@@ -96,11 +96,11 @@ export function setup(
   return sprite;
 }
 
-export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }) {
-  const text = new Text(content, {
+export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }, styling = {
     fontFamily: 'Arial',
     fontSize: 25,
-  });
+  }) {
+  const text = new Text(content, styling);
 
   text.position.set(canvasPosition.x, canvasPosition.y);
   text.anchor.set(0.5);
