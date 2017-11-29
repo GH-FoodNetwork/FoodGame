@@ -1,6 +1,8 @@
 import { Container, Graphics, Sprite } from 'pixi.js';
 import { renderer, singleRecipeStage, gameStage, recipeBookStage } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
+import store, { addRecipe } from '../store';
+import recipeArray from '../recipe-constructor';
 
 export default function singleRecipe() {
   document.body.appendChild(renderer.view);
@@ -11,6 +13,16 @@ export default function singleRecipe() {
     { x: 20, y: 50 },
     { x: 0.53, y: 0.53 },
   );
+
+  const buttonStyling = {
+    fontFamily: 'Arial',
+    fontSize: '22px',
+    fill: 'white',
+    dropShadow: true,
+    dropShadowColor: 'red',
+    dropShadowDistance: 2,
+    letterSpacing: 1,
+  };
 
   const spacingX = window.innerWidth / 2;
   const spacingY = 100;
@@ -38,6 +50,9 @@ export default function singleRecipe() {
     { x: 0.2, y: 0.2 },
   );
 
+  /*
+   * Recipe steps
+   */
   const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
     x: spacingX,
     y: spacingY + 150,
@@ -67,9 +82,18 @@ export default function singleRecipe() {
     y: spacingY + 300,
   });
 
+  const cook = textSetup(singleRecipeStage, 'Cook Now!', { x: spacingX, y: spacingY + 350 }, buttonStyling);
+  cook.interactive = true;
+  cook.buttonMode = true;
+  cook.on('pointerdown', addToActiveRecipes);
+
+  function addToActiveRecipes() {
+    store.dispatch(addRecipe(new recipeArray[0]()));
+  }
+
   const jollofLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
     x: spacingX,
-    y: spacingY + 375,
+    y: spacingY + 385,
   });
   jollofLink.interactive = true;
   jollofLink.buttonMode = true;
@@ -89,9 +113,9 @@ export default function singleRecipe() {
 
   arrow.interactive = true;
   arrow.buttonMode = true;
-  arrow.on('pointerdown', onClick);
+  arrow.on('pointerdown', backToRecipeBook);
 
-  function onClick() {
+  function backToRecipeBook() {
     recipeBookStage.visible = true;
     singleRecipeStage.visible = false;
   }
@@ -105,9 +129,9 @@ export default function singleRecipe() {
 
   play.interactive = true;
   play.buttonMode = true;
-  play.on('pointerdown', clickToGame);
+  play.on('pointerdown', clickToPlay);
 
-  function clickToGame() {
+  function clickToPlay() {
     singleRecipeStage.visible = false;
     gameStage.visible = true;
   }

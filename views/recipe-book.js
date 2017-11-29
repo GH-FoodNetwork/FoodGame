@@ -1,4 +1,7 @@
 import * as PIXI from 'pixi.js';
+import store from '../store';
+import { addRecipe } from '../store/recipes';
+import recipeArray from '../recipe-constructor';
 
 const {
   Container, Graphics, Sprite, Text,
@@ -87,8 +90,15 @@ export default function recipeBook() {
   cookButtons.forEach((button) => {
     button.interactive = true;
     button.buttonMode = true;
-    button.on('pointerdown', onClick);
+    button.on('pointerdown', cookRecipe);
+    // TODO: create func that dispatches selected recipe to store and calls the backToGame
   });
+
+  function cookRecipe() {
+    // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
+    store.dispatch(addRecipe(new recipeArray[0]() ));
+    backToGame();
+  }
 
   const recipeButtons = [recipe, recipe2, recipe3, recipe4];
 
@@ -113,9 +123,9 @@ export default function recipeBook() {
 
   arrow.interactive = true;
   arrow.buttonMode = true;
-  arrow.on('pointerdown', onClick);
+  arrow.on('pointerdown', backToGame);
 
-  function onClick() {
+  function backToGame() {
     recipeBookStage.visible = false;
     gameStage.visible = true;
   }
