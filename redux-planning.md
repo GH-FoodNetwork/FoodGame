@@ -19,16 +19,19 @@
   * **User collects money (happens whenever)**
     * Once collected, slot becomes available, generate new customer with random
       delay
+
 * Recipe Book
-  * When clicked, opens to recipe book view
-  * In that view, click on single recipe and renders the single recipe view
-    (link to actual recipe)
-    * When single recipe clicked, adds to the list of current active recipes
-    * Switches back to game play view
-    * **Souschef's hand appears with ingredients**
-      * **Chef automatically grabs ingredients from hand upon click (i.e.
-        clicking a stove, chopping block, station(mixing), etc.) and then does
-        the action**
+  - [x] When clicked, opens to recipe book view
+    - [x] In that view, click on 'recipe' and renders the single recipe view
+      - [x] (link to actual recipe)
+    - [ ] Click on 'cook'
+      - [ ] adds to the list of current active recipes
+      - [ ] switches back to the game play view
+  - [ ] In single recipe view:
+    - [ ] adds to the list of current active recipes
+    - [x] Switches back to game play view
+  - [ ] **Souschef's hand appears with ingredients**
+  - [ ] **Chef automatically grabs ingredients from hand upon click (i.e. clicking a stove, chopping block, station(mixing), etc.) **and then does the action**
 * **Cooking - TIMER animation**
   * Chopping animation - knife up and down
   * **Mixing animation - spoon in bowl**
