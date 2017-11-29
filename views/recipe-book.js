@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js';
-import store from '../store';
-import { addRecipe } from '../store/recipes';
+import store, { addRecipe, setSousChefHolding } from '../store';
 import recipeArray from '../recipe-constructor';
 
 const {
@@ -8,6 +7,7 @@ const {
 } = PIXI;
 import { gameStage, recipeBookStage, singleRecipeStage, renderer } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
+import { kitchenObjects } from './gameplay';
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
@@ -96,7 +96,11 @@ export default function recipeBook() {
 
   function cookRecipe() {
     // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
-    store.dispatch(addRecipe(new recipeArray[0]() ));
+    kitchenObjects.recipeBook.visible = false;
+    kitchenObjects.recipeBook.interactive = false;
+    kitchenObjects.recipeBook.buttonMode = false;
+    store.dispatch(addRecipe(new recipeArray[0]()));
+    store.dispatch(setSousChefHolding(true));
     backToGame();
   }
 
@@ -125,9 +129,11 @@ export default function recipeBook() {
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToGame);
 
+
   function backToGame() {
     recipeBookStage.visible = false;
     gameStage.visible = true;
+    store.dispatch(generateCustomer());
   }
   renderer.render(recipeBookStage);
 }
