@@ -17,11 +17,11 @@ import store, {
   moveFromSousToChef,
   dequeueStep,
   updateRecipeState,
-  currentRecipes
+  currentRecipes,
   bringToFront,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
-import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
+import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
 import recipeArray from '../recipe-constructor';
 
@@ -37,13 +37,14 @@ window._ko = kitchenObjects;
 
 let state;
 
+
 import { foodStack, chefFoodStack } from '../store/platter';
 
 export function update() {
-  //state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
+  // state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
   state = store.getState();
   // Funnel all animation updates here
-  movePlayer();  
+  movePlayer();
   // Rerender
   // console.log(stage);
   // window._raf =
@@ -55,7 +56,7 @@ export function update() {
 function movePlayer() {
   const { destinations } = state;
   const chef = kitchenObjects.topChef;
-  
+
   if (destinations.length) {
     const rightOrDown = 1;
     const leftOrUp = -1;
@@ -64,7 +65,7 @@ function movePlayer() {
     if (destinations[0].y - chef.y > 0) {
       chef.y += rightOrDown;
       faceChange = 'down';
-    } else if (destinations[0].y - chef.y < 0){
+    } else if (destinations[0].y - chef.y < 0) {
       chef.y += leftOrUp;
       faceChange = 'up';
     }
@@ -75,17 +76,17 @@ function movePlayer() {
       chef.x += leftOrUp;
       faceChange = 'left';
     }
-    //Use this later with a deltaTime so it's not so jittery; it makes the chef's footsteps animate
+    // Use this later with a deltaTime so it's not so jittery; it makes the chef's footsteps animate
     if (faceChange !== face) {
-     face = faceChange;
-     faceNum = 0;
-    console.log("face",face,faces[face][faceNum]);    
-      chef.setTexture(faces[face][faceNum]);      
-    }/*else{
+      face = faceChange;
+      faceNum = 0;
+      console.log('face', face, faces[face][faceNum]);
+      chef.setTexture(faces[face][faceNum]);
+    } /*else{
       faceNum++;
       if(faceNum >= faces[face].length) faceNum = 0;
       chef.texture = faces[face][faceNum];
-    }*/
+    } */
 
     if (
       chef.x === destinations[0].stationPosition.x &&
@@ -96,15 +97,19 @@ function movePlayer() {
       console.log('destination removed');
       store.dispatch(removeDestination());
 
-      //need to get clicked station instead of kitchenObjects.mixingBowl1
+      // need to get clicked station instead of kitchenObjects.mixingBowl1
     }
   }
-  state.platter.chefFoodStack.position = new PIXI.Point(chef.x + (face === "right" ? 30 : (face === "left" ? -30: 0)), 
-  chef.y + (face === "down" ? 30 : (face === "up" ? -60: 40)));
+  state.platter.chefFoodStack.position = new PIXI.Point(
+    chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
+    chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
+  );
   bringToFront(gameStage, state.platter.chefFoodStack);
 }
 
 function animateStation(station) {
+  const chef = kitchenObjects.topChef;
+
   if (station.station !== 'serving') {
     if (station.station === 'frying') {
       const flame = setup(
@@ -126,9 +131,18 @@ function animateStation(station) {
     circle.y = station.y - 50;
     gameStage.addChild(circle);
 
-    const clockText3 = textSetup(gameStage, '3', { x: station.x + 50, y: station.y - 50 });
-    const clockText2 = textSetup(gameStage, '2', { x: station.x + 50, y: station.y - 50 });
-    const clockText1 = textSetup(gameStage, '1', { x: station.x + 50, y: station.y - 50 });
+    const clockText3 = textSetup(gameStage, '3', {
+      x: station.x + 50,
+      y: station.y - 50,
+    });
+    const clockText2 = textSetup(gameStage, '2', {
+      x: station.x + 50,
+      y: station.y - 50,
+    });
+    const clockText1 = textSetup(gameStage, '1', {
+      x: station.x + 50,
+      y: station.y - 50,
+    });
     clockText2.visible = false;
     clockText1.visible = false;
 
@@ -155,8 +169,10 @@ function animateStation(station) {
       circle.alpha = 0;
     }, 3000);
   }
-  state.platter.chefFoodStack.position = new PIXI.Point(chef.x + (face === "right" ? 30 : (face === "left" ? -30: 0)), 
-  chef.y + (face === "down" ? 30 : (face === "up" ? -60: 40)));
+  state.platter.chefFoodStack.position = new PIXI.Point(
+    chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
+    chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
+  );
   bringToFront(gameStage, state.platter.chefFoodStack);
 }
 
@@ -171,51 +187,67 @@ export default function gameplay() {
 
   gameStage.addChild(foodStack);
   gameStage.addChild(chefFoodStack);
-  
+
   faces = {
     up: [objectAtlas.chefBack1, objectAtlas.chefBack2, objectAtlas.chefBack3],
-    right: [objectAtlas.chefRight1, objectAtlas.chefRight2, objectAtlas.chefRight3],
+    right: [
+      objectAtlas.chefRight1,
+      objectAtlas.chefRight2,
+      objectAtlas.chefRight3,
+    ],
     down: [objectAtlas.chefDown1, objectAtlas.chefDown2, objectAtlas.chefDown3],
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
 
-  
-
   function onClick(evt) {
     state = store.getState();
+    const { recipes } = state;
     console.log('evt.target', evt.target);
-    console.log
-    if (evt.target.station !== currentRecipes[0].steps[currentRecipes[0].currentStage].type) {
-      alert('Wrong station!');
-    } else {
+    console.log('evt target station', evt.target.station);
+    console.log('first step in recipe', recipes[0].steps[0].type)
+    console.log(recipes[0].currentState);
+
+    // console.log('current recipes current state', recipes[0].currentState);
+    // console.log('current recipes steps', currentRecipes[0].steps);
+
+    const filteredRecipes = recipes.filter(recipe => evt.target.station === recipe.steps[recipe.currentState].type);
+    if (filteredRecipes.length) {
       store.dispatch(removeDestination());
-      // TODO: add stationPosition for all objects
-      // const { x, y } = evt.target.stationPosition;
+      if (evt.target.recipeId === undefined) {
+        console.log('shift', currentRecipes.slice().shift());
+        evt.target.recipeId = filteredRecipes[0].id;
+      }
+      store.dispatch(updateRecipeState(evt.target.recipeId));
       store.dispatch(addDestination(evt.target));
-      if (evt.target.recipeId === null && currentRecipes.length) {
-        evt.target.recipeId = currentRecipes.shift();
-      }
-      if (evt.target.recipeId) {
-        store.dispatch(updateRecipeState(evt.target.recipeId)); // should know which recipe is on which station
-      }
-      state = store.getState();
-      console.log('steps?', state.step);
-    }
-    if (!state.steps.length) {
-      //restart
-      //{dispatch removeCustomer}
+    } else {
+      alert('Wrong station!');
     }
   }
+  //     state = store.getState();
+  //     console.log('steps?', state.step);
+  //   }
+  //   if (!state.steps.length) {
+  //     //restart
+  //     //{dispatch removeCustomer}
+  //   }
+  // }
 
   /**
    * Objects activated by 'onClick' function
    */
   kitchenObjects = buildkitchenObjects();
   const {
-    sousChef, jollof, trashCan1, recipeBook, wineCounter,
+    sousChef,
+    jollof,
+    trashCan1,
+    recipeBook,
+    wineCounter,
   } = kitchenObjects;
   let trashCan = trashCan1;
-  const choppingBoards = [kitchenObjects.choppingCounter, kitchenObjects.choppingCounter2];
+  const choppingBoards = [
+    kitchenObjects.choppingCounter,
+    kitchenObjects.choppingCounter2,
+  ];
   const fryingPans = [kitchenObjects.fryingPan1, kitchenObjects.fryingPan2];
 
   // grill counters
@@ -281,18 +313,16 @@ export default function gameplay() {
       recipeBook.visible = true;
       recipeBook.interactive = true;
       recipeBook.buttonMode = true;
-      store.dispatch(setSousChefHolding(false)); 
+      store.dispatch(setSousChefHolding(false));
     } else {
       // TODO: Remove foodStack from gameStage
       recipeBook.visible = false;
       recipeBook.interactive = false;
       recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true));      
-      }
-      
+      store.dispatch(setSousChefHolding(true));
     }
-  
+  }
 
   sousChef.interactive = true;
   sousChef.buttonMode = true;
@@ -419,7 +449,7 @@ const buildkitchenObjects = () => {
   /* spiceRack: setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 5 * width,
         y: 10
-    }, { x: .5, y: .5 }),*/
+    }, { x: .5, y: .5 }), */
   kitchenObjects.emptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
     x: xStart + 6 * width,
     y: 50,
@@ -427,7 +457,7 @@ const buildkitchenObjects = () => {
   /* kitchenObjects[spiceRack]= setup('images/Spices-Complete_Rack.png', 0, 0, 1, 1, {
         x: xStart + 6 * width,
         y: 10
-    }, { x: .5, y: .5 })*/
+    }, { x: .5, y: .5 }) */
   kitchenObjects.wineCounter = setup(gameStage, objectAtlas.wineCounter, {
     x: xStart + 7 * width,
     y: 50,
@@ -483,30 +513,54 @@ const buildkitchenObjects = () => {
   });
   // Bottom Counters
   const bottomCounterY = 460;
-  kitchenObjects.bottomEmptyCounter1 = setup(gameStage, objectAtlas.emptyCounter, {
-    x: xStart,
-    y: bottomCounterY,
-  });
-  kitchenObjects.bottomEmptyCounter2 = setup(gameStage, objectAtlas.emptyCounter, {
-    x: xStart + width,
-    y: bottomCounterY,
-  });
-  kitchenObjects.bottomGrillCounter1 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 2 * width,
-    y: bottomCounterY,
-  });
-  kitchenObjects.bottomGrillCounter2 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 3 * width,
-    y: bottomCounterY,
-  });
-  kitchenObjects.bottomGrillCounter3 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 4 * width,
-    y: bottomCounterY,
-  });
-  kitchenObjects.bottomFryingCounter1 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 5 * width,
-    y: bottomCounterY,
-  });
+  kitchenObjects.bottomEmptyCounter1 = setup(
+    gameStage,
+    objectAtlas.emptyCounter,
+    {
+      x: xStart,
+      y: bottomCounterY,
+    },
+  );
+  kitchenObjects.bottomEmptyCounter2 = setup(
+    gameStage,
+    objectAtlas.emptyCounter,
+    {
+      x: xStart + width,
+      y: bottomCounterY,
+    },
+  );
+  kitchenObjects.bottomGrillCounter1 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 2 * width,
+      y: bottomCounterY,
+    },
+  );
+  kitchenObjects.bottomGrillCounter2 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 3 * width,
+      y: bottomCounterY,
+    },
+  );
+  kitchenObjects.bottomGrillCounter3 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 4 * width,
+      y: bottomCounterY,
+    },
+  );
+  kitchenObjects.bottomFryingCounter1 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 5 * width,
+      y: bottomCounterY,
+    },
+  );
   kitchenObjects.fryingPan1 = setup(
     gameStage,
     objectAtlas.fryingPan,
@@ -516,10 +570,14 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.fryingPan1.station = 'frying';
 
-  kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 6 * width,
-    y: bottomCounterY,
-  });
+  kitchenObjects.bottomFryingCounter2 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 6 * width,
+      y: bottomCounterY,
+    },
+  );
   kitchenObjects.fryingPan2 = setup(
     gameStage,
     objectAtlas.fryingPan,
@@ -529,12 +587,16 @@ const buildkitchenObjects = () => {
   );
   kitchenObjects.fryingPan2.station = 'frying';
 
-  kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
-    x: xStart + 7 * width,
-    y: bottomCounterY,
-  });
+  kitchenObjects.bottomEmptyCounter3 = setup(
+    gameStage,
+    objectAtlas.emptyCounter,
+    {
+      x: xStart + 7 * width,
+      y: bottomCounterY,
+    },
+  );
   // Right side counters
-  /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
+  /* kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
   kitchenObjects.rightSideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
     x: xStart + 8 * width,
     y: 146,
