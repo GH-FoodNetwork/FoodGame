@@ -16,6 +16,7 @@ import store, {
   setSousChefHolding,
   moveFromSousToChef,
   dequeueStep,
+  bringToFront,
 } from '../store';
 import { setup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -26,6 +27,9 @@ import recipeArray from '../recipe-constructor';
 // export const gameStage = new Container();
 // export const recipeBookStage = new Container();
 export let kitchenObjects = {};
+export let faces;
+let face = 'right';
+let faceNum = 0;
 
 window._ko = kitchenObjects;
 
@@ -52,13 +56,38 @@ export function update() {
 
 function movePlayer() {
   const { destinations } = state;
+  const chef = kitchenObjects.topChef;
+  
   if (destinations.length) {
     const rightOrDown = 1;
     const leftOrUp = -1;
-    const chef = kitchenObjects.topChef;
+    let faceChange = face;
 
-    destinations[0].x - chef.x > 0 ? (chef.x += rightOrDown) : (chef.x += leftOrUp);
-    destinations[0].y - chef.y > 0 ? (chef.y += rightOrDown) : (chef.y += leftOrUp);
+    if (destinations[0].y - chef.y > 0) {
+      chef.y += rightOrDown;
+      faceChange = 'down';
+    } else if (destinations[0].y - chef.y < 0){
+      chef.y += leftOrUp;
+      faceChange = 'up';
+    }
+    if (destinations[0].x - chef.x > 0) {
+      chef.x += rightOrDown;
+      faceChange = 'right';
+    } else if (destinations[0].x - chef.x < 0) {
+      chef.x += leftOrUp;
+      faceChange = 'left';
+    }
+    //Use this later with a deltaTime so it's not so jittery; it makes the chef's footsteps animate
+    if (faceChange !== face) {
+     face = faceChange;
+     faceNum = 0;
+    console.log("face",face,faces[face][faceNum]);    
+      chef.setTexture(faces[face][faceNum]);      
+    }/*else{
+      faceNum++;
+      if(faceNum >= faces[face].length) faceNum = 0;
+      chef.texture = faces[face][faceNum];
+    }*/
 
     if (chef.x === destinations[0].x && chef.y === destinations[0].y) {
       console.log('at destination!');
@@ -66,6 +95,9 @@ function movePlayer() {
       store.dispatch(removeDestination());
     }
   }
+  state.platter.chefFoodStack.position = new PIXI.Point(chef.x + (face === "right" ? 30 : (face === "left" ? -30: 0)), 
+  chef.y + (face === "down" ? 30 : (face === "up" ? -30: 0)));
+  bringToFront(gameStage, state.platter.chefFoodStack);
 }
 
 export default function gameplay() {
@@ -79,6 +111,13 @@ export default function gameplay() {
 
   gameStage.addChild(foodStack);
   gameStage.addChild(chefFoodStack);
+
+  faces = {
+    up: [objectAtlas.chefBack1, objectAtlas.chefBack2, objectAtlas.chefBack3],
+    right: [objectAtlas.chefRight1, objectAtlas.chefRight2, objectAtlas.chefRight3],
+    down: [objectAtlas.chefDown1, objectAtlas.chefDown2, objectAtlas.chefDown3],
+    left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
+  };
 
   if (state.platter) {
     const rect = gameStage.getBounds();

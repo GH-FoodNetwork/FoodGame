@@ -45,6 +45,20 @@ export function objectAtlasInit(resources) {
   result.customer2 = textureSetup('images/customer2.png', 1, 1, 3, 4);
   result.customer3 = textureSetup('images/customer3.png', 1, 1, 3, 4);
   result.chef = textureSetup('images/chef.png', 1, 1, 3, 4);
+
+  result.chefBack1 = textureSetup(resources.chef, 0, 0, 3, 4);
+  result.chefBack2 = textureSetup(resources.chef, 1, 0, 3, 4);
+  result.chefBack3 = textureSetup(resources.chef, 2, 0, 3, 4);
+  result.chefRight1 = textureSetup(resources.chef, 0, 1, 3, 4);
+  result.chefRight2 = textureSetup(resources.chef, 1, 1, 3, 4);
+  result.chefRight3 = textureSetup(resources.chef, 2, 1, 3, 4);
+  result.chefDown1 = textureSetup(resources.chef, 0, 2, 3, 4);
+  result.chefDown2 = textureSetup(resources.chef, 1, 2, 3, 4);
+  result.chefDown3 = textureSetup(resources.chef, 2, 2, 3, 4);
+  result.chefLeft1 = textureSetup(resources.chef, 0, 3, 3, 4);
+  result.chefLeft2 = textureSetup(resources.chef, 1, 3, 3, 4);
+  result.chefLeft3 = textureSetup(resources.chef, 2, 3, 3, 4);
+
   result.hand = textureSetup('images/souschef.png');
   result.recipeBook = textureSetup('images/recipebook.png');
   result.trashArmsUp = textureSetup('images/trashcancopy.png');
