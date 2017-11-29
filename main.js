@@ -22,7 +22,7 @@ const loader = PIXI.loader
   .add('images/customer3.png')
   .add('images/gold.gif')
   .add('images/pantry-misc.png')
-  .add('images/chef.png')
+  .add('chef', 'images/chef.png')
   .add('images/jollof.png')
   .add('images/souschef.png')
   .add('images/fryingpan.png')

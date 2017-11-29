@@ -82,7 +82,12 @@ export default function singleRecipe() {
     y: spacingY + 300,
   });
 
-  const cook = textSetup(singleRecipeStage, 'Cook Now!', { x: spacingX, y: spacingY + 350 }, buttonStyling);
+  const cook = textSetup(
+    singleRecipeStage,
+    'Add Recipe!',
+    { x: spacingX, y: spacingY + 350 },
+    buttonStyling,
+  );
   cook.interactive = true;
   cook.buttonMode = true;
   cook.on('pointerdown', addToActiveRecipes);
