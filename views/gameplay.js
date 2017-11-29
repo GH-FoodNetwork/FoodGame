@@ -61,17 +61,17 @@ function movePlayer() {
     const leftOrUp = -1;
     let faceChange = face;
 
-    if (destinations[0].y - chef.y > 0) {
+    if (destinations[0].stationPosition.y - chef.y > 0) {
       chef.y += rightOrDown;
       faceChange = 'down';
-    } else if (destinations[0].y - chef.y < 0) {
+    } else if (destinations[0].stationPosition.y - chef.y < 0) {
       chef.y += leftOrUp;
       faceChange = 'up';
     }
-    if (destinations[0].x - chef.x > 0) {
+    if (destinations[0].stationPosition.x - chef.x > 0) {
       chef.x += rightOrDown;
       faceChange = 'right';
-    } else if (destinations[0].x - chef.x < 0) {
+    } else if (destinations[0].stationPosition.x - chef.x < 0) {
       chef.x += leftOrUp;
       faceChange = 'left';
     }
@@ -79,17 +79,13 @@ function movePlayer() {
     if (faceChange !== face) {
       face = faceChange;
       faceNum = 0;
-      console.log('face', face, faces[face][faceNum]);
+      //console.log('face', face, faces[face][faceNum]);
       chef.setTexture(faces[face][faceNum]);
-    } /*else{
-      faceNum++;
-      if(faceNum >= faces[face].length) faceNum = 0;
-      chef.texture = faces[face][faceNum];
-    } */
-
+    }
+    //console.log(chef.x," ",chef.y, "dest",destinations[0].stationPosition.x," ",destinations[0].stationPosition.y);
     if (
-      chef.x === destinations[0].stationPosition.x &&
-      chef.y === destinations[0].stationPosition.y
+      Math.abs(chef.x - destinations[0].stationPosition.x) < 1 &&
+      Math.abs(chef.y - destinations[0].stationPosition.y) < 1
     ) {
       animateStation(destinations[0]);
       console.log('at destination!');
@@ -199,8 +195,6 @@ export default function gameplay() {
     const { recipes } = state;
     console.log('evt.target', evt.target);
     console.log('evt target station', evt.target.station);
-    console.log('first step in recipe', recipes[0].steps[0].type);
-    console.log('current state', recipes[0].currentState);
 
     // console.log('current recipes current state', recipes[0].currentState);
     // console.log('current recipes steps', currentRecipes[0].steps);
@@ -213,6 +207,7 @@ export default function gameplay() {
         evt.target.recipeId = filteredRecipes[0].id;
       }
       store.dispatch(updateRecipeState(evt.target.recipeId));
+      console.log(evt.target);
       store.dispatch(addDestination(evt.target));
     } else {
       alert('Wrong station!');
