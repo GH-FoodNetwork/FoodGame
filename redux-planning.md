@@ -22,8 +22,8 @@
 
 * Recipe Book
   - [x] When clicked, opens to recipe book view
-    - [ ] Click on 'cook'
-      - [ ] adds to the list of current active recipes
+    - [x] Click on 'cook'
+      - [x] adds to the list of current active recipes
       - [x] switches back to the game play view
     - [x] In that view, click on 'recipe' and renders the single recipe view
       - [x] (link to actual recipe)

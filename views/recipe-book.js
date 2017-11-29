@@ -84,6 +84,7 @@ export default function recipeBook() {
   });
 
   function cookRecipe() {
+    // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
     store.dispatch(addRecipe(new recipeArray[0]() ));
     backToGame();
   }

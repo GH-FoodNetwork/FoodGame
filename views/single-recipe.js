@@ -1,6 +1,8 @@
 import { Container, Graphics, Sprite } from 'pixi.js';
 import { renderer, singleRecipeStage, gameStage, recipeBookStage } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
+import store, { addRecipe } from '../store';
+import recipeArray from '../recipe-constructor';
 
 export default function singleRecipe() {
   document.body.appendChild(renderer.view);
@@ -92,9 +94,9 @@ export default function singleRecipe() {
 
   arrow.interactive = true;
   arrow.buttonMode = true;
-  arrow.on('pointerdown', onClick);
+  arrow.on('pointerdown', backToGame);
 
-  function onClick() {
+  function backToGame() {
     recipeBookStage.visible = true;
     singleRecipeStage.visible = false;
   }
@@ -108,11 +110,11 @@ export default function singleRecipe() {
 
   play.interactive = true;
   play.buttonMode = true;
-  play.on('pointerdown', clickToGame);
+  play.on('pointerdown', clickToPlay);
 
-  function clickToGame() {
-    singleRecipeStage.visible = false;
-    gameStage.visible = true;
+  function clickToPlay() {
+    store
+    backToGame()
   }
 
   renderer.render(singleRecipeStage);
