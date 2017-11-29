@@ -9,7 +9,14 @@ import {
   Text,
 } from 'pixi.js';
 
-import store, { addDestination, removeDestination, addRecipe, setSousChefHolding, moveFromSousToChef, dequeueStep } from '../store';
+import store, {
+  addDestination,
+  removeDestination,
+  addRecipe,
+  setSousChefHolding,
+  moveFromSousToChef,
+  dequeueStep,
+} from '../store';
 import { setup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
@@ -20,7 +27,7 @@ import recipeArray from '../recipe-constructor';
 // export const recipeBookStage = new Container();
 export let kitchenObjects = {};
 
-window._ko = kitchenObjects
+window._ko = kitchenObjects;
 
 let state;
 // stage.addChild(gameStage);
@@ -28,18 +35,18 @@ let state;
 // recipeBookStage.visible = false;
 // let stage = gameStage;
 
-import {foodStack, chefFoodStack} from '../store/platter'
+import { foodStack, chefFoodStack } from '../store/platter';
 
 export function update() {
   //state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
-  
-
+  state = store.getState();
   // Funnel all animation updates here
   movePlayer();
   // Rerender
   // console.log(stage);
-  window._raf = requestAnimationFrame(update);
-  window._renderer = renderer
+  // window._raf =
+  requestAnimationFrame(update);
+  // window._renderer = renderer;
   renderer.render(stage);
 }
 
@@ -62,38 +69,36 @@ function movePlayer() {
 }
 
 export default function gameplay() {
-  window._food = foodStack
-  window._chef = chefFoodStack
+  window._food = foodStack;
+  window._chef = chefFoodStack;
 
   document.body.appendChild(renderer.view);
 
   renderer.backgroundColor = 0x061639;
   state = store.getState();
 
-  gameStage.addChild(foodStack)
-  gameStage.addChild(chefFoodStack)
+  gameStage.addChild(foodStack);
+  gameStage.addChild(chefFoodStack);
 
-  if(state.platter){
-    let rect = gameStage.getBounds();
-    let chefRect = state.platter.chefFoodStack.getBounds();
-    console.log("rect left",rect.left," right ",rect.right);
-    console.log("chefRect left",chefRect.left," right ",chefRect.right);
+  if (state.platter) {
+    const rect = gameStage.getBounds();
+    const chefRect = state.platter.chefFoodStack.getBounds();
+    console.log('rect left', rect.left, ' right ', rect.right);
+    console.log('chefRect left', chefRect.left, ' right ', chefRect.right);
   }
 
   function onClick(evt) {
-    state = store.getState()
-    if (evt.target.station !== state.steps[0]) {
-      alert("Wrong station!")
-    } else {
-      console.log(evt.target)
-    store.dispatch(removeDestination());
-    // TODO: add stationPosition for all objects
-    const { x, y } = evt.target.stationPosition;
-    store.dispatch(addDestination({ x, y }));
-    movePlayer();
-    store.dispatch(dequeueStep());
     state = store.getState();
-    console.log("steps?", state.steps)
+    if (evt.target.station !== state.steps[0]) {
+      alert('Wrong station!');
+    } else {
+      store.dispatch(removeDestination());
+      // TODO: add stationPosition for all objects
+      const { x, y } = evt.target.stationPosition;
+      store.dispatch(addDestination({ x, y }));
+      store.dispatch(dequeueStep());
+      state = store.getState();
+      console.log('steps?', state.steps);
     }
   }
 
@@ -160,26 +165,62 @@ export default function gameplay() {
       recipeBook.buttonMode = true;
       store.dispatch(setSousChefHolding(false));
 
-      if(state.platter){
-        let rect = gameStage;
-        let chefRect = state.platter.chefFoodStack;
-        console.log("rect left",rect.getBounds().left,"right",rect.getBounds.right," x",rect.x,"y",rect.y);
-        console.log("rect left",chefRect.getBounds().left,"right",chefRect.getBounds.right," x",chefRect.x,"y",chefRect.y);
-        console.log("gameStage",gameStage);
+      if (state.platter) {
+        const rect = gameStage;
+        const chefRect = state.platter.chefFoodStack;
+        console.log(
+          'rect left',
+          rect.getBounds().left,
+          'right',
+          rect.getBounds.right,
+          ' x',
+          rect.x,
+          'y',
+          rect.y,
+        );
+        console.log(
+          'rect left',
+          chefRect.getBounds().left,
+          'right',
+          chefRect.getBounds.right,
+          ' x',
+          chefRect.x,
+          'y',
+          chefRect.y,
+        );
+        console.log('gameStage', gameStage);
       }
     } else {
-      // TODO: Remove foodStack from gameStage      
+      // TODO: Remove foodStack from gameStage
       recipeBook.visible = false;
       recipeBook.interactive = false;
       recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true)); 
-      
-      if(state.platter){
-        let rect = gameStage;
-        let chefRect = state.platter.chefFoodStack;
-        console.log("rect left",rect.getBounds().left,"right",rect.getBounds.right," x",rect.x,"y",rect.y);
-        console.log("rect left",chefRect.getBounds().left,"right",chefRect.getBounds.right," x",chefRect.x,"y",chefRect.y);
+      store.dispatch(setSousChefHolding(true));
+
+      if (state.platter) {
+        const rect = gameStage;
+        const chefRect = state.platter.chefFoodStack;
+        console.log(
+          'rect left',
+          rect.getBounds().left,
+          'right',
+          rect.getBounds.right,
+          ' x',
+          rect.x,
+          'y',
+          rect.y,
+        );
+        console.log(
+          'rect left',
+          chefRect.getBounds().left,
+          'right',
+          chefRect.getBounds.right,
+          ' x',
+          chefRect.x,
+          'y',
+          chefRect.y,
+        );
       }
     }
   }
@@ -249,7 +290,7 @@ const buildkitchenObjects = () => {
       x: floorStart,
       y: 64 * (i % 12 === 0 ? Math.floor(i / 12) - 1 : Math.floor(i / 12)) + 64,
     });
-    floorStart += 64
+    floorStart += 64;
   }
 
   // wall
@@ -274,24 +315,16 @@ const buildkitchenObjects = () => {
     y: 50,
   });
 
-  kitchenObjects.choppingCounter = setup(
-    gameStage,
-    objectAtlas.choppingCounter,
-    {
-      x: xStart + 2 * width,
-      y: 50
-    }
-  );
+  kitchenObjects.choppingCounter = setup(gameStage, objectAtlas.choppingCounter, {
+    x: xStart + 2 * width,
+    y: 50,
+  });
   kitchenObjects.choppingCounter.station = 'chopping';
 
-  kitchenObjects.choppingCounter2 = setup(
-    gameStage,
-    objectAtlas.choppingCounter,
-    {
-      x: xStart + 3 * width,
-      y: 50
-    }
-  );
+  kitchenObjects.choppingCounter2 = setup(gameStage, objectAtlas.choppingCounter, {
+    x: xStart + 3 * width,
+    y: 50,
+  });
   kitchenObjects.choppingCounter2.station = 'chopping';
 
   kitchenObjects.scaleCounter = setup(gameStage, objectAtlas.scaleCounter, {
@@ -377,35 +410,27 @@ const buildkitchenObjects = () => {
     objectAtlas.fryingPan,
     { x: 491, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 491, y: 365 }
+    { x: 491, y: 365 },
   );
   kitchenObjects.fryingPan1.station = 'frying';
 
-  kitchenObjects.bottomFryingCounter2 = setup(
-    gameStage,
-    objectAtlas.grillCounter,
-    {
-      x: xStart + 6 * width,
-      y: bottomCounterY
-    }
-  );
+  kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
+    x: xStart + 6 * width,
+    y: bottomCounterY,
+  });
   kitchenObjects.fryingPan2 = setup(
     gameStage,
     objectAtlas.fryingPan,
     { x: 555, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 555, y: 365 }
+    { x: 555, y: 365 },
   );
   kitchenObjects.fryingPan2.station = 'frying';
 
-  kitchenObjects.bottomEmptyCounter3 = setup(
-    gameStage,
-    objectAtlas.emptyCounter,
-    {
-      x: xStart + 7 * width,
-      y: bottomCounterY
-    }
-
+  kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
+    x: xStart + 7 * width,
+    y: bottomCounterY,
+  });
   // Right side counters
   /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
   kitchenObjects.rightSideCounter2 = setup(gameStage, objectAtlas.sideCounter, {
@@ -433,7 +458,7 @@ const buildkitchenObjects = () => {
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y },
     { x: 1.5, y: 1.5 },
-    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter2.y }
+    { x: xStart + 8 * width - 50, y: kitchenObjects.rightSideCounter2.y },
   );
   kitchenObjects.mixingBowl1.station = 'mixing';
   kitchenObjects.mixingBowl2 = setup(
@@ -441,7 +466,7 @@ const buildkitchenObjects = () => {
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y },
     { x: 1.5, y: 1.5 },
-    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter3.y }
+    { x: xStart + 8 * width - 50, y: kitchenObjects.rightSideCounter3.y },
   );
   kitchenObjects.mixingBowl2.station = 'mixing';
 
@@ -487,7 +512,7 @@ const buildkitchenObjects = () => {
     objectAtlas.jollof,
     { x: 100, y: 50 },
     { x: 0.15, y: 0.15 },
-    { x: 150, y: 50}
+    { x: 150, y: 50 },
   );
   kitchenObjects.jollof.station = 'serving';
 
