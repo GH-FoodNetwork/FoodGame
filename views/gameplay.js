@@ -17,7 +17,7 @@ import store, {
   moveFromSousToChef,
   dequeueStep,
 } from '../store';
-import { setup, objectAtlas } from '../atlases';
+import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
 import recipeArray from '../recipe-constructor';
@@ -30,10 +30,6 @@ export let kitchenObjects = {};
 window._ko = kitchenObjects;
 
 let state;
-// stage.addChild(gameStage);
-// stage.addChild(recipeBookStage);
-// recipeBookStage.visible = false;
-// let stage = gameStage;
 
 import { foodStack, chefFoodStack } from '../store/platter';
 
@@ -64,8 +60,52 @@ function movePlayer() {
       console.log('at destination!');
       console.log('destination removed');
       store.dispatch(removeDestination());
+
+      //need to get clicked station instead of kitchenObjects.mixingBowl1
+      animateStation(kitchenObjects.mixingBowl1);
     }
   }
+}
+
+function animateStation(station) {
+  //flame is currently a 3 second timer
+  const { topChef } = kitchenObjects;
+
+  const flame = setup(
+    gameStage,
+    objectAtlas.flame,
+    { x: topChef.x, y: topChef.y + 50 },
+    { x: 0.2, y: 0.2 },
+  );
+
+  const clockText3 = textSetup(gameStage, '3', { x: topChef.x, y: topChef.y + 50 });
+  const clockText2 = textSetup(gameStage, '2', { x: topChef.x, y: topChef.y + 50 });
+  const clockText1 = textSetup(gameStage, '1', { x: topChef.x, y: topChef.y + 50 });
+  clockText2.visible = false;
+  clockText1.visible = false;
+
+  station.rotation = 1;
+
+  setInterval(() => {
+    clockText3.visible = false;
+    clockText2.visible = true;
+  }, 1000);
+
+  setInterval(() => {
+    clockText2.visible = false;
+    clockText2.alpha = 0;
+    clockText1.visible = true;
+  }, 2000);
+
+  setInterval(() => {
+    clockText1.visible = false;
+    clockText1.alpha = 0;
+  }, 3000);
+
+  setInterval(() => {
+    flame.alpha = 0;
+    station.rotation = 0;
+  }, 3000);
 }
 
 export default function gameplay() {
@@ -89,6 +129,7 @@ export default function gameplay() {
 
   function onClick(evt) {
     state = store.getState();
+    console.log(evt);
     if (evt.target.station !== state.steps[0]) {
       alert('Wrong station!');
     } else {
@@ -100,8 +141,10 @@ export default function gameplay() {
       state = store.getState();
       console.log('steps?', state.steps);
     }
-
-    //if(state.steps.length) {dispatch removeCustomer}
+    if (!state.steps.length) {
+      //restart
+      //{dispatch removeCustomer}
+    }
   }
 
   /**

@@ -59,9 +59,10 @@ export function objectAtlasInit(resources) {
   result.floor = textureSetup(resources.floor, 0, 0, 9, 8);
   result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
   result.playButton = textureSetup(resources.playButton);
+  result.flame = textureSetup(resources.flame);
 
   objectAtlas = result;
-  window._atlas = objectAtlas
+  window._atlas = objectAtlas;
   return result;
 }
 const PIXELS_PER_TILE = window.innerWidth / 80;
