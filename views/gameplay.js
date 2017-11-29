@@ -100,6 +100,8 @@ export default function gameplay() {
       state = store.getState();
       console.log('steps?', state.steps);
     }
+
+    //if(state.steps.length) {dispatch removeCustomer}
   }
 
   /**
