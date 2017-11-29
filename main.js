@@ -10,6 +10,7 @@ import titleSplash from './views/title-splash-screen';
 import App from '~/App';
 import * as PIXI from 'pixi.js';
 import { objectAtlasInit } from './atlases';
+import { foodStack, chefFoodStack } from './store/index';
 
 // Debugging
 window.PIXI = PIXI;
@@ -46,7 +47,14 @@ export const gameStage = new PIXI.Container();
 export const recipeBookStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
+<<<<<<< HEAD
 
+=======
+stage.addChild(singleRecipeStage);
+gameStage.addChild(foodStack);
+gameStage.addChild(chefFoodStack);
+window._stage = stage
+>>>>>>> fd890f5... Ashi fixed the containers by doing an add and remove to bring to front
 recipeBookStage.visible = false;
 
 const PIXELS_PER_TILE = window.innerWidth / 80
@@ -57,7 +65,7 @@ export const renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerH
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
 // renderer.resize(10, 100)
-// renderer.autoResize = true;
+renderer.autoResize = false;
 // renderer.resize(window.innerWidth, window.innerHeight);
 
 window.R = renderer
