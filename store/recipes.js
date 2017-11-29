@@ -1,15 +1,15 @@
-
-
 // ACTION TYPE
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const REMOVE_RECIPE = 'REMOVE_RECIPE';
 export const UPDATE_RECIPE_STATE = 'UPDATE_RECIPE_STATE';
 
-//ACTION CREATOR
+// ACTION CREATOR
 export const addRecipe = recipe => ({ type: ADD_RECIPE, recipe });
 export const removeRecipe = id => ({ type: REMOVE_RECIPE, id });
-export const updateRecipeState = recipe => ({ type: UPDATE_RECIPE_STATE, recipe });
-
+export const updateRecipeState = recipe => ({
+  type: UPDATE_RECIPE_STATE,
+  recipe,
+});
 
 // REDUCER
 export default function recipeReducer(state = [], action) {
@@ -19,7 +19,14 @@ export default function recipeReducer(state = [], action) {
     case REMOVE_RECIPE:
       return state.filter(recipe => recipe.id !== action.id);
     case UPDATE_RECIPE_STATE:
-      return state.map(recipe => (recipe.id === action.recipe.id ? action.recipe : recipe));
+      return state.map((recipe) => {
+        if (recipe.id === action.recipe.id) {
+          action.recipe.currentState++;
+          return action.recipe;
+        } else {
+          return recipe;
+        }
+      });
     default:
       return state;
   }

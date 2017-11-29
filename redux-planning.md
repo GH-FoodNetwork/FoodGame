@@ -1,10 +1,12 @@
 ## Priorities
 
 * Generate Customers
-* Add Recipe action creator to click
+* <del>Add Recipe action creator to click</del>
 * Timers
+  - [x] stations
+  - [ ] customers
 * Ending dish process
-* Station animations
+* <del>Station animations</del>
 * Money???
 
 ## Actions
@@ -43,6 +45,9 @@
 ## State
 
 * **List on state of current active recipes**
+- [ ] create list of actions from recipe objects
+- [ ] update queue of current active recipes whenever ADD_RECIPE is dispatched
+- [ ] remove a recipe once the list of steps is completed
 * **Queue of destinations**
 * **Success/burned**
 * **Money**
