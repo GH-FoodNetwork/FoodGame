@@ -19,15 +19,15 @@ export default function recipeReducer(state = [], action) {
     case REMOVE_RECIPE:
       return state.filter(recipe => recipe.id !== action.id);
     case UPDATE_RECIPE_STATE:
-    console.log('recipe state is updated!');
+      console.log('recipe state is updated!');
       return state.map((recipe) => {
-        if (recipe.id === action.recipeId) {
-          console.log('recipe state is incremented');
-          recipe.currentState++;
-          return recipe;
-        } else {
-          return recipe;
+        if (recipe.currentState === recipe.steps.length - 1) {
+          recipe.currentState = 0;
         }
+        if (recipe.currentState < recipe.steps.length - 1) {
+          recipe.currentState++;
+        }
+        return recipe;
       });
     default:
       return state;

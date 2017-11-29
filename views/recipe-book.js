@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import store, { addRecipe, setSousChefHolding } from '../store';
+import store, { addRecipe, setSousChefHolding, generateCustomer } from '../store';
 import recipeArray from '../recipe-constructor';
 
 const {
@@ -32,7 +32,6 @@ export default function recipeBook() {
     letterSpacing: 1,
   };
 
-
   const jollofText = textSetup(recipeBookStage, 'Jollof Rice', { x: spacingX, y: spacingY - 125 });
   const jollof = setup(
     recipeBookStage,
@@ -40,8 +39,18 @@ export default function recipeBook() {
     { x: spacingX, y: spacingY - 25 },
     { x: 0.4, y: 0.4 },
   );
-  const cook = textSetup(recipeBookStage, 'Cook', { x: spacingX - 50, y: spacingY + 50 }, buttonStyling);
-  const recipe = textSetup(recipeBookStage, 'Recipe', { x: spacingX + 50, y: spacingY + 50 }, buttonStyling);
+  const cook = textSetup(
+    recipeBookStage,
+    'Cook',
+    { x: spacingX - 50, y: spacingY + 50 },
+    buttonStyling,
+  );
+  const recipe = textSetup(
+    recipeBookStage,
+    'Recipe',
+    { x: spacingX + 50, y: spacingY + 50 },
+    buttonStyling,
+  );
 
   const jollofText2 = textSetup(recipeBookStage, 'Jollof Rice', {
     x: spacingX,
@@ -53,8 +62,18 @@ export default function recipeBook() {
     { x: spacingX, y: spacingY * 2 + 25 },
     { x: 0.4, y: 0.4 },
   );
-  const cook2 = textSetup(recipeBookStage, 'Cook', { x: spacingX - 50, y: spacingY * 2 + 100 }, buttonStyling);
-  const recipe2 = textSetup(recipeBookStage, 'Recipe', { x: spacingX + 50, y: spacingY * 2 + 100 }, buttonStyling);
+  const cook2 = textSetup(
+    recipeBookStage,
+    'Cook',
+    { x: spacingX - 50, y: spacingY * 2 + 100 },
+    buttonStyling,
+  );
+  const recipe2 = textSetup(
+    recipeBookStage,
+    'Recipe',
+    { x: spacingX + 50, y: spacingY * 2 + 100 },
+    buttonStyling,
+  );
 
   const jollofText3 = textSetup(recipeBookStage, 'Jollof Rice', {
     x: spacingX * 3,
@@ -66,8 +85,18 @@ export default function recipeBook() {
     { x: spacingX * 3, y: spacingY - 25 },
     { x: 0.4, y: 0.4 },
   );
-  const cook3 = textSetup(recipeBookStage, 'Cook', { x: spacingX * 3 - 50, y: spacingY + 50 }, buttonStyling);
-  const recipe3 = textSetup(recipeBookStage, 'Recipe', { x: spacingX * 3 + 50, y: spacingY + 50 }, buttonStyling);
+  const cook3 = textSetup(
+    recipeBookStage,
+    'Cook',
+    { x: spacingX * 3 - 50, y: spacingY + 50 },
+    buttonStyling,
+  );
+  const recipe3 = textSetup(
+    recipeBookStage,
+    'Recipe',
+    { x: spacingX * 3 + 50, y: spacingY + 50 },
+    buttonStyling,
+  );
 
   const jollofText4 = textSetup(recipeBookStage, 'Jollof Rice', {
     x: spacingX * 3,
@@ -79,11 +108,21 @@ export default function recipeBook() {
     { x: spacingX * 3, y: spacingY * 2 + 25 },
     { x: 0.4, y: 0.4 },
   );
-  const cook4 = textSetup(recipeBookStage, 'Cook', { x: spacingX * 3 - 50, y: spacingY * 2 + 100 }, buttonStyling);
-  const recipe4 = textSetup(recipeBookStage, 'Recipe', {
-    x: spacingX * 3 + 50,
-    y: spacingY * 2 + 100,
-  }, buttonStyling);
+  const cook4 = textSetup(
+    recipeBookStage,
+    'Cook',
+    { x: spacingX * 3 - 50, y: spacingY * 2 + 100 },
+    buttonStyling,
+  );
+  const recipe4 = textSetup(
+    recipeBookStage,
+    'Recipe',
+    {
+      x: spacingX * 3 + 50,
+      y: spacingY * 2 + 100,
+    },
+    buttonStyling,
+  );
 
   const cookButtons = [cook, cook2, cook3, cook4];
 
@@ -128,7 +167,6 @@ export default function recipeBook() {
   arrow.interactive = true;
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToGame);
-
 
   function backToGame() {
     recipeBookStage.visible = false;
