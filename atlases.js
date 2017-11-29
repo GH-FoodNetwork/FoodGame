@@ -78,6 +78,7 @@ export function objectAtlasInit(resources) {
   result.floor = textureSetup(resources.floor, 0, 0, 9, 8);
   result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
   result.playButton = textureSetup(resources.playButton);
+  result.flame = textureSetup(resources.flame);
 
   objectAtlas = result;
   window._atlas = objectAtlas;
@@ -90,7 +91,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
-  stationPosition = { x: canvasPosition.x, y: canvasPosition.y + 50 }
+  stationPosition = { x: canvasPosition.x, y: canvasPosition.y },
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
