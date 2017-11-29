@@ -83,11 +83,17 @@ export default function singleRecipe() {
   });
 
   const cook = textSetup(singleRecipeStage, 'Cook Now!', { x: spacingX, y: spacingY + 350 }, buttonStyling);
+  cook.interactive = true;
+  cook.buttonMode = true;
+  cook.on('pointerdown', addToActiveRecipes);
 
+  function addToActiveRecipes() {
+    store.dispatch(addRecipe(new recipeArray[0]()));
+  }
 
   const jollofLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
     x: spacingX,
-    y: spacingY + 375,
+    y: spacingY + 385,
   });
   jollofLink.interactive = true;
   jollofLink.buttonMode = true;
@@ -107,9 +113,9 @@ export default function singleRecipe() {
 
   arrow.interactive = true;
   arrow.buttonMode = true;
-  arrow.on('pointerdown', backToGame);
+  arrow.on('pointerdown', backToRecipeBook);
 
-  function backToGame() {
+  function backToRecipeBook() {
     recipeBookStage.visible = true;
     singleRecipeStage.visible = false;
   }
@@ -126,8 +132,8 @@ export default function singleRecipe() {
   play.on('pointerdown', clickToPlay);
 
   function clickToPlay() {
-    store
-    backToGame()
+    singleRecipeStage.visible = false;
+    gameStage.visible = true;
   }
 
   renderer.render(singleRecipeStage);
