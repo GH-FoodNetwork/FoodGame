@@ -9,13 +9,7 @@ import {
   Text,
 } from 'pixi.js';
 
-import store, {
-  addDestination,
-  removeDestination,
-  addRecipe,
-  setSousChefHolding,
-  moveFromSousToChef,
-} from '../store';
+import store, { addDestination, removeDestination, addRecipe, setSousChefHolding, moveFromSousToChef, dequeueStep } from '../store';
 import { setup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; //START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
 import { bookUpdate } from './recipe-book';
@@ -87,11 +81,20 @@ export default function gameplay() {
   }
 
   function onClick(evt) {
+    state = store.getState()
+    if (evt.target.station !== state.steps[0]) {
+      alert("Wrong station!")
+    } else {
+      console.log(evt.target)
     store.dispatch(removeDestination());
     // TODO: add stationPosition for all objects
     const { x, y } = evt.target.stationPosition;
     store.dispatch(addDestination({ x, y }));
     movePlayer();
+    store.dispatch(dequeueStep());
+    state = store.getState();
+    console.log("steps?", state.steps)
+    }
   }
 
   /**
@@ -246,7 +249,7 @@ const buildkitchenObjects = () => {
       x: floorStart,
       y: 64 * (i % 12 === 0 ? Math.floor(i / 12) - 1 : Math.floor(i / 12)) + 64,
     });
-    floorStart += 64    
+    floorStart += 64
   }
 
   // wall
@@ -270,14 +273,27 @@ const buildkitchenObjects = () => {
     x: xStart + width,
     y: 50,
   });
-  kitchenObjects.choppingCounter = setup(gameStage, objectAtlas.choppingCounter, {
-    x: xStart + 2 * width,
-    y: 50,
-  });
-  kitchenObjects.choppingCounter2 = setup(gameStage, objectAtlas.choppingCounter, {
-    x: xStart + 3 * width,
-    y: 50,
-  });
+
+  kitchenObjects.choppingCounter = setup(
+    gameStage,
+    objectAtlas.choppingCounter,
+    {
+      x: xStart + 2 * width,
+      y: 50
+    }
+  );
+  kitchenObjects.choppingCounter.station = 'chopping';
+
+  kitchenObjects.choppingCounter2 = setup(
+    gameStage,
+    objectAtlas.choppingCounter,
+    {
+      x: xStart + 3 * width,
+      y: 50
+    }
+  );
+  kitchenObjects.choppingCounter2.station = 'chopping';
+
   kitchenObjects.scaleCounter = setup(gameStage, objectAtlas.scaleCounter, {
     x: xStart + 4 * width,
     y: 50,
@@ -361,22 +377,34 @@ const buildkitchenObjects = () => {
     objectAtlas.fryingPan,
     { x: 491, y: 425 },
     { x: 0.07, y: 0.07 },
-    { x: 491, y: 365 },
+    { x: 491, y: 365 }
   );
-  kitchenObjects.bottomFryingCounter2 = setup(gameStage, objectAtlas.grillCounter, {
-    x: xStart + 6 * width,
-    y: bottomCounterY,
-  });
+  kitchenObjects.fryingPan1.station = 'frying';
+
+  kitchenObjects.bottomFryingCounter2 = setup(
+    gameStage,
+    objectAtlas.grillCounter,
+    {
+      x: xStart + 6 * width,
+      y: bottomCounterY
+    }
+  );
   kitchenObjects.fryingPan2 = setup(
     gameStage,
     objectAtlas.fryingPan,
     { x: 555, y: 425 },
     { x: 0.07, y: 0.07 },
+    { x: 555, y: 365 }
   );
-  kitchenObjects.bottomEmptyCounter3 = setup(gameStage, objectAtlas.emptyCounter, {
-    x: xStart + 7 * width,
-    y: bottomCounterY,
-  });
+  kitchenObjects.fryingPan2.station = 'frying';
+
+  kitchenObjects.bottomEmptyCounter3 = setup(
+    gameStage,
+    objectAtlas.emptyCounter,
+    {
+      x: xStart + 7 * width,
+      y: bottomCounterY
+    }
 
   // Right side counters
   /*kitchenObjects["rightSideCounter"] = setup('images/counters.png', 0, 3, 8, 4.5, { x: xStart + 8 * width, y: 50 }) */
@@ -405,13 +433,17 @@ const buildkitchenObjects = () => {
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter2.y },
     { x: 1.5, y: 1.5 },
+    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter2.y }
   );
+  kitchenObjects.mixingBowl1.station = 'mixing';
   kitchenObjects.mixingBowl2 = setup(
     gameStage,
     objectAtlas.mixingBowl,
     { x: xStart + 8 * width, y: kitchenObjects.rightSideCounter3.y },
     { x: 1.5, y: 1.5 },
+    { x: (xStart + 8 * width) - 50, y: kitchenObjects.rightSideCounter3.y }
   );
+  kitchenObjects.mixingBowl2.station = 'mixing';
 
   // Characters, etc.
   kitchenObjects.coolCustomer = setup(
@@ -455,7 +487,9 @@ const buildkitchenObjects = () => {
     objectAtlas.jollof,
     { x: 100, y: 50 },
     { x: 0.15, y: 0.15 },
+    { x: 150, y: 50}
   );
+  kitchenObjects.jollof.station = 'serving';
 
   kitchenObjects.money = moneyRender();
 
