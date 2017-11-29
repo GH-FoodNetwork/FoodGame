@@ -31,6 +31,7 @@ const loader = PIXI.loader
   .add('cookedRice', 'images/cooked-riceSM.png')
   .add('tomatoPaste', 'images/tomatosauceSM.png')
   .add('floor', 'images/floor.png')
+  .add('playButton', 'images/playButton.png')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
@@ -53,7 +54,7 @@ window._stage = stage
 recipeBookStage.visible = false;
 singleRecipeStage.visible = false;
 
-const PIXELS_PER_TILE = window.innerWidth / 80
+const PIXELS_PER_TILE = window.innerWidth / 80;
 // stage.scale.x = PIXELS_PER_TILE;
 // stage.scale.y = PIXELS_PER_TILE;
 
@@ -64,6 +65,6 @@ renderer.view.style.display = 'block';
 renderer.autoResize = false;
 // renderer.resize(window.innerWidth, window.innerHeight);
 
-window.R = renderer
+window.R = renderer;
 
 export default loader;
