@@ -61,6 +61,7 @@ export function objectAtlasInit(resources) {
   result.playButton = textureSetup(resources.playButton);
 
   objectAtlas = result;
+  window._atlas = objectAtlas
   return result;
 }
 const PIXELS_PER_TILE = window.innerWidth / 80;
