@@ -47,14 +47,10 @@ export const gameStage = new PIXI.Container();
 export const recipeBookStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
-<<<<<<< HEAD
-
-=======
 stage.addChild(singleRecipeStage);
 gameStage.addChild(foodStack);
 gameStage.addChild(chefFoodStack);
 window._stage = stage
->>>>>>> fd890f5... Ashi fixed the containers by doing an add and remove to bring to front
 recipeBookStage.visible = false;
 
 const PIXELS_PER_TILE = window.innerWidth / 80
