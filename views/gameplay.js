@@ -19,20 +19,27 @@ import recipeArray from '../recipe-constructor';
 // export const gameStage = new Container();
 // export const recipeBookStage = new Container();
 export let kitchenObjects = {};
+
+window._ko = kitchenObjects
+
 let state;
 // stage.addChild(gameStage);
 // stage.addChild(recipeBookStage);
 // recipeBookStage.visible = false;
 // let stage = gameStage;
 
+import {foodStack, chefFoodStack} from '../store/platter'
+
 export function update() {
-  state = store.getState();
-  gameStage.addChild(state.platter.foodStack);
+  //state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
+  
+
   // Funnel all animation updates here
   movePlayer();
   // Rerender
   // console.log(stage);
-  requestAnimationFrame(update);
+  window._raf = requestAnimationFrame(update);
+  window._renderer = renderer
   renderer.render(stage);
 }
 
@@ -59,11 +66,23 @@ function movePlayer() {
 }
 
 export default function gameplay() {
+  window._food = foodStack
+  window._chef = chefFoodStack
+
   document.body.appendChild(renderer.view);
 
   renderer.backgroundColor = 0xffffff;
+  state = store.getState();
 
-  
+  gameStage.addChild(foodStack)
+  gameStage.addChild(chefFoodStack)
+
+  if(state.platter){
+    let rect = gameStage.getBounds();
+    let chefRect = state.platter.chefFoodStack.getBounds();
+    console.log("rect left",rect.left," right ",rect.right);
+    console.log("chefRect left",chefRect.left," right ",chefRect.right);
+  }
 
   function onClick(evt) {
     store.dispatch(removeDestination());
@@ -137,19 +156,33 @@ export default function gameplay() {
     const { sousChefHolding } = state.platter;
     if (sousChefHolding) {
       console.log('isHolding!');
-      
+      store.dispatch(moveFromSousToChef());
       recipeBook.visible = true;
       recipeBook.interactive = true;
       recipeBook.buttonMode = true;
       store.dispatch(setSousChefHolding(false));
+
+      if(state.platter){
+        let rect = gameStage;
+        let chefRect = state.platter.chefFoodStack;
+        console.log("rect left",rect.getBounds().left,"right",rect.getBounds.right," x",rect.x,"y",rect.y);
+        console.log("rect left",chefRect.getBounds().left,"right",chefRect.getBounds.right," x",chefRect.x,"y",chefRect.y);
+        console.log("gameStage",gameStage);
+      }
     } else {
-      // TODO: Remove foodStack from gameStage
-      
+      // TODO: Remove foodStack from gameStage      
       recipeBook.visible = false;
       recipeBook.interactive = false;
       recipeBook.buttonMode = false;
       store.dispatch(addRecipe(new recipeArray[0]()));
-      store.dispatch(setSousChefHolding(true));     
+      store.dispatch(setSousChefHolding(true)); 
+      
+      if(state.platter){
+        let rect = gameStage;
+        let chefRect = state.platter.chefFoodStack;
+        console.log("rect left",rect.getBounds().left,"right",rect.getBounds.right," x",rect.x,"y",rect.y);
+        console.log("rect left",chefRect.getBounds().left,"right",chefRect.getBounds.right," x",chefRect.x,"y",chefRect.y);
+      }
     }
   }
 

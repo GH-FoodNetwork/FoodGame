@@ -60,6 +60,7 @@ export function objectAtlasInit(resources) {
   result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
   
   objectAtlas = result;
+  window._atlas = objectAtlas
   return result;
 }
 const PIXELS_PER_TILE = window.innerWidth / 80
