@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import store, { addRecipe, setSousChefHolding } from '../store';
+import store, { addRecipe, setSousChefHolding, generateCustomer } from '../store';
 import recipeArray from '../recipe-constructor';
 
 const {
