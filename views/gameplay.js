@@ -72,9 +72,6 @@ function movePlayer() {
 }
 
 function animateStation(station) {
-  //flame is currently a 3 second timer
-  const { topChef } = kitchenObjects;
-
   if (station.station !== 'serving') {
     const flame = setup(
       gameStage,
@@ -83,9 +80,17 @@ function animateStation(station) {
       { x: 0.2, y: 0.2 },
     );
 
-    const clockText3 = textSetup(gameStage, '3', { x: topChef.x, y: topChef.y + 50 });
-    const clockText2 = textSetup(gameStage, '2', { x: topChef.x, y: topChef.y + 50 });
-    const clockText1 = textSetup(gameStage, '1', { x: topChef.x, y: topChef.y + 50 });
+    const circle = new Graphics();
+    circle.beginFill(0xeeaaff);
+    circle.drawCircle(0, 0, 20);
+    circle.endFill();
+    circle.x = station.x + 50;
+    circle.y = station.y - 50;
+    gameStage.addChild(circle);
+
+    const clockText3 = textSetup(gameStage, '3', { x: station.x + 50, y: station.y - 50 });
+    const clockText2 = textSetup(gameStage, '2', { x: station.x + 50, y: station.y - 50 });
+    const clockText1 = textSetup(gameStage, '1', { x: station.x + 50, y: station.y - 50 });
     clockText2.visible = false;
     clockText1.visible = false;
 
@@ -110,6 +115,7 @@ function animateStation(station) {
     setInterval(() => {
       flame.alpha = 0;
       station.rotation = 0;
+      circle.alpha = 0;
     }, 3000);
   }
 }
@@ -120,7 +126,7 @@ export default function gameplay() {
 
   document.body.appendChild(renderer.view);
 
-  renderer.backgroundColor = 0x061639;
+  renderer.backgroundColor = 0x3a1145;
   state = store.getState();
 
   gameStage.addChild(foodStack);
