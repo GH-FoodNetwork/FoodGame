@@ -17,7 +17,7 @@ import store, {
   moveFromSousToChef,
   dequeueStep,
   updateRecipeState,
-  currentRecipes
+  currentRecipes,
   bringToFront,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
