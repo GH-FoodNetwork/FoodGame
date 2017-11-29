@@ -15,8 +15,16 @@ export const foodStack = defaultState.foodStack;
 export const chefFoodStack = defaultState.chefFoodStack;
 export const currentRecipes = [];
 
-foodStack.position = new PIXI.Point(680, 360);
+foodStack.position = new PIXI.Point(680, 390);
 chefFoodStack.position = new PIXI.Point(150, 150);
+
+//HELPER
+export const bringToFront = (stage, child) => {
+  if (child.parent === stage) {
+    stage.removeChild(child);
+    stage.addChild(child);
+  } else console.log("Can't bringToFront bc stage ",stage," is not parent of child ",child);
+}
 
 //ACTION TYPE
 const SET_SOUSCHEFHOLDING = 'SET_SOUSCHEFHOLDING';
@@ -39,39 +47,23 @@ export default function platterReducer(state = defaultState, action) {
         kitchenObjects[`${action.recipe.id}i${i}`] = setup(
           foodStack, action.recipe.ingredients[i],
           //TODO: scale location based on texture height
-          { x: 0, y: 25 - (i * 25 /*action.recipe.ingredients[i].height)*/) },
+          { x: 0, y: 0 - (i * 25 /*action.recipe.ingredients[i].height)*/) },
           { x: 0.5, y: 0.5 },
         );
       }
-      if (foodStack.parent)
-        {foodStack.parent.removeChild(foodStack)};
-      gameStage.addChild(foodStack);
-      console.log('foodstack.children.length', foodStack.children.length);
+      bringToFront(gameStage,foodStack);
       currentRecipes.push(action.recipe)
       return state;
     case SET_SOUSCHEFHOLDING:
       return Object.assign({}, state, { sousChefHolding: action.holdBool });
-    case MOVE_FROMSOUSTOCHEF:
-      /*let result = Object.assign({}, state,
-        { foodStack: Object.assign(new PIXI.Container(), {children: []}),
-     chefFoodStack: Object.assign(new PIXI.Container(),
-      {children: state.chefFoodStack.children.concat(state.foodStack.children)
-      })
-    });
-    result.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
-    result.chefFoodStack.height = 100;
-    result.chefFoodStack.width  = 100;
-    return result;*/
-      console.log('foodstack.children.length', foodStack.children.length);
-      /*for (let i = 0; i < foodStack.children.length; i++) {
-        console.log(i);
-        chefFoodStack.addChild(foodStack.children[i]);
-      }*/
-
-      foodStack.parent.removeChild(foodStack);
-      gameStage.addChild(foodStack);
-      chefFoodStack.parent.removeChild(chefFoodStack);
-      gameStage.addChild(chefFoodStack);
+    case MOVE_FROMSOUSTOCHEF:     
+      while(foodStack.children.length){
+        let currChild = foodStack.children[0];
+        chefFoodStack.addChild(currChild);//Change child position relative
+        currChild.position = new PIXI.Point(0,-1*(chefFoodStack.children.length*25));
+      }
+      bringToFront(gameStage, foodStack);
+      bringToFront(gameStage, chefFoodStack);
       return state;
     case UPDATE_RECIPE_STATE:
     //Map or filter to selectively remove ingredients? Or specify ingredient in action creator?
@@ -80,3 +72,4 @@ export default function platterReducer(state = defaultState, action) {
       return state;
   }
 }
+
