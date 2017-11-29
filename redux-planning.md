@@ -27,6 +27,7 @@
       - [x] switches back to the game play view
     - [x] In that view, click on 'recipe' and renders the single recipe view
       - [x] (link to actual recipe)
+      - [ ] players have an option to add that recipe to the list of current active recipes
       - [ ] click on 'play now' - adds to the list of current active recipes
       - [x] click on 'play now' - Switches back to game play view
   - [ ] **Souschef's hand appears with ingredients**

@@ -1,8 +1,23 @@
-import { Sprite, Texture, BaseTexture, Rectangle, Text, addChild } from 'pixi.js';
+import {
+  Sprite,
+  Texture,
+  BaseTexture,
+  Rectangle,
+  Text,
+  addChild
+} from 'pixi.js';
 
-function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1) {
+function textureSetup(
+  img,
+  xPosition = 0,
+  yPosition = 0,
+  xWidth = 1,
+  yHeight = 1
+) {
   const texture =
-    typeof img === 'string' ? new Texture(BaseTexture.fromImage(img)) : new Texture(img.texture);
+    typeof img === 'string'
+      ? new Texture(BaseTexture.fromImage(img))
+      : new Texture(img.texture);
   //addToCache(texture, img)
   //Create the `tileset` sprite from the texture
   //var texture = TextureCache[img];
@@ -17,8 +32,12 @@ function textureSetup(img, xPosition = 0, yPosition = 0, xWidth = 1, yHeight = 1
   const rectangle = new Rectangle(
     xPosition * colWidth,
     yPosition * rowHeight,
-    width - xPosition * colWidth > colWidth ? colWidth : width - xPosition * colWidth,
-    height - yPosition * rowHeight > rowHeight ? rowHeight : height - yPosition * rowHeight,
+    width - xPosition * colWidth > colWidth
+      ? colWidth
+      : width - xPosition * colWidth,
+    height - yPosition * rowHeight > rowHeight
+      ? rowHeight
+      : height - yPosition * rowHeight
   );
 
   //Tell the texture to use that rectangular section
@@ -61,7 +80,7 @@ export function objectAtlasInit(resources) {
   result.playButton = textureSetup(resources.playButton);
 
   objectAtlas = result;
-  window._atlas = objectAtlas
+  window._atlas = objectAtlas;
   return result;
 }
 const PIXELS_PER_TILE = window.innerWidth / 80;
@@ -71,7 +90,7 @@ export function setup(
   texture,
   canvasPosition = { x: 0, y: 0 },
   spriteScale = { x: 2, y: 2 },
-  stationPosition = { x: canvasPosition.x, y: canvasPosition.y + 50 },
+  stationPosition = { x: canvasPosition.x, y: canvasPosition.y + 50 }
 ) {
   //Create the sprite from the texture
   const sprite = new Sprite(texture);
@@ -95,11 +114,17 @@ export function setup(
   return sprite;
 }
 
-export function textSetup(stage, content, canvasPosition = { x: 0, y: 0 }) {
-  const text = new Text(content, {
+export function textSetup(
+  stage,
+  content,
+  canvasPosition = { x: 0, y: 0 },
+  styling = {
     fontFamily: 'Arial',
     fontSize: 25,
-  });
+  },
+) {
+  const text = new Text(content, styling);
+
   text.position.set(canvasPosition.x, canvasPosition.y);
   text.anchor.set(0.5);
 
