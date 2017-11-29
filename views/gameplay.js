@@ -448,7 +448,7 @@ const buildkitchenObjects = () => {
       y: 146,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 146 },
+    { x: 150, y: 125 },
   );
   kitchenObjects.sideCounter2.station = 'serving';
   kitchenObjects.sideCounter3 = setup(
@@ -459,7 +459,7 @@ const buildkitchenObjects = () => {
       y: 242,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 242 },
+    { x: 150, y: 250 },
   );
   kitchenObjects.sideCounter3.station = 'serving';
   kitchenObjects.sideCounter4 = setup(
@@ -470,7 +470,7 @@ const buildkitchenObjects = () => {
       y: 338,
     },
     { x: 2, y: 2 },
-    { x: 150, y: 338 },
+    { x: 150, y: 375 },
   );
   kitchenObjects.sideCounter4.station = 'serving';
   kitchenObjects.sideCounter5 = setup(gameStage, objectAtlas.sideCounter, {
@@ -573,12 +573,12 @@ const buildkitchenObjects = () => {
   kitchenObjects.mixingBowl2.station = 'mixing';
 
   // Characters, etc.
-  kitchenObjects.coolCustomer = setup(
-    gameStage,
-    objectAtlas.customer2,
-    { x: 30, y: 50 },
-    { x: 3.5, y: 3.5 },
-  );
+  // kitchenObjects.coolCustomer = setup(
+  //   gameStage,
+  //   objectAtlas.customer2,
+  //   { x: 30, y: 50 },
+  //   { x: 3.5, y: 3.5 },
+  // );
 
   // TODO: adjust padding on chef to make sure she doesn\'t overlap counters
   kitchenObjects.topChef = setup(

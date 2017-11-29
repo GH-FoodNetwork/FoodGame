@@ -129,9 +129,11 @@ export default function recipeBook() {
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToGame);
 
+
   function backToGame() {
     recipeBookStage.visible = false;
     gameStage.visible = true;
+    store.dispatch(generateCustomer());
   }
   renderer.render(recipeBookStage);
 }
