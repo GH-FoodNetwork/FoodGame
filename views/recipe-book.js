@@ -5,6 +5,7 @@ const {
 } = PIXI;
 import { gameStage, recipeBookStage, singleRecipeStage, renderer } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
+import store, { generateCustomer } from '../store';
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
@@ -105,8 +106,10 @@ export default function recipeBook() {
   arrow.on('pointerdown', onClick);
 
   function onClick() {
+    store.getState();
     recipeBookStage.visible = false;
     gameStage.visible = true;
+    store.dispatch(generateCustomer());
   }
   renderer.render(recipeBookStage);
 }

@@ -473,12 +473,12 @@ const buildkitchenObjects = () => {
   kitchenObjects.mixingBowl2.station = 'mixing';
 
   // Characters, etc.
-  kitchenObjects.coolCustomer = setup(
-    gameStage,
-    objectAtlas.customer2,
-    { x: 30, y: 50 },
-    { x: 3.5, y: 3.5 },
-  );
+  // kitchenObjects.coolCustomer = setup(
+  //   gameStage,
+  //   objectAtlas.customer2,
+  //   { x: 30, y: 50 },
+  //   { x: 3.5, y: 3.5 },
+  // );
 
   // TODO: adjust padding on chef to make sure she doesn\'t overlap counters
   kitchenObjects.topChef = setup(
