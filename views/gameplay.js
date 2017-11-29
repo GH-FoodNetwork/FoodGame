@@ -73,12 +73,17 @@ function movePlayer() {
 
 function animateStation(station) {
   if (station.station !== 'serving') {
-    const flame = setup(
-      gameStage,
-      objectAtlas.flame,
-      { x: station.x, y: station.y },
-      { x: 0.2, y: 0.2 },
-    );
+    if (station.station === 'frying') {
+      const flame = setup(
+        gameStage,
+        objectAtlas.flame,
+        { x: station.x - 5, y: station.y + 15 },
+        { x: 0.2, y: 0.2 },
+      );
+      setInterval(() => {
+        flame.alpha = 0;
+      }, 3000);
+    }
 
     const circle = new Graphics();
     circle.beginFill(0xeeaaff);
@@ -113,7 +118,6 @@ function animateStation(station) {
     }, 3000);
 
     setInterval(() => {
-      flame.alpha = 0;
       station.rotation = 0;
       circle.alpha = 0;
     }, 3000);
