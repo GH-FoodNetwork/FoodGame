@@ -7,6 +7,7 @@ import titleSplash from './views/title-splash-screen';
 import App from '~/App';
 import * as PIXI from 'pixi.js';
 import { objectAtlasInit } from './atlases';
+import { foodStack, chefFoodStack } from './store/index';
 
 // Debugging
 window.PIXI = PIXI;
@@ -30,6 +31,7 @@ const loader = PIXI.loader
   .add('cookedRice', 'images/cooked-riceSM.png')
   .add('tomatoPaste', 'images/tomatosauceSM.png')
   .add('floor', 'images/floor.png')
+  .add('playButton', 'images/playButton.png')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
@@ -46,11 +48,13 @@ export const singleRecipeStage = new PIXI.Container();
 stage.addChild(gameStage);
 stage.addChild(recipeBookStage);
 stage.addChild(singleRecipeStage);
-
+gameStage.addChild(foodStack);
+gameStage.addChild(chefFoodStack);
+window._stage = stage
 recipeBookStage.visible = false;
 singleRecipeStage.visible = false;
 
-const PIXELS_PER_TILE = window.innerWidth / 80
+const PIXELS_PER_TILE = window.innerWidth / 80;
 // stage.scale.x = PIXELS_PER_TILE;
 // stage.scale.y = PIXELS_PER_TILE;
 
@@ -58,9 +62,9 @@ export const renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerH
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
 // renderer.resize(10, 100)
-// renderer.autoResize = true;
+renderer.autoResize = false;
 // renderer.resize(window.innerWidth, window.innerHeight);
 
-window.R = renderer
+window.R = renderer;
 
 export default loader;
