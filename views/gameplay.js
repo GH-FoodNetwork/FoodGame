@@ -169,7 +169,7 @@ function animateStation(station) {
     if (customerAtThisSlot.desiredDish === usingRecipe.title) {
       store.dispatch(updateCustomer(customerCounters.indexOf(station)));
       store.dispatch(removeCustomer(customerCounters.indexOf(station)));
-      kitchenObjects["finished" + usingRecipe.id.toString()].destroy();//TEST THIS NEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      kitchenObjects['finished' + usingRecipe.id.toString()].destroy();//TEST THIS NEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
   }
 }
@@ -207,7 +207,7 @@ export default function gameplay() {
         evt.target.recipeId = usingRecipe.id;
       }
       if (evt.target.station === 'serving') {
-        kitchenObjects[finished+usingRecipe.id] = setup(
+        kitchenObjects['finished'+usingRecipe.id] = setup(
 chefFoodStack, firstMatch.finishedDish,
           { x: 0, y: -1 * (chefFoodStack.children.length * 25) }, { x: 0.15, y: 0.15 },
         );
