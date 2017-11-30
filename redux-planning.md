@@ -4,7 +4,7 @@
 * <del>Add Recipe action creator to click</del>
 * Timers
   - [x] stations
-  - [ ] customers
+  - [x] customers
 * Ending dish process
 * <del>Station animations</del>
 * Money???
@@ -31,8 +31,8 @@
       - [x] (link to actual recipe)
       - [x] click on 'cook now!' - players have an option to add that recipe to the list of current active recipes
       - [x] click on 'play now' - Switches back to game play view
-  - [ ] **Souschef's hand appears with ingredients**
-  - [ ] **Chef automatically grabs ingredients from hand upon click (i.e. clicking a stove, chopping block, station(mixing), etc.) **and then does the action**
+  - [x] **Souschef's hand appears with ingredients**
+  - [x] **Chef automatically grabs ingredients from hand upon click (i.e. clicking a stove, chopping block, station(mixing), etc.) **and then does the action**
 * **Cooking - TIMER animation**
   * Chopping animation - knife up and down
   * **Mixing animation - spoon in bowl**
