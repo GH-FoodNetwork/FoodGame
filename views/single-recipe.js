@@ -3,6 +3,7 @@ import { renderer, singleRecipeStage, gameStage, recipeBookStage } from '../main
 import { setup, textSetup, objectAtlas } from '../atlases';
 import store, { addRecipe } from '../store';
 import recipeArray from '../recipe-constructor';
+import { cookRecipe } from './recipe-book';
 
 export default function singleRecipe() {
   document.body.appendChild(renderer.view);
@@ -93,7 +94,7 @@ export default function singleRecipe() {
   cook.on('pointerdown', addToActiveRecipes);
 
   function addToActiveRecipes() {
-    store.dispatch(addRecipe(new recipeArray[0]()));
+    cookRecipe(new recipeArray[0]());
   }
 
   const jollofLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
