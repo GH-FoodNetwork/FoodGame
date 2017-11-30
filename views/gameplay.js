@@ -18,6 +18,8 @@ import store, {
   moveFromSousToChef,
   updateRecipeState,
   bringToFront,
+  updateCustomer,
+  removeCustomer,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -26,6 +28,8 @@ import recipeArray from '../recipe-constructor';
 
 //Contains all objects that form the basis of the kitchen, such as stations, pans, and the chef
 export let kitchenObjects = {};
+
+let customerCounters;
 
 //For chef sprite
 export let faces;
@@ -151,7 +155,10 @@ function animateStation(station) {
         station.rotation = 0;
         store.dispatch(updateRecipeState(station.recipeId));
         clearInterval(interval);
-      }
+      }else if (evt.target.station === 'serving') {
+      store.dispatch(updateCustomer(customerCounters.indexOf(evt.target)));
+      store.dispatch(removeCustomer(customerCounters.indexOf(evt.target)));
+    }
     };
 
     let interval = setInterval(animTimer, 1000);
@@ -185,7 +192,7 @@ export default function gameplay() {
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
 
-  function onClick(evt) {
+  function onClick(evt) {   
     state = store.getState();
     const { recipes } = state;
     console.log('evt.target', evt.target);
@@ -202,8 +209,7 @@ export default function gameplay() {
       if (evt.target.recipeId === undefined) {
         evt.target.recipeId = usingRecipe.id;
       }
-      //TODO: Check if station is available, so we can't put a second recipe on a station in use
-      console.log(evt.target);
+      //TODO: Check if station is available, so we can't put a second recipe on a station in use      
       store.dispatch(addDestination(evt.target));
     } else {
       alert('Wrong station!');
@@ -232,7 +238,7 @@ export default function gameplay() {
   const mixingBowls = [kitchenObjects.mixingBowl1, kitchenObjects.mixingBowl2];
 
   // serving counters
-  const customerCounters = [
+  customerCounters = [
     kitchenObjects.sideCounter2,
     kitchenObjects.sideCounter3,
     kitchenObjects.sideCounter4,
@@ -342,11 +348,6 @@ function moneyRender() {
 
   return money;
 }
-
-
-
-
-
 
 const buildkitchenObjects = () => {
   const xStart = 164;
