@@ -44,7 +44,7 @@ window._ko = kitchenObjects;
 
 let state;
 
-import { foodStack, chefFoodStack } from '../store/platter';
+import { foodStack, chefFoodStack, sousChefCurrentRecipes } from '../store/platter';
 
 export function update() {
   // state.platter.chefFoodStack.position = new PIXI.Point(kitchenObjects.topChef.x, kitchenObjects.topChef.y);
@@ -111,7 +111,7 @@ function movePlayer() {
 
 function animateStation(station) {
   const chef = kitchenObjects.topChef;
-  
+
   //If this is not a serving station (which has special requirements), make a counter and loop through a countdown
   if (station.station !== 'serving') {
     const circle = new Graphics();
@@ -139,16 +139,14 @@ function animateStation(station) {
       }, 3000);
     }
 
-    if (station.station === "frying" || station.station === "mixing")
-      station.rotation = 1; //only for frying pans and mixing bowls, so the whole counter doesn't move
+    if (station.station === 'frying' || station.station === 'mixing') { station.rotation = 1; } //only for frying pans and mixing bowls, so the whole counter doesn't move
 
-    let animTimer = () => {
+    const animTimer = () => {
       //if(station.BaseTexturestation.rotation = station.rotation == 1 ? 0 : 1;
       counter--;
       clockText.text = counter;
-      if (station.station === "frying" || station.station === "mixing")
-        station.rotation = station.rotation == 1 ? 0 : 1;
-      if(counter <= 0) {
+      if (station.station === 'frying' || station.station === 'mixing') { station.rotation = station.rotation == 1 ? 0 : 1; }
+      if (counter <= 0) {
         clockText.destroy();
         circle.destroy();
         if (flame) flame.destroy();
@@ -161,15 +159,18 @@ function animateStation(station) {
     let interval = setInterval(animTimer, 1000);
 
 
-
-  state.platter.chefFoodStack.position = new PIXI.Point(
-    chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
-    chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
-  );
+    state.platter.chefFoodStack.position = new PIXI.Point(
+      chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
+      chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
+    );
     bringToFront(gameStage, state.platter.chefFoodStack);
-  }else /*if (station.station === 'serving')*/ {
-    store.dispatch(updateCustomer(customerCounters.indexOf(station)));
-    store.dispatch(removeCustomer(customerCounters.indexOf(station)));
+  } else {
+    const customerAtThisSlot = state.customer.find(el => (el.customerSlot === customerCounters.indexOf(station)));
+    if (customerAtThisSlot.desiredDish === usingRecipe.title) {
+      store.dispatch(updateCustomer(customerCounters.indexOf(station)));
+      store.dispatch(removeCustomer(customerCounters.indexOf(station)));
+      usingRecipe.destroy();//TEST THIS NEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
   }
 }
 
@@ -192,27 +193,33 @@ export default function gameplay() {
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
 
-  function onClick(evt) {   
+  function onClick(evt) {
     state = store.getState();
     const { recipes } = state;
     console.log('evt.target', evt.target);
     console.log('evt target station', evt.target.station);
     console.log('recipes', recipes);
-    const firstMatch = recipes.find(element => {
-      let stepsies = element.steps;
-      console.log("stepsies",stepsies);
-      return evt.target.station === stepsies[element.currentState].type;
-    });
+    const firstMatch = recipes.find(element => evt.target.station === element.steps[element.currentState].type);
     if (firstMatch) {
       store.dispatch(removeDestination());
       usingRecipe = firstMatch;
       if (evt.target.recipeId === undefined) {
         evt.target.recipeId = usingRecipe.id;
       }
-      //TODO: Check if station is available, so we can't put a second recipe on a station in use      
+      if (evt.target.station === 'serving') {
+        const finished = setup(
+chefFoodStack, firstMatch.finishedDish,
+          { x: 0, y: -1 * (chefFoodStack.children.length * 25) }, { x: 0.15, y: 0.15 },
+        );
+        for (let i = 0; i < firstMatch.ingredients.length; i++) {
+          console.log('------->>>>>', `${firstMatch.id}i${i}`);
+          kitchenObjects[`${firstMatch.id}i${i}`].destroy();
+        }
+      }
+      //TODO: Check if station is available, so we can't put a second recipe on a station in use
       store.dispatch(addDestination(evt.target));
     } else {
-      alert('Wrong station!');
+      alert('Wrong station! Try using the Recipe Book for instructions or to make a new dish!');
     }
   }
 
@@ -287,11 +294,11 @@ export default function gameplay() {
     if (sousChefHolding) {
       console.log('isHolding!');
       store.dispatch(moveFromSousToChef());
-      store.dispatch(addRecipe(new recipeArray[0]())); //IS ALWAYS JOLOFF
+      store.dispatch(addRecipe(sousChefCurrentRecipes.shift())); //IS ALWAYS JOLOFF
       store.dispatch(setSousChefHolding(false));
     } else {
       store.dispatch(setSousChefHolding(true));
-      store.dispatch(pickRecipe(new recipeArray[0]())); //IS ALWAYS JOLOFF
+      store.dispatch(pickRecipe(sousChefCurrentRecipes.shift())); //IS ALWAYS JOLOFF
     }
   }
 

@@ -51,7 +51,8 @@ export default function platterReducer(state = defaultState, action) {
           //TODO: scale location based on texture height
           { x: 0, y: 0 - (i * 25 /*action.recipe.ingredients[i].height)*/) },
           { x: 0.5, y: 0.5 },
-        );
+        );  
+        console.log("made ingredient",`${action.recipe.id}i${i}`);
       }
       sousChefCurrentRecipes.push(action.recipe);
       bringToFront(gameStage, foodStack);      

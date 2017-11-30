@@ -3,6 +3,7 @@ import { Graphics } from 'pixi.js';
 import { kitchenObjects } from '../views/gameplay';
 import { stage, gameStage } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
+import recipeArray from '../recipe-constructor';
 
 function getFirstAvailSlot() {
   const state = store.getState();
@@ -21,7 +22,7 @@ const customerCreator = () => {
     id: Math.random(),
     sprite: customers[Math.floor(Math.random() * (3 - 0)) + 0],
     customerSlot: slotty,
-    desiredDish: 'Jollof Rice',
+    desiredDish: new recipeArray[Math.floor(Math.random() * (recipeArray.length - 0)) + 0]().title,
     waitTime: Math.floor(Math.random() * (30 - 25)) + 25,
     satisfied: false,
     interval: null,
