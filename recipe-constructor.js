@@ -22,9 +22,9 @@ class Jollof extends Recipe {
       [
         { type: 'mixing', waitTime: '3' },
         { type: 'frying', waitTime: '3' },
-        { type: 'serving', waitTime: '3'}
+        { type: 'serving', waitTime: '0' },
       ],
-      'https://www.epicurious.com/recipes/food/views/african-jollof-rice'
+      'https://www.epicurious.com/recipes/food/views/african-jollof-rice',
     );
   }
 }

@@ -19,6 +19,8 @@ import store, {
   updateRecipeState,
   currentRecipes,
   bringToFront,
+  updateCustomer,
+  removeCustomer
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -191,6 +193,10 @@ export default function gameplay() {
   };
 
   function onClick(evt) {
+    if (evt.target.station === 'serving') {
+      store.dispatch(updateCustomer(1));
+      store.dispatch(removeCustomer(1));
+    }
     state = store.getState();
     const { recipes } = state;
     console.log('evt.target', evt.target);
@@ -359,11 +365,6 @@ function moneyRender() {
 
   return money;
 }
-
-
-
-
-
 
 const buildkitchenObjects = () => {
   const xStart = 164;
