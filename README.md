@@ -1,43 +1,17 @@
-Can't start a fire without a spark.
+# Global Kitchen:
 
-# Get started:
+Global Kitchen is a time management based restaurant simulator game in which
+players learn to make dishes from often unfamiliar international cuisines. It
+includes links to real recipes for educational purposes. The game was built for
+web and mobile using Pixi.js and Redux.
 
-```
-git clone git@github.com:queerviolet/spark.git
-cd spark
-npm install
-npx firebase init
-npm start
-```
+https://global-kitchen.herokuapp.com/
 
-# Frontend
+## Instructions
 
-The frontend starts in [`main.js`](./main.js). The root of the react app
-is in [`App.jsx`](./App.jsx).
+## Developers
 
-# Functions
-
-Write your [Cloud Functions](https://firebase.google.com/docs/functions/) in
-[`functions/index.js`](./functions/index.js).
-
-You can require node modules from Cloud Functions normally. Be sure to `npm install` them
-*inside* the functions directory (it has its own `package.json`).
-
-Sadly, you can't use `import` statements, and you can't `require` code that does.
-Don't despair, the library provides a workaround.
-
-## The Library
-
-The library is defined in [`lib/index.js`](lib/index.js). In the library, you
-can `import` code from your project normally, and anything you `export` will be
-available to your Cloud Functions.
-
-It is a bridge between Cloud Function code and the rest of your
-project's code.
-
-# Hot loading
-
-Hot module replacement is enabled, and the react-hot-loader plugins are applied.
-
-Your React components will update in place after you save them, without losing
-their state.
+* Anule Ndukwu
+* Cecilia Chang
+* Jennifer Neale
+* Layla Hedges
