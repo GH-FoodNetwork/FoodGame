@@ -21,25 +21,13 @@ class Jollof extends Recipe {
       objectAtlas.jollof,
       [
         { type: 'mixing', waitTime: '3' },
-        { type: 'frying', waitTime: '3' },
-        { type: 'serving', waitTime: '3'}
+        { type: 'frying', waitTime: '4' },
+        { type: 'serving', waitTime: '0' },
       ],
-      'https://www.epicurious.com/recipes/food/views/african-jollof-rice'
+      'https://www.epicurious.com/recipes/food/views/african-jollof-rice',
     );
   }
 }
-
-/*const jollof = new Recipe(
-  'Jollof Rice',
-  [setup(, 'tomatoPasteImg'],
-  'public/images/jollof.png',
-  [
-    { type: 'mixing', waitTime: '3' },
-    { type: 'spices', waitTime: '3' },
-    { type: 'fryer', waitTime: '3' },
-  ],
-  'link',
-);*/
 
 /*
  * NOTE: When calling a recipe from the recipeArray, you must use the `new` keyword to activate the constructor.
