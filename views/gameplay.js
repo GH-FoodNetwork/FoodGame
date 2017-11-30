@@ -166,7 +166,7 @@ function animateStation(station) {
     bringToFront(gameStage, state.platter.chefFoodStack);
   } else {
     const customerAtThisSlot = state.customer.find(el => (el.customerSlot === customerCounters.indexOf(station)));
-    if (customerAtThisSlot.desiredDish === usingRecipe.title) {
+    if (customerAtThisSlot && customerAtThisSlot.desiredDish === usingRecipe.title) {
       store.dispatch(updateCustomer(customerCounters.indexOf(station)));
       store.dispatch(removeCustomer(customerCounters.indexOf(station)));
       kitchenObjects['finished' + usingRecipe.id.toString()].destroy();//TEST THIS NEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
