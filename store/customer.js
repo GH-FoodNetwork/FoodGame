@@ -6,8 +6,9 @@ import { setup, textSetup, objectAtlas } from '../atlases';
 
 function getFirstAvailSlot() {
   const state = store.getState();
+  if (!state.customer.length) return 0;
   if (state.customer.length < 3) {
-    return state.customer.length + 1;
+    return state.customer.length - 1;
   }
   return -1;
 }
@@ -42,12 +43,15 @@ export default function customerReducer(state = [], action) {
   switch (action.type) {
     case GENERATE_CUSTOMER:
       const custy = customerCreator();
-      if (!custy) return state;
+      if (!custy) {
+        console.log("customer creator failed")
+        return state;
+      }
 
       custy.sprite = setup(
         gameStage,
         custy.sprite,
-        { x: 30, y: custy.customerSlot * 125 },
+        { x: 30, y: (custy.customerSlot + 1) * 125 },
         { x: 3.5, y: 3.5 },
       );
 
@@ -115,7 +119,7 @@ export default function customerReducer(state = [], action) {
       let gold;
       const [leavingCust] = state.filter(cust => cust.customerSlot === action.id);
       console.log('leaving customer -->', leavingCust);
-      const slot = leavingCust.customerSlot;
+      const slot = leavingCust.customerSlot + 1;
       const { x, y } = kitchenObjects.topChef;
       const timeleft = leavingCust.waitTime;
       console.log('time left', leavingCust.waitTime);

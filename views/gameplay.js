@@ -20,7 +20,7 @@ import store, {
   currentRecipes,
   bringToFront,
   updateCustomer,
-  removeCustomer
+  removeCustomer,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -31,6 +31,7 @@ import recipeArray from '../recipe-constructor';
 // export const gameStage = new Container();
 // export const recipeBookStage = new Container();
 export let kitchenObjects = {};
+let customerCounters;
 export let faces;
 let face = 'right';
 let faceNum = 0;
@@ -194,8 +195,8 @@ export default function gameplay() {
 
   function onClick(evt) {
     if (evt.target.station === 'serving') {
-      store.dispatch(updateCustomer(1));
-      store.dispatch(removeCustomer(1));
+      store.dispatch(updateCustomer(customerCounters.indexOf(evt.target)));
+      store.dispatch(removeCustomer(customerCounters.indexOf(evt.target)));
     }
     state = store.getState();
     const { recipes } = state;
@@ -250,7 +251,7 @@ export default function gameplay() {
   const mixingBowls = [kitchenObjects.mixingBowl1, kitchenObjects.mixingBowl2];
 
   // serving counters
-  const customerCounters = [
+  customerCounters = [
     kitchenObjects.sideCounter2,
     kitchenObjects.sideCounter3,
     kitchenObjects.sideCounter4,
