@@ -20,6 +20,7 @@ import store, {
   bringToFront,
   updateCustomer,
   removeCustomer,
+  removeRecipe,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -152,6 +153,7 @@ function animateStation(station) {
         if (flame) flame.destroy();
         station.rotation = 0;
         store.dispatch(updateRecipeState(station.recipeId));
+        station.recipeId = null;
         clearInterval(interval);
       }
     };
@@ -166,10 +168,12 @@ function animateStation(station) {
     bringToFront(gameStage, state.platter.chefFoodStack);
   } else {
     const customerAtThisSlot = state.customer.find(el => (el.customerSlot === customerCounters.indexOf(station)));
-    if (customerAtThisSlot && customerAtThisSlot.desiredDish === usingRecipe.title) {
+    if (customerAtThisSlot && customerAtThisSlot.desiredDish === usingRecipe.title) { //And if you have a finished recipe
       store.dispatch(updateCustomer(customerCounters.indexOf(station)));
       store.dispatch(removeCustomer(customerCounters.indexOf(station)));
-      kitchenObjects['finished' + usingRecipe.id.toString()].destroy();//TEST THIS NEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      store.dispatch(removeRecipe(usingRecipe.id));
+      kitchenObjects['finished' + usingRecipe.id.toString()].destroy();
+      usingRecipe = -1;
     }
   }
 }
@@ -203,7 +207,7 @@ export default function gameplay() {
     if (firstMatch) {
       store.dispatch(removeDestination());
       usingRecipe = firstMatch;
-      if (evt.target.recipeId === undefined) {
+      if (!evt.target.recipeId) {
         evt.target.recipeId = usingRecipe.id;
       }
       if (evt.target.station === 'serving') {
