@@ -1,4 +1,4 @@
-import store, { addMoney } from './index';
+import store from './index';
 import { Graphics } from 'pixi.js';
 import { kitchenObjects } from '../views/gameplay';
 import { stage, gameStage } from '../main';
@@ -142,33 +142,8 @@ export default function customerReducer(state = [], action) {
           }, //placement of sprite on stage
         ); //scale
 
-        let pay;
-
-        if (timeleft > 0) {
-          pay = 10 * timeleft;
-        } else {
-          pay = 10;
-        }
-
-        let { money } = kitchenObjects;
-
-        function clickMoney() {
-          store.dispatch(addMoney(pay));
-          gold.destroy();
-          let globalState = store.getState();
-          console.log("money?", globalState.money)
-          money.text = '$' + globalState.money;
-        }
-
-        gold.interactive = true;
-        gold.buttonMode = true;
-        gold.on('pointerdown', clickMoney);
-
-
       return state.filter(customer => customer.customerSlot !== action.id);
     default:
       return state;
   }
 }
-
-

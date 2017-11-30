@@ -340,9 +340,7 @@ export default function gameplay() {
   update();
 }
 
-function moneyRender() {
-  state = store.getState();
-  const amount = state.money;
+function moneyRender(amount = 10) {
   const money = new Text(`$${amount}`, {
     fontFamily: 'journal, Arial',
     fontSize: 52,
@@ -355,15 +353,10 @@ function moneyRender() {
   money.anchor.set(0.5);
   money.position.set(money.width + 100, 400); // TODO: Figure how to make relative height
   gameStage.addChild(money);
-  //renderer.render(gameStage);
+  renderer.render(gameStage);
 
   return money;
 }
-
-
-
-
-
 
 const buildkitchenObjects = () => {
   const xStart = 164;
