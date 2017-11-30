@@ -22,7 +22,7 @@ const customerCreator = () => {
     sprite: customers[Math.floor(Math.random() * (3 - 0)) + 0],
     customerSlot: slotty,
     desiredDish: 'Jollof Rice',
-    waitTime: Math.floor(Math.random() * (20 - 10)) + 10,
+    waitTime: Math.floor(Math.random() * (30 - 25)) + 25,
     satisfied: false,
     interval: null,
   };
@@ -135,12 +135,10 @@ export default function customerReducer(state = [], action) {
           }, //placement of sprite on stage
         ); //scale
 
-        let pay;
+        let pay = 10;
 
         if (leavingCust.waitTime > 0) {
-          pay = 10 * leavingCust.waitTime;
-        } else {
-          pay = 10;
+          pay += leavingCust.waitTime;
         }
         leavingCust.waitTime = 0;
         clearInterval(leavingCust.interval);
