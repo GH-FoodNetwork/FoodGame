@@ -20,9 +20,9 @@ class Jollof extends Recipe {
       [objectAtlas.cookedRice, objectAtlas.tomatoPaste],
       objectAtlas.jollof,
       [
-        { type: 'mixing', waitTime: '3' },
-        { type: 'frying', waitTime: '3' },
-        { type: 'serving', waitTime: '3'}
+        { type: 'mixing', waitTime: 3 },
+        { type: 'frying', waitTime: 4 },
+        { type: 'serving', waitTime: 3 }
       ],
       'https://www.epicurious.com/recipes/food/views/african-jollof-rice'
     );

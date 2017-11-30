@@ -13,7 +13,7 @@ const defaultState = {
 
 export const foodStack = defaultState.foodStack;
 export const chefFoodStack = defaultState.chefFoodStack;
-export const currentRecipes = [];
+export const sousChefCurrentRecipes = [];
 
 foodStack.position = new PIXI.Point(680, 390);
 chefFoodStack.position = new PIXI.Point(150, 150);
@@ -27,19 +27,21 @@ export const bringToFront = (stage, child) => {
 }
 
 //ACTION TYPE
+const PICK_RECIPE = 'PICK_RECIPE';
 const SET_SOUSCHEFHOLDING = 'SET_SOUSCHEFHOLDING';
 const MOVE_FROMSOUSTOCHEF = 'MOVE_FROMSOUSTOCHEF';
 
 //ACTION CREATOR
 export const setSousChefHolding = holdBool => ({ type: SET_SOUSCHEFHOLDING, holdBool });
 export const moveFromSousToChef = () => ({ type: MOVE_FROMSOUSTOCHEF });
+export const pickRecipe = (recipe) => ({ type: PICK_RECIPE, recipe });
 
 window._spr = setup;
 
 // REDUCER
 export default function platterReducer(state = defaultState, action) {
   switch (action.type) {
-    case ADD_RECIPE:
+    case PICK_RECIPE:
       //Side effect: Add ingredients from action.recipe.ingredients as sprites to gameStage, on souschef platter
       const platter = kitchenObjects.sousChef;
 
@@ -51,10 +53,13 @@ export default function platterReducer(state = defaultState, action) {
           { x: 0.5, y: 0.5 },
         );
       }
-      bringToFront(gameStage,foodStack);
-      currentRecipes.push(action.recipe)
+      sousChefCurrentRecipes.push(action.recipe);
+      bringToFront(gameStage, foodStack);      
       return state;
     case SET_SOUSCHEFHOLDING:
+      kitchenObjects.recipeBook.visible = !action.holdBool;
+      kitchenObjects.recipeBook.interactive = !action.holdBool;
+      kitchenObjects.recipeBook.buttonMode = !action.holdBool;
       return Object.assign({}, state, { sousChefHolding: action.holdBool });
     case MOVE_FROMSOUSTOCHEF:     
       while(foodStack.children.length){
