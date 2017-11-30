@@ -13,11 +13,10 @@ import store, {
   addDestination,
   removeDestination,
   addRecipe,
+  pickRecipe,
   setSousChefHolding,
   moveFromSousToChef,
-  dequeueStep,
   updateRecipeState,
-  currentRecipes,
   bringToFront,
   updateCustomer,
   removeCustomer,
@@ -27,14 +26,19 @@ import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START 
 import { bookUpdate } from './recipe-book';
 import recipeArray from '../recipe-constructor';
 
-// export const stage = new Container();
-// export const gameStage = new Container();
-// export const recipeBookStage = new Container();
+//Contains all objects that form the basis of the kitchen, such as stations, pans, and the chef
 export let kitchenObjects = {};
+
 let customerCounters;
+
+//For chef sprite
 export let faces;
 let face = 'right';
 let faceNum = 0;
+
+//Integer, index of recipe in recipes
+//Set when station is clicked on and we check which recipes in the queue are compatible with the station to pick one
+let usingRecipe = -1;
 
 window._ko = kitchenObjects;
 
@@ -107,10 +111,24 @@ function movePlayer() {
 
 function animateStation(station) {
   const chef = kitchenObjects.topChef;
-
+  
+  //If this is not a serving station (which has special requirements), make a counter and loop through a countdown
   if (station.station !== 'serving') {
+    const circle = new Graphics();
+    circle.beginFill(0xeeaaff);
+    circle.drawCircle(0, 0, 20);
+    circle.endFill();
+    circle.x = station.x + 50;
+    circle.y = station.y - 50;
+    gameStage.addChild(circle);
+    let counter = usingRecipe.steps[usingRecipe.currentState].waitTime;
+    const clockText = textSetup(gameStage, counter.toString(), {
+      x: station.x + 50,
+      y: station.y - 50,
+    });
+    let flame;
     if (station.station === 'frying') {
-      const flame = setup(
+      flame = setup(
         gameStage,
         objectAtlas.flame,
         { x: station.x - 5, y: station.y + 15 },
@@ -121,57 +139,38 @@ function animateStation(station) {
       }, 3000);
     }
 
-    const circle = new Graphics();
-    circle.beginFill(0xeeaaff);
-    circle.drawCircle(0, 0, 20);
-    circle.endFill();
-    circle.x = station.x + 50;
-    circle.y = station.y - 50;
-    gameStage.addChild(circle);
+    if (station.station === "frying" || station.station === "mixing")
+      station.rotation = 1; //only for frying pans and mixing bowls, so the whole counter doesn't move
 
-    const clockText3 = textSetup(gameStage, '3', {
-      x: station.x + 50,
-      y: station.y - 50,
-    });
-    const clockText2 = textSetup(gameStage, '2', {
-      x: station.x + 50,
-      y: station.y - 50,
-    });
-    const clockText1 = textSetup(gameStage, '1', {
-      x: station.x + 50,
-      y: station.y - 50,
-    });
-    clockText2.visible = false;
-    clockText1.visible = false;
+    let animTimer = () => {
+      //if(station.BaseTexturestation.rotation = station.rotation == 1 ? 0 : 1;
+      counter--;
+      clockText.text = counter;
+      if (station.station === "frying" || station.station === "mixing")
+        station.rotation = station.rotation == 1 ? 0 : 1;
+      if(counter <= 0) {
+        clockText.destroy();
+        circle.destroy();
+        if (flame) flame.destroy();
+        station.rotation = 0;
+        store.dispatch(updateRecipeState(station.recipeId));
+        clearInterval(interval);
+      }else if (evt.target.station === 'serving') {
+      store.dispatch(updateCustomer(customerCounters.indexOf(evt.target)));
+      store.dispatch(removeCustomer(customerCounters.indexOf(evt.target)));
+    }
+    };
 
-    station.rotation = 1;
+    let interval = setInterval(animTimer, 1000);
 
-    setInterval(() => {
-      clockText3.visible = false;
-      clockText2.visible = true;
-    }, 1000);
 
-    setInterval(() => {
-      clockText2.visible = false;
-      clockText2.alpha = 0;
-      clockText1.visible = true;
-    }, 2000);
 
-    setInterval(() => {
-      clockText1.visible = false;
-      clockText1.alpha = 0;
-    }, 3000);
-
-    setInterval(() => {
-      station.rotation = 0;
-      circle.alpha = 0;
-    }, 3000);
-  }
   state.platter.chefFoodStack.position = new PIXI.Point(
     chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
     chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
   );
-  bringToFront(gameStage, state.platter.chefFoodStack);
+    bringToFront(gameStage, state.platter.chefFoodStack);
+  }
 }
 
 export default function gameplay() {
@@ -193,41 +192,29 @@ export default function gameplay() {
     left: [objectAtlas.chefLeft1, objectAtlas.chefLeft2, objectAtlas.chefLeft3],
   };
 
-  function onClick(evt) {
-    if (evt.target.station === 'serving') {
-      store.dispatch(updateCustomer(customerCounters.indexOf(evt.target)));
-      store.dispatch(removeCustomer(customerCounters.indexOf(evt.target)));
-    }
+  function onClick(evt) {   
     state = store.getState();
     const { recipes } = state;
     console.log('evt.target', evt.target);
     console.log('evt target station', evt.target.station);
-
-    // console.log('current recipes current state', recipes[0].currentState);
-    // console.log('current recipes steps', currentRecipes[0].steps);
-
-    const filteredRecipes = recipes.filter(recipe => evt.target.station === recipe.steps[recipe.currentState].type);
-    if (filteredRecipes.length) {
+    console.log('recipes', recipes);
+    const firstMatch = recipes.find(element => {
+      let stepsies = element.steps;
+      console.log("stepsies",stepsies);
+      return evt.target.station === stepsies[element.currentState].type;
+    });
+    if (firstMatch) {
       store.dispatch(removeDestination());
+      usingRecipe = firstMatch;
       if (evt.target.recipeId === undefined) {
-        console.log('shift', currentRecipes.slice().shift());
-        evt.target.recipeId = filteredRecipes[0].id;
+        evt.target.recipeId = usingRecipe.id;
       }
-      store.dispatch(updateRecipeState(evt.target.recipeId));
-      console.log(evt.target);
+      //TODO: Check if station is available, so we can't put a second recipe on a station in use      
       store.dispatch(addDestination(evt.target));
     } else {
       alert('Wrong station!');
     }
   }
-  //     state = store.getState();
-  //     console.log('steps?', state.step);
-  //   }
-  //   if (!state.steps.length) {
-  //     //restart
-  //     //{dispatch removeCustomer}
-  //   }
-  // }
 
   /**
    * Objects activated by 'onClick' function
@@ -300,17 +287,12 @@ export default function gameplay() {
     if (sousChefHolding) {
       console.log('isHolding!');
       store.dispatch(moveFromSousToChef());
-      recipeBook.visible = true;
-      recipeBook.interactive = true;
-      recipeBook.buttonMode = true;
+      store.dispatch(addRecipe(new recipeArray[0]()));
       store.dispatch(setSousChefHolding(false));
     } else {
-      // TODO: Remove foodStack from gameStage
-      recipeBook.visible = false;
-      recipeBook.interactive = false;
-      recipeBook.buttonMode = false;
-      store.dispatch(addRecipe(new recipeArray[0]()));
       store.dispatch(setSousChefHolding(true));
+      console.log("recipe",new recipeArray[0]());
+      store.dispatch(pickRecipe(new recipeArray[0]()));
     }
   }
 
