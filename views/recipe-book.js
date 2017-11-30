@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import store, { addRecipe, setSousChefHolding, generateCustomer } from '../store';
+import store, { addRecipe, setSousChefHolding, generateCustomer, pickRecipe } from '../store';
 import recipeArray from '../recipe-constructor';
 
 const {
@@ -8,6 +8,22 @@ const {
 import { gameStage, recipeBookStage, singleRecipeStage, renderer } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { kitchenObjects } from './gameplay';
+
+export function cookRecipe(evt) {
+  // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
+  kitchenObjects.recipeBook.visible = false;
+  kitchenObjects.recipeBook.interactive = false;
+  kitchenObjects.recipeBook.buttonMode = false;
+  store.dispatch(setSousChefHolding(true));
+  store.dispatch(pickRecipe(evt.target.recipe)); //IS ALWAYS JOLOFF
+  backToGame();
+}
+
+function backToGame() {
+  recipeBookStage.visible = false;
+  gameStage.visible = true;
+  store.dispatch(generateCustomer());
+}
 
 export default function recipeBook() {
   document.body.appendChild(renderer.view);
@@ -130,18 +146,11 @@ export default function recipeBook() {
     button.interactive = true;
     button.buttonMode = true;
     button.on('pointerdown', cookRecipe);
+    button.recipe = new recipeArray[0]();
     // TODO: create func that dispatches selected recipe to store and calls the backToGame
   });
 
-  function cookRecipe() {
-    // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
-    kitchenObjects.recipeBook.visible = false;
-    kitchenObjects.recipeBook.interactive = false;
-    kitchenObjects.recipeBook.buttonMode = false;
-    store.dispatch(addRecipe(new recipeArray[0]()));
-    store.dispatch(setSousChefHolding(true));
-    backToGame();
-  }
+  
 
   const recipeButtons = [recipe, recipe2, recipe3, recipe4];
 
@@ -168,10 +177,6 @@ export default function recipeBook() {
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToGame);
 
-  function backToGame() {
-    recipeBookStage.visible = false;
-    gameStage.visible = true;
-    store.dispatch(generateCustomer());
-  }
+  
   renderer.render(recipeBookStage);
 }

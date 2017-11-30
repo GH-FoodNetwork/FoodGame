@@ -155,10 +155,7 @@ function animateStation(station) {
         station.rotation = 0;
         store.dispatch(updateRecipeState(station.recipeId));
         clearInterval(interval);
-      }else if (evt.target.station === 'serving') {
-      store.dispatch(updateCustomer(customerCounters.indexOf(evt.target)));
-      store.dispatch(removeCustomer(customerCounters.indexOf(evt.target)));
-    }
+      }
     };
 
     let interval = setInterval(animTimer, 1000);
@@ -170,6 +167,9 @@ function animateStation(station) {
     chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
   );
     bringToFront(gameStage, state.platter.chefFoodStack);
+  }else /*if (station.station === 'serving')*/ {
+    store.dispatch(updateCustomer(customerCounters.indexOf(station)));
+    store.dispatch(removeCustomer(customerCounters.indexOf(station)));
   }
 }
 
@@ -287,12 +287,11 @@ export default function gameplay() {
     if (sousChefHolding) {
       console.log('isHolding!');
       store.dispatch(moveFromSousToChef());
-      store.dispatch(addRecipe(new recipeArray[0]()));
+      store.dispatch(addRecipe(new recipeArray[0]())); //IS ALWAYS JOLOFF
       store.dispatch(setSousChefHolding(false));
     } else {
       store.dispatch(setSousChefHolding(true));
-      console.log("recipe",new recipeArray[0]());
-      store.dispatch(pickRecipe(new recipeArray[0]()));
+      store.dispatch(pickRecipe(new recipeArray[0]())); //IS ALWAYS JOLOFF
     }
   }
 
