@@ -12,17 +12,19 @@ https://global-kitchen.herokuapp.com/
 ## Features
 
 ![recipe book close up](/recipe-book-sous-chef.png)
-
+<br>
 Click on the recipe book to begin making dishes!
 <br/>
 <br/>
 <br>
 ![Recipe book view](/recipe-book.png)
+<br>
 Each recipe has a it's own in-game recipe, from which users can add new dishes to their menu.
 <br>
 <br>
 <br>
 ![Single recipe view](/single-recipe-view.png)
+<br>
 To start cooking, click on the green 'Play now!' button
 
 ## Developers
