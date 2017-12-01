@@ -4,7 +4,6 @@
   "description": "a restaurant simulation game",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd functions && npm install",
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "watch-lib": "npm run build-lib -- -w",
