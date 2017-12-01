@@ -16,7 +16,7 @@ class Recipe {
 class Jollof extends Recipe {
   constructor() {
     super(
-      'Jollof',
+      'Jollof Rice',
       [objectAtlas.cookedRice, objectAtlas.tomatoPaste],
       objectAtlas.jollof,
       [
