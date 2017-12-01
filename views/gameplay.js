@@ -339,7 +339,9 @@ chefFoodStack, firstMatch.finishedDish,
   update();
 }
 
-function moneyRender(amount = 10) {
+function moneyRender() {
+  state = store.getState();
+  const amount = state.money;
   const money = new Text(`$${amount}`, {
     fontFamily: 'journal, Arial',
     fontSize: 52,
@@ -352,7 +354,7 @@ function moneyRender(amount = 10) {
   money.anchor.set(0.5);
   money.position.set(money.width + 100, 400); // TODO: Figure how to make relative height
   gameStage.addChild(money);
-  renderer.render(gameStage);
+  // renderer.render(gameStage);
 
   return money;
 }

@@ -1,4 +1,4 @@
-import store from './index';
+import store, { addMoney } from './index';
 import { Graphics } from 'pixi.js';
 import { kitchenObjects } from '../views/gameplay';
 import { stage, gameStage } from '../main';
