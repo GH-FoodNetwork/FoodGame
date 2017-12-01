@@ -1,18 +1,16 @@
 {
-  "name": "spark",
+  "name": "global-kitchen",
   "version": "0.0.0",
-  "description": "",
+  "description": "a restaurant simulation game",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd functions && npm install",
-    "test": "mocha ./**/*.test.js",
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "watch-lib": "npm run build-lib -- -w",
     "build-lib": "webpack --config lib/webpack.config.js",
     "build-lib-prod": "npm run build-lib -- -p",
     "build-prod": "npm run build-lib-prod && npm run build",
-    "deploy": "npm run build-prod && npx firebase deploy"
+    "deploy": "script/deploy"
   },
   "keywords": [],
   "license": "ISC",

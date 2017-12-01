@@ -354,7 +354,7 @@ function moneyRender() {
   money.anchor.set(0.5);
   money.position.set(money.width + 100, 400); // TODO: Figure how to make relative height
   gameStage.addChild(money);
-  //renderer.render(gameStage);
+  // renderer.render(gameStage);
 
   return money;
 }

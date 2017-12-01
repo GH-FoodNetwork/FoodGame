@@ -6,18 +6,6 @@ const DECREASE_MONEY = 'DECREASE_MONEY';
 export const addMoney = (money) => ({type: ADD_MONEY, money})
 const decreaseMoney = (money) => ({type: DECREASE_MONEY, money})
 
-// THUNK
-// export function totalMoney(money) {
-//   return function moneyThunk(dispatch) {
-//     return dispatch(addMoney(money));
-//   }
-// }
-
-// export function subtractMoney(money) {
-//   return function moneyThunk(dispatch) {
-//     return dispatch(decreaseMoney(money));
-//   }
-// }
 
 // REDUCER
 export default function moneyReducer(state = 0, action) {
