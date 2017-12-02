@@ -13,9 +13,9 @@ import { foodStack, chefFoodStack } from './store/index';
 window.PIXI = PIXI;
 
 const loader = PIXI.loader
-  .add('cat', 'images/cat.png')
-  .add('door', 'images/door.png')
-  .add('images/kitchen.png')
+  //.add('cat', 'images/cat.png')
+  //.add('door', 'images/door.png')
+  //.add('images/kitchen.png')
   .add('counters', 'images/counters.png')
   .add('images/customer1.png')
   .add('images/customer2.png')
