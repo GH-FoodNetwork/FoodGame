@@ -10,10 +10,12 @@ function clickToPlay() {
   gameStage.visible = true;
 }
 
+let singleRecipeObjects = {};
+
 export default function singleRecipe() {
   //document.body.appendChild(renderer.view);
   
-  const recipes = setup(
+  const recipesBackground = setup(
     singleRecipeStage,
     objectAtlas.recipeBookInterior,
     { x: -20, y: 0 },
@@ -22,7 +24,7 @@ export default function singleRecipe() {
       y: window.innerHeight / objectAtlas.recipeBookInterior.height * 2,
     },
   );
-  recipes.anchor.set(0.5, 0);
+  recipesBackground.anchor.set(0.5, 0);
 
   const buttonStyling = {
     fontFamily: 'Arial',
@@ -39,9 +41,9 @@ export default function singleRecipe() {
 
   
   //Recipe title
-    const titleText = textSetup(singleRecipeStage, "Title", { x: spacingX, y: spacingY });
+  singleRecipeObjects.titleText = textSetup(singleRecipeStage, "Title", { x: spacingX, y: spacingY });
 
-    const rice = setup(
+    /*const rice = setup(
       singleRecipeStage,
       objectAtlas.cookedRice,
       { x: spacingX - 150, y: spacingY + 75 },
@@ -53,19 +55,20 @@ export default function singleRecipe() {
       objectAtlas.tomatoPaste,
       { x: spacingX, y: spacingY + 75 },
       { x: 1, y: 1 },
-    );
+    );*/
     const equals = textSetup(singleRecipeStage, '=', { x: spacingX + 75, y: spacingY + 75 });
-    const jollof = setup(
+    let imgScale = window.innerHeight / 8  / 100;
+    singleRecipeObjects.finishedDishImg = setup(
       singleRecipeStage,
       objectAtlas.jollof,
       { x: spacingX + 150, y: spacingY + 75 },
-      { x: 0.2, y: 0.2 },
+      { x: imgScale, y: imgScale }
     );
-
+    
     /*
    * Recipe steps
    */
-    const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
+    /*const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
       x: spacingX,
       y: spacingY + 150,
     });
@@ -92,31 +95,34 @@ export default function singleRecipe() {
     const step6 = textSetup(singleRecipeStage, 'Step 6: Serve finished dish to customer', {
       x: spacingX,
       y: spacingY + 300,
-    });
+    });*/
 
-    const cook = textSetup(
+      
+
+    const fullRecipeLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
+      x: spacingX,
+      y: spacingY + 385,
+    });
+    fullRecipeLink.interactive = true;
+    fullRecipeLink.buttonMode = true;
+    fullRecipeLink.on('pointerdown', linkToRecipe);
+    fullRecipeLink.y = window.innerHeight - fullRecipeLink.height - 15;
+
+    function linkToRecipe() {
+    //window.location.href = 'https://www.epicurious.com/recipes/food/views/african-jollof-rice';
+      window.open(singleRecipeObjects.selectedRecipe.linkToRecipe, '_blank');
+    }
+
+    const cookButton = textSetup(
       singleRecipeStage,
       'Add Recipe!',
       { x: spacingX, y: spacingY + 350 },
       buttonStyling,
     );
-    cook.interactive = true;
-    cook.buttonMode = true;
-    cook.on('pointerdown', cookRecipe);    
-
-    const jollofLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
-      x: spacingX,
-      y: spacingY + 385,
-    });
-    jollofLink.interactive = true;
-    jollofLink.buttonMode = true;
-    jollofLink.on('pointerdown', linkToRecipe);
-
-    function linkToRecipe() {
-    //window.location.href = 'https://www.epicurious.com/recipes/food/views/african-jollof-rice';
-      window.open('http://www.vegannigerian.com/2013/02/jollof-rice.html', '_blank');
-    }
-  
+    cookButton.interactive = true;
+    cookButton.buttonMode = true;
+    cookButton.on('pointerdown', cookRecipe);
+    cookButton.y = fullRecipeLink.y - cookButton.height - 5;
 
   const arrow = setup(
     singleRecipeStage,
@@ -150,5 +156,7 @@ export default function singleRecipe() {
 }
 
 export const populate = function(selectedRecipe){
-  
+  singleRecipeObjects.selectedRecipe = selectedRecipe;
+  singleRecipeObjects.titleText.text = selectedRecipe.title;
+  singleRecipeObjects.finishedDishImg.texture = selectedRecipe.finishedDish;
 }
