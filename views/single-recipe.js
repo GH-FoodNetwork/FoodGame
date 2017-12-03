@@ -10,11 +10,11 @@ function clickToPlay() {
   gameStage.visible = true;
 }
 
-let singleRecipeObjects = {};
+const singleRecipeObjects = {};
 
 export default function singleRecipe() {
   //document.body.appendChild(renderer.view);
-  
+
   const recipesBackground = setup(
     singleRecipeStage,
     objectAtlas.recipeBookInterior,
@@ -39,12 +39,12 @@ export default function singleRecipe() {
   const spacingX = window.innerWidth / 2;
   const spacingY = 100;
 
-  
+
   //Recipe title
-  singleRecipeObjects.titleText = textSetup(singleRecipeStage, "Title", { x: spacingX, y: 0 });
+  singleRecipeObjects.titleText = textSetup(singleRecipeStage, 'Title', { x: spacingX, y: 0 });
   singleRecipeObjects.titleText.y = singleRecipeObjects.titleText.height;
 
-    /*const rice = setup(
+  /*const rice = setup(
       singleRecipeStage,
       objectAtlas.cookedRice,
       { x: spacingX - 150, y: spacingY + 75 },
@@ -57,22 +57,34 @@ export default function singleRecipe() {
       { x: spacingX, y: spacingY + 75 },
       { x: 1, y: 1 },
     );*/
-    
-    let imgScale = window.innerHeight / 8  / 100;
-    singleRecipeObjects.finishedDishImg = setup(
-      singleRecipeStage,
-      objectAtlas.jollof,
-      { x: spacingX + 150, y: spacingY + 75 },
-      { x: imgScale, y: imgScale }
-    );
-    singleRecipeObjects.finishedDishImg.position = new PIXI.Point(window.innerWidth - singleRecipeObjects.finishedDishImg.width, 
-      singleRecipeObjects.titleText.y + (singleRecipeObjects.titleText.height * 2));
-    singleRecipeObjects.equals = textSetup(singleRecipeStage, '=', 
-    { x: singleRecipeObjects.finishedDishImg.x - 50, y: singleRecipeObjects.finishedDishImg.y });
-    /*
+
+  const imgScaleByHeight = window.innerHeight / 8 / 100;
+  singleRecipeObjects.finishedDishImg = setup(
+    singleRecipeStage,
+    objectAtlas.jollof,
+    { x: spacingX + 150, y: spacingY + 75 },
+    { x: imgScaleByHeight, y: imgScaleByHeight },
+  );
+  singleRecipeObjects.finishedDishImg.position = new PIXI.Point(
+    window.innerWidth - singleRecipeObjects.finishedDishImg.width,
+    singleRecipeObjects.titleText.y + (singleRecipeObjects.titleText.height * 2),
+  );
+  singleRecipeObjects.equals = textSetup(
+    singleRecipeStage, '=',
+    { x: singleRecipeObjects.finishedDishImg.x - 50, y: singleRecipeObjects.finishedDishImg.y },
+  );
+  singleRecipeObjects.standardInst = textSetup(
+    singleRecipeStage, "Collect the ingredients from the Sous Chef's platter.\nThen visit the following stations in order:",
+    { x: spacingX, y: singleRecipeObjects.finishedDishImg.y + singleRecipeObjects.finishedDishImg.height + 5 },
+  );
+  singleRecipeObjects.steps = textSetup(
+    singleRecipeStage, "steps",
+    { x: spacingX, y: singleRecipeObjects.standardInst.y + singleRecipeObjects.standardInst.height + 5 },
+  );
+  /*
    * Recipe steps
    */
-    /*const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
+  /*const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
       x: spacingX,
       y: spacingY + 150,
     });
@@ -101,32 +113,31 @@ export default function singleRecipe() {
       y: spacingY + 300,
     });*/
 
-      
 
-    const fullRecipeLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
-      x: spacingX,
-      y: spacingY + 385,
-    });
-    fullRecipeLink.interactive = true;
-    fullRecipeLink.buttonMode = true;
-    fullRecipeLink.on('pointerdown', linkToRecipe);
-    fullRecipeLink.y = window.innerHeight - fullRecipeLink.height - 15;
+  const fullRecipeLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
+    x: spacingX,
+    y: spacingY + 385,
+  });
+  fullRecipeLink.interactive = true;
+  fullRecipeLink.buttonMode = true;
+  fullRecipeLink.on('pointerdown', linkToRecipe);
+  fullRecipeLink.y = window.innerHeight - fullRecipeLink.height - 15;
 
-    function linkToRecipe() {
+  function linkToRecipe() {
     //window.location.href = 'https://www.epicurious.com/recipes/food/views/african-jollof-rice';
-      window.open(singleRecipeObjects.selectedRecipe.linkToRecipe, '_blank');
-    }
+    window.open(singleRecipeObjects.selectedRecipe.linkToRecipe, '_blank');
+  }
 
-    const cookButton = textSetup(
-      singleRecipeStage,
-      'Add Recipe!',
-      { x: spacingX, y: spacingY + 350 },
-      buttonStyling,
-    );
-    cookButton.interactive = true;
-    cookButton.buttonMode = true;
-    cookButton.on('pointerdown', cookRecipe);
-    cookButton.y = fullRecipeLink.y - cookButton.height - 5;
+  const cookButton = textSetup(
+    singleRecipeStage,
+    'Add Recipe!',
+    { x: spacingX, y: spacingY + 350 },
+    buttonStyling,
+  );
+  cookButton.interactive = true;
+  cookButton.buttonMode = true;
+  cookButton.on('pointerdown', cookRecipe);
+  cookButton.y = fullRecipeLink.y - cookButton.height - 5;
 
   const arrow = setup(
     singleRecipeStage,
@@ -159,23 +170,43 @@ export default function singleRecipe() {
   renderer.render(singleRecipeStage);
 }
 
-export const populate = function(selectedRecipe){
+export function populate(selectedRecipe) {
   singleRecipeObjects.selectedRecipe = selectedRecipe;
   singleRecipeObjects.titleText.text = selectedRecipe.title;
   singleRecipeObjects.finishedDishImg.texture = selectedRecipe.finishedDish;
   //width = ingredients.length * xwidth + ingredients.length - 1 * xwidth
-  let xwidth = window.innerWidth / ((selectedRecipe.ingredients.length+1)*2-1);
+  const xwidth = window.innerWidth / ((selectedRecipe.ingredients.length + 1) * 2);
+  const xheight = window.innerHeight / 8;
+  const imgScaleByHeight = xheight / 50;
+  singleRecipeStage.removeChild(singleRecipeObjects.ingredientListing);
   singleRecipeObjects.ingredientListing = new PIXI.Container();
   singleRecipeStage.addChild(singleRecipeObjects.ingredientListing);
-  singleRecipeObjects.ingredientListing.y = singleRecipeObjects.titleText.y + (singleRecipeObjects.titleText.height * 2);
-  for(let i=0; i<selectedRecipe.ingredients.length/*+1*/; i++){
+  singleRecipeObjects.ingredientListing.y = singleRecipeObjects.titleText.y +
+    (xheight / 2) + (singleRecipeObjects.titleText.height / 2) + 5;
+  singleRecipeObjects.standardInst.y = singleRecipeObjects.ingredientListing.y + xheight + 10;
+  console.log(singleRecipeObjects.standardInst);
+  //For each ingredient, add images to the ingredientListing equation
+  for (let i = 0; i < selectedRecipe.ingredients.length + 1; i++) {
     //operator
-
-    //ingredient sprite
-    let ing = setup(singleRecipeObjects.ingredientListing, selectedRecipe.ingredients[i], 
-      { x: (xwidth/2) + (i*2*xwidth), y: 0});
-    const ingScale = xwidth / ing.width;
-    ing.scale.x = ingScale;
-    ing.scale.y = ingScale;
+    if (i == selectedRecipe.ingredients.length) {
+      singleRecipeObjects.equals.x = i * 2 * xwidth;
+      singleRecipeObjects.finishedDishImg.x = xwidth + (i * 2 * xwidth);
+    } else {
+      textSetup(singleRecipeObjects.ingredientListing, '+', { x: i * 2 * xwidth, y: 0 });
+      //ingredient sprite
+      const ing = setup(
+        singleRecipeObjects.ingredientListing, selectedRecipe.ingredients[i],
+        { x: xwidth + (i * 2 * xwidth), y: 0 },
+      );
+      const ingScale = xwidth / ing.width;
+      ing.scale.x = ingScale > imgScaleByHeight ? imgScaleByHeight : ingScale;
+      ing.scale.y = ingScale > imgScaleByHeight ? imgScaleByHeight : ingScale;
+    }
   }
+  //For each step, add text below the Standard Instructions line
+  singleRecipeObjects.steps.text = "";
+  for(let j=0; j<selectedRecipe.steps.length; j++) {
+  singleRecipeObjects.steps.text += "Step " + (j+1) + ": " + selectedRecipe.steps[j].type + "\n\n";
+  }
+  singleRecipeObjects.steps.anchor.set(0.5, 0);
 }
