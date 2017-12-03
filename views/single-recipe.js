@@ -126,7 +126,7 @@ export default function singleRecipe() {
 }
 
 export function populate(selectedRecipe) {
-  singleRecipeObjects.selectedRecipe = selectedRecipe;
+  singleRecipeStage.selectedRecipe = selectedRecipe;
   singleRecipeObjects.titleText.text = selectedRecipe.title;
   singleRecipeObjects.finishedDishImg.texture = selectedRecipe.finishedDish;
   //width = ingredients.length * xwidth + ingredients.length - 1 * xwidth

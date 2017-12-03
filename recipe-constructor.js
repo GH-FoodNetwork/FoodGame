@@ -45,12 +45,44 @@ class TaiwanNoodles extends Recipe {
   }
 }
 
+class Vareniki extends Recipe {
+  constructor() {
+    super(
+      'Vareniki Dumplings',
+      [objectAtlas.onion, objectAtlas.potato],
+      objectAtlas.Vareniki,
+      [
+        { type: 'chopping', waitTime: '2' },
+        { type: 'frying', waitTime: '4' },
+        { type: 'serving', waitTime: '0' },
+      ],
+      'https://www.foodiewithfamily.com/potato-and-caramelized-onion-stuffed-dumplings-vareniki/',
+    );
+  }
+}
+
+class Arepas extends Recipe {
+  constructor() {
+    super(
+      'Colombian Arepas',
+      [objectAtlas.corn, objectAtlas.cheese],
+      objectAtlas.arepa,
+      [
+        { type: 'mixing', waitTime: '4'},
+        { type: 'frying', waitTime: '2'},
+        { type: 'serving', waitTime: '0'},
+      ],
+      'http://www.seriouseats.com/recipes/2012/04/colombian-style-arepas-griddled-or-grilled-corn-cakes-recipe.html',
+    );
+  }
+}
+
 /*
  * NOTE: When calling a recipe from the recipeArray, you must use the `new` keyword to activate the constructor.
  * For example, to add a recipe to the store, you must call `store.dispatch(addRecipe(new recipeArray[idx]()))`
  * to add a new recipe Object to the store
  */
 
-const recipeArray = [Jollof, TaiwanNoodles];
+const recipeArray = [Jollof, TaiwanNoodles, Vareniki, Arepas];
 
 export default recipeArray;

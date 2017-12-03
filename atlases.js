@@ -97,6 +97,12 @@ export function objectAtlasInit(resources) {
   result.beefSoup = textureSetup(resources.beefSoup);
   result.scallions = textureSetup(resources.scallions);
   result.TaiwanNoodles = textureSetup(resources.TaiwanNoodles);
+  result.onion = textureSetup(resources.onion);
+  result.potato = textureSetup(resources.potato);
+  result.Vareniki = textureSetup(resources.Vareniki);
+  result.corn = textureSetup(resources.corn);
+  result.cheese = textureSetup(resources.cheese);
+  result.arepa = textureSetup(resources.arepa);
 
   objectAtlas = result;
   window._atlas = objectAtlas;

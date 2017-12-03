@@ -40,6 +40,12 @@ const loader = PIXI.loader
   .add('scallions', 'images/scallionsSM.gif')
   .add('noodles', 'images/noodlesSM.gif')
   .add('TaiwanNoodles', 'images/TaiwanBeefNoodleSoup.gif')
+  .add('onion', 'images/onion.gif')
+  .add('potato', 'images/potato.gif')
+  .add('Vareniki', 'images/Vareniki.gif')
+  .add('corn', 'images/corn.gif')
+  .add('cheese', 'images/cheese.gif')
+  .add('arepa', 'images/arepa.gif')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
