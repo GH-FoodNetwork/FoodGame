@@ -173,7 +173,7 @@ export const populate = function(selectedRecipe){
 
     //ingredient sprite
     let ing = setup(singleRecipeObjects.ingredientListing, selectedRecipe.ingredients[i], 
-      { x: i*2*xwidth, y: 0});
+      { x: (xwidth/2) + (i*2*xwidth), y: 0});
     const ingScale = xwidth / ing.width;
     ing.scale.x = ingScale;
     ing.scale.y = ingScale;
