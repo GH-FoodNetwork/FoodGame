@@ -41,7 +41,8 @@ export default function singleRecipe() {
 
   
   //Recipe title
-  singleRecipeObjects.titleText = textSetup(singleRecipeStage, "Title", { x: spacingX, y: spacingY });
+  singleRecipeObjects.titleText = textSetup(singleRecipeStage, "Title", { x: spacingX, y: 0 });
+  singleRecipeObjects.titleText.y = singleRecipeObjects.titleText.height;
 
     /*const rice = setup(
       singleRecipeStage,
@@ -56,7 +57,7 @@ export default function singleRecipe() {
       { x: spacingX, y: spacingY + 75 },
       { x: 1, y: 1 },
     );*/
-    const equals = textSetup(singleRecipeStage, '=', { x: spacingX + 75, y: spacingY + 75 });
+    
     let imgScale = window.innerHeight / 8  / 100;
     singleRecipeObjects.finishedDishImg = setup(
       singleRecipeStage,
@@ -64,7 +65,10 @@ export default function singleRecipe() {
       { x: spacingX + 150, y: spacingY + 75 },
       { x: imgScale, y: imgScale }
     );
-    
+    singleRecipeObjects.finishedDishImg.position = new PIXI.Point(window.innerWidth - singleRecipeObjects.finishedDishImg.width, 
+      singleRecipeObjects.titleText.y + (singleRecipeObjects.titleText.height * 2));
+    singleRecipeObjects.equals = textSetup(singleRecipeStage, '=', 
+    { x: singleRecipeObjects.finishedDishImg.x - 50, y: singleRecipeObjects.finishedDishImg.y });
     /*
    * Recipe steps
    */
@@ -159,4 +163,19 @@ export const populate = function(selectedRecipe){
   singleRecipeObjects.selectedRecipe = selectedRecipe;
   singleRecipeObjects.titleText.text = selectedRecipe.title;
   singleRecipeObjects.finishedDishImg.texture = selectedRecipe.finishedDish;
+  //width = ingredients.length * xwidth + ingredients.length - 1 * xwidth
+  let xwidth = window.innerWidth / ((selectedRecipe.ingredients.length+1)*2-1);
+  singleRecipeObjects.ingredientListing = new PIXI.Container();
+  singleRecipeStage.addChild(singleRecipeObjects.ingredientListing);
+  singleRecipeObjects.ingredientListing.y = singleRecipeObjects.titleText.y + (singleRecipeObjects.titleText.height * 2);
+  for(let i=0; i<selectedRecipe.ingredients.length/*+1*/; i++){
+    //operator
+
+    //ingredient sprite
+    let ing = setup(singleRecipeObjects.ingredientListing, selectedRecipe.ingredients[i], 
+      { x: i*2*xwidth, y: 0});
+    const ingScale = xwidth / ing.width;
+    ing.scale.x = ingScale;
+    ing.scale.y = ingScale;
+  }
 }
