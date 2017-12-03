@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import store, { addRecipe, setSousChefHolding, generateCustomer, pickRecipe } from '../store';
 import recipeArray from '../recipe-constructor';
+import { populate } from './single-recipe';
 
 const {
   Container, Graphics, Sprite, Text,
@@ -14,7 +15,7 @@ function backToGame() {
   recipeBookStage.visible = false;
   singleRecipeStage.visible = false;
   gameStage.visible = true;
-  store.dispatch(generateCustomer());
+  //store.dispatch(generateCustomer());
 }
 
 export function cookRecipe(evt) {
@@ -30,7 +31,7 @@ function clickToSingleRecipe(evt) {
   recipeBookStage.visible = false;
   gameStage.visible = false;
   singleRecipeStage.visible = true;
-  singleRecipeStage.selectedRecipe = evt.target.parent.selectedRecipe;
+  populate(evt.target.parent.selectedRecipe);
 }
 
 export default function recipeBook() {

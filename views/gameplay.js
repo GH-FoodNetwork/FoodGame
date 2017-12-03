@@ -21,6 +21,7 @@ import store, {
   updateCustomer,
   removeCustomer,
   removeRecipe,
+  generateCustomer,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -31,6 +32,7 @@ import recipeArray from '../recipe-constructor';
 export let kitchenObjects = {};
 
 let customerCounters;
+let lastCustomerTime = new Date(0);
 
 //For chef sprite
 export let faces;
@@ -52,6 +54,11 @@ export function update() {
   state = store.getState();
   // Funnel all animation updates here
   movePlayer();
+  let timeDiff = (Date.now() - lastCustomerTime) / 1000;
+  if (timeDiff > 20) {
+    lastCustomerTime = Date.now();
+    store.dispatch(generateCustomer());
+  }
   // Rerender
   // console.log(stage);
   // window._raf =
