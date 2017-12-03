@@ -43,21 +43,8 @@ export default function singleRecipe() {
   //Recipe title
   singleRecipeObjects.titleText = textSetup(singleRecipeStage, 'Title', { x: spacingX, y: 0 });
   singleRecipeObjects.titleText.y = singleRecipeObjects.titleText.height;
-
-  /*const rice = setup(
-      singleRecipeStage,
-      objectAtlas.cookedRice,
-      { x: spacingX - 150, y: spacingY + 75 },
-      { x: 1, y: 1 },
-    );
-    const plus = textSetup(singleRecipeStage, '+', { x: spacingX - 75, y: spacingY + 75 });
-    const tomato = setup(
-      singleRecipeStage,
-      objectAtlas.tomatoPaste,
-      { x: spacingX, y: spacingY + 75 },
-      { x: 1, y: 1 },
-    );*/
-
+  
+  //Recipe images
   const imgScaleByHeight = window.innerHeight / 8 / 100;
   singleRecipeObjects.finishedDishImg = setup(
     singleRecipeStage,
@@ -80,39 +67,7 @@ export default function singleRecipe() {
   singleRecipeObjects.steps = textSetup(
     singleRecipeStage, "steps",
     { x: spacingX, y: singleRecipeObjects.standardInst.y + singleRecipeObjects.standardInst.height + 5 },
-  );
-  /*
-   * Recipe steps
-   */
-  /*const step1 = textSetup(singleRecipeStage, 'Step 1: Pick up ingredients from Sous Chef', {
-      x: spacingX,
-      y: spacingY + 150,
-    });
-    const step2 = textSetup(singleRecipeStage, 'Step 2: Take ingredients to mixing station', {
-      x: spacingX,
-      y: spacingY + 180,
-    });
-    const step3 = textSetup(
-      singleRecipeStage,
-      'Step 3: When timer is up, retrieve mixed ingredients',
-      {
-        x: spacingX,
-        y: spacingY + 210,
-      },
-    );
-    const step4 = textSetup(singleRecipeStage, 'Step 4: Take ingredients to frying station', {
-      x: spacingX,
-      y: spacingY + 240,
-    });
-    const step5 = textSetup(singleRecipeStage, 'Step 5: When timer is up, retrieve finished dish', {
-      x: spacingX,
-      y: spacingY + 270,
-    });
-    const step6 = textSetup(singleRecipeStage, 'Step 6: Serve finished dish to customer', {
-      x: spacingX,
-      y: spacingY + 300,
-    });*/
-
+  );  
 
   const fullRecipeLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
     x: spacingX,
