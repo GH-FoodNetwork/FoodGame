@@ -5,15 +5,25 @@ import store, { addRecipe } from '../store';
 import recipeArray from '../recipe-constructor';
 import { cookRecipe } from './recipe-book';
 
+function clickToPlay() {
+  singleRecipeStage.visible = false;
+  gameStage.visible = true;
+}
+
 export default function singleRecipe() {
-  document.body.appendChild(renderer.view);
+  //document.body.appendChild(renderer.view);
+  let selectedRecipe;  
 
   const recipes = setup(
     singleRecipeStage,
     objectAtlas.recipeBookInterior,
-    { x: 20, y: 50 },
-    { x: 0.53, y: 0.53 },
+    { x: -20, y: 0 },
+    {
+      x: window.innerWidth / objectAtlas.recipeBookInterior.width * 2,
+      y: window.innerHeight / objectAtlas.recipeBookInterior.height * 2,
+    },
   );
+  recipes.anchor.set(0.5,0);  
 
   const buttonStyling = {
     fontFamily: 'Arial',
@@ -91,7 +101,7 @@ export default function singleRecipe() {
   );
   cook.interactive = true;
   cook.buttonMode = true;
-  cook.on('pointerdown', addToActiveRecipes);
+  cook.on('pointerdown', cookRecipe);
 
   function addToActiveRecipes() {
     cookRecipe(new recipeArray[0]());
@@ -116,7 +126,7 @@ export default function singleRecipe() {
     { x: 50, y: 500 },
     { x: 0.2, y: 0.2 },
   );
-
+  arrow.position = new PIXI.Point(arrow.width / 2 + 5, window.innerHeight - arrow.height - 5);
   arrow.interactive = true;
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToRecipeBook);
@@ -132,15 +142,12 @@ export default function singleRecipe() {
     { x: 920, y: 500 },
     { x: 0.5, y: 0.5 },
   );
+  play.position = new PIXI.Point(window.innerWidth - (play.width / 2) - 15, window.innerHeight - (play.height / 2) - 15);
 
   play.interactive = true;
   play.buttonMode = true;
-  play.on('pointerdown', clickToPlay);
-
-  function clickToPlay() {
-    singleRecipeStage.visible = false;
-    gameStage.visible = true;
-  }
+  play.on('pointerdown', clickToPlay);  
 
   renderer.render(singleRecipeStage);
 }
+

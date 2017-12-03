@@ -36,6 +36,10 @@ const loader = PIXI.loader
   .add('floor', 'images/floor.png')
   .add('playButton', 'images/playButton.png')
   .add('flame', 'images/flamesmall.png')
+  .add('beefSoup', 'images/beef-soupSM.gif')
+  .add('scallions', 'images/scallionsSM.gif')
+  .add('noodles', 'images/noodlesSM.gif')
+  .add('TaiwanNoodles', 'images/TaiwanBeefNoodleSoup.gif')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
