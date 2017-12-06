@@ -84,7 +84,7 @@ export function objectAtlasInit(resources) {
   result.trashArmsCrossed = textureSetup('images/trashcan2.png');
   result.jollof = textureSetup('images/jollof.png');
   result.gold = textureSetup('images/gold.gif');
-  result.cat = textureSetup('images/cat.png');
+  //result.cat = textureSetup('images/cat.png');
   result.recipeBookInterior = textureSetup('images/recipeBookInterior.gif');
   result.backArrow = textureSetup('images/backarrow.svg');
   result.cookedRice = textureSetup(resources.cookedRice);
@@ -93,6 +93,16 @@ export function objectAtlasInit(resources) {
   result.wall = textureSetup(resources.floor, 7, 5, 9, 16);
   result.playButton = textureSetup(resources.playButton);
   result.flame = textureSetup(resources.flame);
+  result.noodles = textureSetup(resources.noodles);
+  result.beefSoup = textureSetup(resources.beefSoup);
+  result.scallions = textureSetup(resources.scallions);
+  result.TaiwanNoodles = textureSetup(resources.TaiwanNoodles);
+  result.onion = textureSetup(resources.onion);
+  result.potato = textureSetup(resources.potato);
+  result.Vareniki = textureSetup(resources.Vareniki);
+  result.corn = textureSetup(resources.corn);
+  result.cheese = textureSetup(resources.cheese);
+  result.arepa = textureSetup(resources.arepa);
 
   objectAtlas = result;
   window._atlas = objectAtlas;

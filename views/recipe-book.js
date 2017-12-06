@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import store, { addRecipe, setSousChefHolding, generateCustomer, pickRecipe } from '../store';
 import recipeArray from '../recipe-constructor';
+import { populate } from './single-recipe';
 
 const {
   Container, Graphics, Sprite, Text,
@@ -8,31 +9,42 @@ const {
 import { gameStage, recipeBookStage, singleRecipeStage, renderer } from '../main';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { kitchenObjects } from './gameplay';
+import singleRecipe from './single-recipe';
+
+function backToGame() {
+  recipeBookStage.visible = false;
+  singleRecipeStage.visible = false;
+  gameStage.visible = true;
+  //store.dispatch(generateCustomer());
+}
 
 export function cookRecipe(evt) {
-  // FIXME: refactor this code to (a) link 'cook' buttons to recipes and (b) pass that linked recipe to dispatch action
   kitchenObjects.recipeBook.visible = false;
   kitchenObjects.recipeBook.interactive = false;
   kitchenObjects.recipeBook.buttonMode = false;
   store.dispatch(setSousChefHolding(true));
-  store.dispatch(pickRecipe(evt.target.recipe)); //IS ALWAYS JOLOFF
+  store.dispatch(pickRecipe(evt.target.parent.selectedRecipe));
   backToGame();
 }
 
-function backToGame() {
+function clickToSingleRecipe(evt) {
   recipeBookStage.visible = false;
-  gameStage.visible = true;
-  store.dispatch(generateCustomer());
+  gameStage.visible = false;
+  singleRecipeStage.visible = true;
+  populate(evt.target.parent.selectedRecipe);
 }
 
 export default function recipeBook() {
-  document.body.appendChild(renderer.view);
+  //document.body.appendChild(renderer.view);
 
   const recipes = setup(
     recipeBookStage,
     objectAtlas.recipeBookInterior,
     { x: -20, y: 0 },
-    { x: 0.28, y: 0.28 },
+    {
+      x: window.innerWidth / objectAtlas.recipeBookInterior.width,
+      y: window.innerHeight / objectAtlas.recipeBookInterior.height,
+    },
   );
   recipes.anchor.set(0);
   const spacingX = window.innerWidth / 4;
@@ -48,123 +60,43 @@ export default function recipeBook() {
     letterSpacing: 1,
   };
 
-  const jollofText = textSetup(recipeBookStage, 'Jollof Rice', { x: spacingX, y: spacingY - 125 });
-  const jollof = setup(
-    recipeBookStage,
-    objectAtlas.jollof,
-    { x: spacingX, y: spacingY - 25 },
-    { x: 0.4, y: 0.4 },
-  );
-  const cook = textSetup(
-    recipeBookStage,
-    'Cook',
-    { x: spacingX - 50, y: spacingY + 50 },
-    buttonStyling,
-  );
-  const recipe = textSetup(
-    recipeBookStage,
-    'Recipe',
-    { x: spacingX + 50, y: spacingY + 50 },
-    buttonStyling,
-  );
-
-  const jollofText2 = textSetup(recipeBookStage, 'Jollof Rice', {
-    x: spacingX,
-    y: spacingY * 2 - 75,
-  });
-  const jollof2 = setup(
-    recipeBookStage,
-    objectAtlas.jollof,
-    { x: spacingX, y: spacingY * 2 + 25 },
-    { x: 0.4, y: 0.4 },
-  );
-  const cook2 = textSetup(
-    recipeBookStage,
-    'Cook',
-    { x: spacingX - 50, y: spacingY * 2 + 100 },
-    buttonStyling,
-  );
-  const recipe2 = textSetup(
-    recipeBookStage,
-    'Recipe',
-    { x: spacingX + 50, y: spacingY * 2 + 100 },
-    buttonStyling,
-  );
-
-  const jollofText3 = textSetup(recipeBookStage, 'Jollof Rice', {
-    x: spacingX * 3,
-    y: spacingY - 125,
-  });
-  const jollof3 = setup(
-    recipeBookStage,
-    objectAtlas.jollof,
-    { x: spacingX * 3, y: spacingY - 25 },
-    { x: 0.4, y: 0.4 },
-  );
-  const cook3 = textSetup(
-    recipeBookStage,
-    'Cook',
-    { x: spacingX * 3 - 50, y: spacingY + 50 },
-    buttonStyling,
-  );
-  const recipe3 = textSetup(
-    recipeBookStage,
-    'Recipe',
-    { x: spacingX * 3 + 50, y: spacingY + 50 },
-    buttonStyling,
-  );
-
-  const jollofText4 = textSetup(recipeBookStage, 'Jollof Rice', {
-    x: spacingX * 3,
-    y: spacingY * 2 - 75,
-  });
-  const jollof4 = setup(
-    recipeBookStage,
-    objectAtlas.jollof,
-    { x: spacingX * 3, y: spacingY * 2 + 25 },
-    { x: 0.4, y: 0.4 },
-  );
-  const cook4 = textSetup(
-    recipeBookStage,
-    'Cook',
-    { x: spacingX * 3 - 50, y: spacingY * 2 + 100 },
-    buttonStyling,
-  );
-  const recipe4 = textSetup(
-    recipeBookStage,
-    'Recipe',
-    {
-      x: spacingX * 3 + 50,
-      y: spacingY * 2 + 100,
-    },
-    buttonStyling,
-  );
-
-  const cookButtons = [cook, cook2, cook3, cook4];
-
-  cookButtons.forEach((button) => {
-    button.interactive = true;
-    button.buttonMode = true;
-    button.on('pointerdown', cookRecipe);
-    button.recipe = new recipeArray[0]();
-    // TODO: create func that dispatches selected recipe to store and calls the backToGame
-  });
-
-  
-
-  const recipeButtons = [recipe, recipe2, recipe3, recipe4];
-
-  function clickToSingleRecipe() {
-    recipeBookStage.visible = false;
-    gameStage.visible = false;
-    singleRecipeStage.visible = true;
+  for (let i = 0; i < 4; i++) {
+    const rec = (i < recipeArray.length) ? new recipeArray[i]() : new recipeArray[0]();
+    const imgScale = window.innerHeight / 5 / 100; //Where each dish image is 100px in height
+    //Make image of finished product
+    const finishedImage = setup(
+      recipeBookStage,
+      rec.finishedDish,
+      { x: (i <= 1) ? spacingX : spacingX * 3, y: ((i % 2 == 0) ? spacingY : spacingY * 2) - 25 },
+      { x: imgScale, y: imgScale },
+    );
+    finishedImage.selectedRecipe = rec;
+    //Make text with title
+    const titleText = textSetup(
+      finishedImage, rec.title,
+      { x: 0, y: window.innerHeight / -10 },
+    );
+    //Add cook button
+    const cookButton = textSetup(
+      finishedImage,
+      'Cook',
+      { x: -50, y: 50 },
+      buttonStyling,
+    );
+    cookButton.interactive = true;
+    cookButton.buttonMode = true;
+    cookButton.on('pointerdown', cookRecipe);
+    //Add recipe button
+    const recipeButton = textSetup(
+      finishedImage,
+      'Recipe',
+      { x: 50, y: 50 },
+      buttonStyling,
+    );
+    recipeButton.interactive = true;
+    recipeButton.buttonMode = true;
+    recipeButton.on('pointerdown', clickToSingleRecipe);
   }
-
-  recipeButtons.forEach((button) => {
-    button.interactive = true;
-    button.buttonMode = true;
-    button.on('pointerdown', clickToSingleRecipe);
-  });
 
   const arrow = setup(
     recipeBookStage,
@@ -172,11 +104,11 @@ export default function recipeBook() {
     { x: 50, y: 500 },
     { x: 0.2, y: 0.2 },
   );
+  arrow.position = new PIXI.Point(arrow.width / 2 + 5, window.innerHeight - arrow.height - 5);
 
   arrow.interactive = true;
   arrow.buttonMode = true;
   arrow.on('pointerdown', backToGame);
 
-  
   renderer.render(recipeBookStage);
 }

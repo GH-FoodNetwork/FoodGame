@@ -21,6 +21,7 @@ import store, {
   updateCustomer,
   removeCustomer,
   removeRecipe,
+  generateCustomer,
 } from '../store';
 import { setup, textSetup, objectAtlas } from '../atlases';
 import { recipeBookStage, gameStage, stage, renderer } from '../main'; // START WITH USING MOVEFROMSOUSTOCHEF!!!!!!
@@ -31,6 +32,7 @@ import recipeArray from '../recipe-constructor';
 export let kitchenObjects = {};
 
 let customerCounters;
+let lastCustomerTime = new Date(0);
 
 //For chef sprite
 export let faces;
@@ -52,6 +54,11 @@ export function update() {
   state = store.getState();
   // Funnel all animation updates here
   movePlayer();
+  let timeDiff = (Date.now() - lastCustomerTime) / 1000;
+  if (timeDiff > 20) {
+    lastCustomerTime = Date.now();
+    store.dispatch(generateCustomer());
+  }
   // Rerender
   // console.log(stage);
   // window._raf =
@@ -105,7 +112,7 @@ function movePlayer() {
   }
   state.platter.chefFoodStack.position = new PIXI.Point(
     chef.x + (face === 'right' ? 30 : face === 'left' ? -30 : 0),
-    chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 40),
+    chef.y + (face === 'down' ? 30 : face === 'up' ? -60 : 30),
   );
   bringToFront(gameStage, state.platter.chefFoodStack);
 }
@@ -211,14 +218,15 @@ export default function gameplay() {
         evt.target.recipeId = usingRecipe.id;
       }
       if (evt.target.station === 'serving') {
-        kitchenObjects['finished'+usingRecipe.id] = setup(
-chefFoodStack, firstMatch.finishedDish,
-          { x: 0, y: -1 * (chefFoodStack.children.length * 25) }, { x: 0.15, y: 0.15 },
-        );
         for (let i = 0; i < firstMatch.ingredients.length; i++) {
-          console.log('------->>>>>', `${firstMatch.id}i${i}`);
+          //console.log('------->>>>>', `${firstMatch.id}i${i}`);
           kitchenObjects[`${firstMatch.id}i${i}`].destroy();
         }
+        kitchenObjects['finished'+usingRecipe.id] = setup(
+chefFoodStack, firstMatch.finishedDish,
+          { x: 0, y: -1 * (chefFoodStack.children.length * 25) }, { x: 0.3, y: 0.3 },
+        );        
+        store.dispatch(updateRecipeState(firstMatch.id));
       }
       //TODO: Check if station is available, so we can't put a second recipe on a station in use
       store.dispatch(addDestination(evt.target));

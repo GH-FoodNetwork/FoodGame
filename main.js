@@ -13,9 +13,9 @@ import { foodStack, chefFoodStack } from './store/index';
 window.PIXI = PIXI;
 
 const loader = PIXI.loader
-  .add('cat', 'images/cat.png')
-  .add('door', 'images/door.png')
-  .add('images/kitchen.png')
+  //.add('cat', 'images/cat.png')
+  //.add('door', 'images/door.png')
+  //.add('images/kitchen.png')
   .add('counters', 'images/counters.png')
   .add('images/customer1.png')
   .add('images/customer2.png')
@@ -36,6 +36,16 @@ const loader = PIXI.loader
   .add('floor', 'images/floor.png')
   .add('playButton', 'images/playButton.png')
   .add('flame', 'images/flamesmall.png')
+  .add('beefSoup', 'images/beef-soupSM.gif')
+  .add('scallions', 'images/scallionsSM.gif')
+  .add('noodles', 'images/noodlesSM.gif')
+  .add('TaiwanNoodles', 'images/TaiwanBeefNoodleSoup.gif')
+  .add('onion', 'images/onion.gif')
+  .add('potato', 'images/potato.gif')
+  .add('Vareniki', 'images/Vareniki.gif')
+  .add('corn', 'images/corn.gif')
+  .add('cheese', 'images/cheese.gif')
+  .add('arepa', 'images/arepa.gif')
   .load((loader, resources) => {
     objectAtlasInit(resources);
   })
