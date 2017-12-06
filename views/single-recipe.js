@@ -43,7 +43,7 @@ export default function singleRecipe() {
   //Recipe title
   singleRecipeObjects.titleText = textSetup(singleRecipeStage, 'Title', { x: spacingX, y: 0 });
   singleRecipeObjects.titleText.y = singleRecipeObjects.titleText.height;
-  
+
   //Recipe images
   const imgScaleByHeight = window.innerHeight / 8 / 100;
   singleRecipeObjects.finishedDishImg = setup(
@@ -67,7 +67,7 @@ export default function singleRecipe() {
   singleRecipeObjects.steps = textSetup(
     singleRecipeStage, "steps",
     { x: spacingX, y: singleRecipeObjects.standardInst.y + singleRecipeObjects.standardInst.height + 5 },
-  );  
+  );
 
   const fullRecipeLink = textSetup(singleRecipeStage, 'Link To Full Recipe', {
     x: spacingX,
@@ -126,7 +126,7 @@ export default function singleRecipe() {
 }
 
 export function populate(selectedRecipe) {
-  singleRecipeStage.selectedRecipe = selectedRecipe;
+  singleRecipeObjects.selectedRecipe = selectedRecipe;
   singleRecipeObjects.titleText.text = selectedRecipe.title;
   singleRecipeObjects.finishedDishImg.texture = selectedRecipe.finishedDish;
   //width = ingredients.length * xwidth + ingredients.length - 1 * xwidth
